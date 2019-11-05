@@ -1,5 +1,10 @@
 #include "main.h"
 
+//618 is back
+//1100 is protect
+//1900 is score
+//positive power is score
+//negative reset
 void tray_outtake()
 {
     while (get_tray_pos() < 3500)
@@ -17,7 +22,7 @@ void tray_outtake()
 
 void tray_intake()
 {
-    while (!tray_pressed())
+ //   while (!tray_pressed())
         set_tray(127);
     set_tray(0);
     reset_tray_encoder();
@@ -77,6 +82,93 @@ void tray_control(void *)
                 tray_outtake();
                 counter = 0;
                 break;
+            }
+        }
+        pros::delay(20);
+    }
+}
+
+//negative power raises the arm
+//no rubber band yet, don't run
+
+void arm_control(void *)
+{
+    pros::Controller master(CONTROLLER_MASTER);
+    int counter = 0;
+    while(true){
+        if(master.get_digital(DIGITAL_A))
+        {
+            counter++;
+            while(master.get_digital(DIGITAL_A))
+            {
+                pros::delay(10);
+            }
+            switch(counter)
+            {
+                case 0:
+                //tweek this, cause its opposite the other conditions
+                    int height1 = 0;
+                    while(abs(get_arm_pos()-height1)<10){
+                        if(get_arm_pos()>height1){
+                            set_arm(-20);
+                        } else if(get_arm_pos()<height1){
+                            int power = (height1-get_arm_pos())*0.01;
+                            if(power>127){
+                                power = 127;
+                            }
+                            set_arm(power);
+                        } pros::delay(10);
+                    }
+                    counter++;
+                    break;
+
+                case 1:
+                    int height2 = 10;
+                    while(abs(get_arm_pos()-height2)<10){
+                        if(get_arm_pos()>height2){
+                            set_arm(-20);
+                        } else if(get_arm_pos()<height2){
+                            int power = (height2-get_arm_pos())*0.01;
+                            if(power>127){
+                                power = 127;
+                            }
+                            set_arm(power);
+                        } pros::delay(10);
+                    }
+                    counter++;
+                    break;
+
+                case 2:
+                    int height3 = 20;
+                    while(abs(get_arm_pos()-height3)<10){
+                        if(get_arm_pos()>height3){
+                            set_arm(-20);
+                        } else if(get_arm_pos()<height3){
+                            int power = (height3-get_arm_pos())*0.01;
+                            if(power>127){
+                                power = 127;
+                            }
+                            set_arm(power);
+                        } pros::delay(10);
+                    }
+                    counter++;
+                    break;
+
+                case 4:
+                    int height4 = 30;
+                    while(abs(get_arm_pos()-height4)<10){
+                        if(get_arm_pos()>height4){
+                            set_arm(-20);
+                        } else if(get_arm_pos()<height4){
+                            int power = (height4-get_arm_pos())*0.01;
+                            if(power>127){
+                                power = 127;
+                            }
+                            set_arm(power);
+                        } pros::delay(10);
+                    }
+                    counter=0;
+                    break;
             }
         }
         pros::delay(20);

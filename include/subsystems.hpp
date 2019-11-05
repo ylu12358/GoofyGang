@@ -6,5 +6,6 @@ void tray_intake();
 void intake_control(void *);
 void drive_control(void *);
 void tray_control(void *);
+void arm_control(void *);
 
 #endif

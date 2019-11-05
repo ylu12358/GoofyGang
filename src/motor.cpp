@@ -26,8 +26,8 @@ pros::Motor tray(12, MOTOR_GEARSET_18);
 pros::Motor arm(11, MOTOR_GEARSET_18);
 
 //Sensors
-pros::ADIPotentiometer tray_pot('A');
-pros::ADIPotentiometer arm_pot('C');
+pros::ADIPotentiometer tray_pot('E');
+pros::ADIPotentiometer arm_pot('F');
 pros::ADIPotentiometer auton_selector('B');
 
 //Math

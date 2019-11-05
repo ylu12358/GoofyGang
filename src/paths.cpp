@@ -6,6 +6,7 @@ void init_skills()
 {
 }
 
+/*
 void init_pr()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
@@ -29,7 +30,8 @@ void init_upr()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 275_deg}}, "C");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "D");
 }
-
+*/
+/*
 void init_upb_maybe()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
@@ -41,7 +43,8 @@ void init_upb_maybe()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "E");
     //5.5_in
 }
-
+*/
+/*
 void init_upb(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "B");
@@ -56,11 +59,11 @@ void init_upb(){
     //s-curve (may need to chunk)
     //intake, A, E, E, E, intake, C, D, deploy
 }
-
+*/
 void skills()
 {
 }
-
+/*
 void pro_red()
 {
     //forward
@@ -117,16 +120,17 @@ void pro_blue()
     set_intake(0);
     
 }
-
+*/
+/*
 void unpro(){
-    /*
+    
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "B");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.916_ft, 0_ft, 0_deg}},"E");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 53.5_in, 0_deg}}, "C");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 95_deg}}, "D");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{1_ft, 0_ft, 95_deg}}, "F");
- */
+ 
 
     //drive forward
     set_intake(127);
@@ -167,10 +171,10 @@ void unpro(){
     profileController.waitUntilSettled();
     profileController.removePath("F");
 }
+*/
 
 
-
-
+/*
 void unpro_maybe()
 {
     //intake, 
@@ -218,7 +222,9 @@ void unpro_maybe()
     tray_intake();
     set_tank(0,0);
 }
+*/
 
+/*
 void full()
 {
     //First row
@@ -283,9 +289,10 @@ void full()
     pros::delay(100);
     tray_intake();
 }
-
+*/
+/*
 void blueTime(){
-   /*
+   //ignore (first row)
     set_intake(-127);
     pros::delay(200);
     set_intake(0);
@@ -312,7 +319,8 @@ void blueTime(){
 
     set_tank(-90, -90);
     pros::delay(900);
-*/
+    //end ignore
+
     //Row of 4
     set_intake(-127);
     pros::delay(400);
@@ -382,3 +390,4 @@ void redTime()
     pros::delay(800);
     set_tank(0,0);
 }
+*/
