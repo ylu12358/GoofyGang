@@ -77,9 +77,11 @@ void opcontrol() {
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
 
-	pros::Task intake_control_t(intake_control, nullptr, "name");
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 //	pros::Task tray_control_t(tray_control, nullptr, "name");
+//	pros::Task arm_control_t(arm_control, nullptr, "name");
+	pros::Task intake_control_t(intake_control, nullptr, "name");
+
 	tray_coast();
 	while (true)
 	{

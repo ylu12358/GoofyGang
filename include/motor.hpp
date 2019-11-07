@@ -37,6 +37,8 @@ int get_arm_pos();
 int get_auton_select();
 bool tray_pressed();
 void auto_selector();
+void set_arm_pid(int input);
+void arm_pid(void *);
 
 #define TRAY_OUT 6100
 

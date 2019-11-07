@@ -94,6 +94,7 @@ void tray_control(void *)
 void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
+    pros::Task arm_t(arm_pid, nullptr, "name");
     int counter = 0;
     while(true){
         if(master.get_digital(DIGITAL_A))
@@ -106,67 +107,22 @@ void arm_control(void *)
             switch(counter)
             {
                 case 0:
-                //tweek this, cause its opposite the other conditions
-                    int height1 = 0;
-                    while(abs(get_arm_pos()-height1)<10){
-                        if(get_arm_pos()>height1){
-                            set_arm(-20);
-                        } else if(get_arm_pos()<height1){
-                            int power = (height1-get_arm_pos())*0.01;
-                            if(power>127){
-                                power = 127;
-                            }
-                            set_arm(power);
-                        } pros::delay(10);
-                    }
+                    set_arm_pid(0);
                     counter++;
                     break;
 
                 case 1:
-                    int height2 = 10;
-                    while(abs(get_arm_pos()-height2)<10){
-                        if(get_arm_pos()>height2){
-                            set_arm(-20);
-                        } else if(get_arm_pos()<height2){
-                            int power = (height2-get_arm_pos())*0.01;
-                            if(power>127){
-                                power = 127;
-                            }
-                            set_arm(power);
-                        } pros::delay(10);
-                    }
+                    set_arm_pid(10);
                     counter++;
                     break;
 
                 case 2:
-                    int height3 = 20;
-                    while(abs(get_arm_pos()-height3)<10){
-                        if(get_arm_pos()>height3){
-                            set_arm(-20);
-                        } else if(get_arm_pos()<height3){
-                            int power = (height3-get_arm_pos())*0.01;
-                            if(power>127){
-                                power = 127;
-                            }
-                            set_arm(power);
-                        } pros::delay(10);
-                    }
+                    set_arm_pid(20);
                     counter++;
                     break;
 
                 case 4:
-                    int height4 = 30;
-                    while(abs(get_arm_pos()-height4)<10){
-                        if(get_arm_pos()>height4){
-                            set_arm(-20);
-                        } else if(get_arm_pos()<height4){
-                            int power = (height4-get_arm_pos())*0.01;
-                            if(power>127){
-                                power = 127;
-                            }
-                            set_arm(power);
-                        } pros::delay(10);
-                    }
+                    set_arm_pid(30);
                     counter=0;
                     break;
             }

@@ -181,6 +181,7 @@ int get_auton_select()
     return auton_selector.get_value();
 }
 
+//Auto
 void auto_selector()
 {
     pros::delay(300);
@@ -213,4 +214,20 @@ void auto_selector()
         return;
     }
     return;
+}
+
+//PID
+int a_target;
+void set_arm_pid(int input)
+{
+    a_target = input;
+}
+
+void arm_pid(void *)
+{
+    while (true)
+    {
+        set_arm((a_target - arm.get_position()) * 0.5);
+        pros::delay(20);
+    }
 }
