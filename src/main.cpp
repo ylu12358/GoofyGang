@@ -78,18 +78,17 @@ void opcontrol() {
 	master.set_text(0, 0, "#ThankYou448X");
 
 	pros::Task drive_control_t(drive_control, nullptr, "name");
-//	pros::Task tray_control_t(tray_control, nullptr, "name");
+	pros::Task tray_control_t(tray_control, nullptr, "name");
 //	pros::Task arm_control_t(arm_control, nullptr, "name");
 	pros::Task intake_control_t(intake_control, nullptr, "name");
 
-	tray_coast();
 	while (true)
 	{
 		
-//		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
+		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
-//		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-//		pros::lcd::set_text(4, "Number: " + std::to_string(get_auton_select()));
+		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
+		pros::lcd::set_text(4, "Number: " + std::to_string(get_auton_select()));
 
 		pros::delay(20);
 	}

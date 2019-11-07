@@ -354,7 +354,8 @@ void blueTime(){
     pros::delay(800);
     set_tank(0,0);
 }
-
+*/
+/*
 void redTime()
 {
     //Row of 4
