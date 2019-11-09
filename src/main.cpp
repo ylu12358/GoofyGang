@@ -34,6 +34,10 @@ void initialize()
 	pros::lcd::initialize();
 	pros::lcd::register_btn1_cb(on_center_button);
 
+	reset_drive_encoder();
+	reset_tray_encoder();
+	reset_arm_encoder();
+	reset_intake_encoder();
 //	auto_selector();
 /*
 	if (selector == 1)
@@ -79,7 +83,7 @@ void opcontrol() {
 
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
-//	pros::Task arm_control_t(arm_control, nullptr, "name");
+	pros::Task arm_control_t(arm_control, nullptr, "name");
 	pros::Task intake_control_t(intake_control, nullptr, "name");
 
 	while (true)

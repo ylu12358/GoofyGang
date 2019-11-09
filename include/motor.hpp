@@ -37,13 +37,13 @@ int get_arm_pos();
 int get_auton_select();
 bool tray_pressed();
 void auto_selector();
-//void set_tray_pid(int input);
-//void tray_pid(void *);
+void set_tray_pid(int input);
+void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
 
 #define TRAY_OUT 1950
-//#define PROTECTED 1100
+#define PROTECTED 1100
 #define TRAY_IN 618
 
 #endif

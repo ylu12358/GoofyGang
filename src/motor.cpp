@@ -173,7 +173,7 @@ int get_tray_pos()
 
 int get_arm_pos()
 {
-    return arm_pot.get_value();
+    return arm.get_position();
 }
 
 int get_auton_select()
@@ -227,7 +227,7 @@ void tray_pid(void *)
 {
     while (true)
     {
-        set_tray((t_target - get_tray_pos()) * -0.5);
+        set_tray((t_target - get_tray_pos()) * 0.5);
         pros::delay(20);
     }
 }
@@ -243,7 +243,7 @@ void arm_pid(void *)
 {
     while (true)
     {
-        set_arm((a_target - get_arm_pos()) * -0.5);
+        set_arm((a_target - get_arm_pos()) * 0.5);
         pros::delay(20);
     }
 }

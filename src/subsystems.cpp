@@ -1,14 +1,9 @@
 #include "main.h"
 
-//618 is back
-//1100 is protect
-//1900 is score
-//positive power is score
-//negative reset
 void tray_outtake()
 {
-    while (get_tray_pos() < 1500)
-        set_tray(100);
+    while (get_tray_pos() < 1420)
+        set_tray(127);
     while (get_tray_pos() < 1800)
         set_tray(40);
     while (get_tray_pos() < TRAY_OUT)
@@ -19,7 +14,6 @@ void tray_outtake()
     }
     set_tray(0);
     set_intake(0);
-    
 }
 
 void tray_intake()
@@ -54,16 +48,20 @@ void drive_control(void *)
     while (true)
     {
         if(!tank){
-            set_tank((-master.get_analog(ANALOG_LEFT_Y)+master.get_analog(ANALOG_RIGHT_X)),(master.get_analog(ANALOG_LEFT_Y)+master.get_analog(ANALOG_RIGHT_X)));
+            set_tank((master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)), (-master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)));
         } else if(tank){
             set_tank(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_Y));
         }
         if(master.get_digital(DIGITAL_DOWN)){
+            while (master.get_digital(DIGITAL_DOWN))
+                pros::delay(10);
             tank = !tank;
         }
         pros::delay(20);
     }
 }
+
+pros::Task tray_pid_t(tray_pid, nullptr, "name");
 
 void tray_control(void *)
 {
@@ -80,9 +78,15 @@ void tray_control(void *)
             switch (counter)
             {
             case 0:
-                tray_intake();
+                tray_pid_t.resume();
+                set_tray_pid(TRAY_IN);
+                intake_hold();
                 break;
-            case 1: 
+            case 1:
+                set_tray_pid(PROTECTED);
+                break;
+            case 2: 
+                tray_pid_t.suspend();
                 tray_outtake();
                 counter = -1;
                 break;
@@ -95,12 +99,15 @@ void tray_control(void *)
 
 //change power for next remake
 //negative power raises the arm
-//doesnt work, doesnt grip
 void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    pros::Task arm_t(arm_pid, nullptr, "name");
-    set_arm_pid(1325);
+    set_arm(-80);
+    pros::delay(100);
+    reset_arm_encoder();
+    set_arm(0);
+    pros::Task arm_pid_t(arm_pid, nullptr, "name");
+    set_arm_pid(0);
     int counter = 0;
     arm_hold();
     while(true){
@@ -108,28 +115,26 @@ void arm_control(void *)
         {
             counter++;
             while(master.get_digital(DIGITAL_A))
-            {
                 pros::delay(10);
-            }
             switch(counter)
             {
                 case 0:
-                //1340
-                    master.set_text(0, 0, "ZERO");
-                    set_arm_pid(1320);
+                    set_arm_pid(0);
+                    pros::delay(100);
+                    set_tray_pid(TRAY_IN);
+                    arm_pid_t.suspend();
+                    set_arm(-45);
                     break;
                 case 1:
-                    master.set_text(0, 0, "ONE");
-                    set_arm_pid(2200);
+                    arm_pid_t.resume();
+                    set_tray_pid(PROTECTED-100);
+                    set_arm_pid(400);
                     break;
                 case 2:
-                    master.set_text(0, 0, "TWO");
-                    set_arm_pid(2500);
+                    set_arm_pid(450);
                     break;
                 case 3:
-                //2215
-                    master.set_text(0, 0, "THREE");
-                    set_arm_pid(3000);
+                    set_arm_pid(600);
                     counter = -1;
                     break;
             }
