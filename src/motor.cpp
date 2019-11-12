@@ -22,7 +22,7 @@ pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
 pros::Motor l_intake(20, MOTOR_GEARSET_18);
-pros::Motor r_intake(19, MOTOR_GEARSET_18, true);
+pros::Motor r_intake(10, MOTOR_GEARSET_18, true);
 pros::Motor tray(12, MOTOR_GEARSET_18);
 pros::Motor arm(11, MOTOR_GEARSET_18);
 
