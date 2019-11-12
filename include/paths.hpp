@@ -16,4 +16,14 @@ void unpro();
 void blueTime();
 void redTime();
 
+
+
+//tests/
+
+void chassis_straight();
+void chassis_turn();
+
+void path_straight();
+void path_curve();
+
 #endif

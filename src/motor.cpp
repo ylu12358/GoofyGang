@@ -4,6 +4,7 @@
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {11, 12}, {-20, 19},
     IterativePosPIDController::Gains{0.001, 0, 0.0001}, //{0.001, 0, 0.0001}}
+    //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0.001, 0, 0.0001},
     IterativePosPIDController::Gains{0.01725, 0.025, 0.0004}, //0.01, 0.000325, 0.01425, 0.0004
     AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
@@ -20,8 +21,8 @@ pros::Motor lb_drive(14, MOTOR_GEARSET_18);
 pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
-pros::Motor l_intake(18, MOTOR_GEARSET_18);
-pros::Motor r_intake(17, MOTOR_GEARSET_18, true);
+pros::Motor l_intake(20, MOTOR_GEARSET_18);
+pros::Motor r_intake(19, MOTOR_GEARSET_18, true);
 pros::Motor tray(12, MOTOR_GEARSET_18);
 pros::Motor arm(11, MOTOR_GEARSET_18);
 
@@ -60,7 +61,7 @@ void set_tank(int input_l, int input_r)
 
 void set_intake(int input)
 {
-    l_intake.move(input);
+    l_intake.move(-input);
     r_intake.move(input);
 }
 
@@ -241,9 +242,29 @@ void set_arm_pid(int input)
 
 void arm_pid(void *)
 {
+    float power;
+    float proportion;
+    float kp = 0.8;
+    float integral;
+    float ki = 0.001;
+    float error;
+    float errorT;
+    float integralActiveZone = 20;
     while (true)
     {
-        set_arm((a_target - get_arm_pos()) * 0.5);
+        error = a_target - get_arm_pos();
+        proportion = error*kp;
+        if(error<integralActiveZone&&error!=0){
+            errorT++;
+        } else{
+            errorT = 0;
+        }
+        if(errorT>50){
+            errorT = 50;
+        }
+        integral = errorT*ki;
+        power = integral+proportion;
+        set_arm(power);
         pros::delay(20);
     }
 }

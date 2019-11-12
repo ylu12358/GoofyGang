@@ -68,6 +68,7 @@ void tray_control(void *)
     pros::Controller master(CONTROLLER_MASTER);
     int counter = 0;
     tray_hold();
+    pros::delay(100);
     while (true)
     {
         if (master.get_digital(DIGITAL_L1))
@@ -111,30 +112,30 @@ void arm_control(void *)
     int counter = 0;
     arm_hold();
     while(true){
-        if(master.get_digital(DIGITAL_A))
+        if(master.get_digital(DIGITAL_L2))
         {
             counter++;
-            while(master.get_digital(DIGITAL_A))
+            while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
             switch(counter)
             {
                 case 0:
-                    set_arm_pid(0);
-                    pros::delay(100);
+                    set_arm_pid(-20);
+                    pros::delay(500);
                     set_tray_pid(TRAY_IN);
                     arm_pid_t.suspend();
-                    set_arm(-45);
+                    set_arm(-5);
                     break;
                 case 1:
                     arm_pid_t.resume();
                     set_tray_pid(PROTECTED-100);
-                    set_arm_pid(400);
+                    set_arm_pid(364);
                     break;
                 case 2:
                     set_arm_pid(450);
                     break;
                 case 3:
-                    set_arm_pid(600);
+                    set_arm_pid(605);
                     counter = -1;
                     break;
             }

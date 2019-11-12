@@ -6,6 +6,63 @@ void init_skills()
 {
 }
 
+//ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
+
+void chassis_straight(){
+    chassisController.moveDistance(48_in);
+}
+
+void chassis_turn(){
+    chassisController.turnAngle(90_deg);
+}
+
+void path_straight(){
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    profileController.removePath("A");
+}
+
+void path_curve(){
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 2_ft, 30_deg}}, "B");
+    profileController.setTarget("B");
+    profileController.waitUntilSettled();
+    profileController.removePath("B");
+}
+
+/*
+
+
+protected zone
+
+
+
+drive forward (push cube)
+drive backward
+deploy tray
+
+intake
+drive forward
+
+curve a bit to get last cube
+
+drive backward
+point turn to goal (only variable in code, blue or red)
+drive forward
+
+outake
+tray outake
+
+drive backward
+reset tray
+
+*/
+
+
+
+
+
+
 /*
 void init_pr()
 {

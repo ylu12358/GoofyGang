@@ -16,6 +16,7 @@ void preauton(){
 	reset_drive_encoder();
 	reset_intake_encoder();
 	reset_tray_encoder();
+	
 	//Set brakes
 	drive_hold();
 	intake_hold();
@@ -33,6 +34,7 @@ void initialize()
 {
 	pros::lcd::initialize();
 	pros::lcd::register_btn1_cb(on_center_button);
+	set_tray_pid(TRAY_IN);
 
 	reset_drive_encoder();
 	reset_tray_encoder();
@@ -59,7 +61,13 @@ void competition_initialize() {}
 //----------------------------------------------------------------------------
 
 void autonomous() {
-	
+
+	//chassis_straight();
+	//chassis_turn();
+
+	//path_straight();
+	//path_curve();
+
 //preauton();
 
 /*
@@ -93,6 +101,10 @@ void opcontrol() {
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
 		pros::lcd::set_text(4, "Number: " + std::to_string(get_auton_select()));
+
+//		pros::lcd::set_text(4, "Left: " + std::to_string(get_left_drive_pos()));
+//		pros::lcd::set_text(4, "Right: " + std::to_string(get_right_drive_pos()));
+
 
 		pros::delay(20);
 	}
