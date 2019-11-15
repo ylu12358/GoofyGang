@@ -21,13 +21,13 @@ void tray_intake()
     while (get_tray_pos() > TRAY_IN)
         set_tray(-127);
     set_tray(0);
-    intake_hold();
+    intake_coast();
 }
 
 void intake_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    intake_hold();
+    intake_coast();
     while (true)
     {
         if (master.get_digital(DIGITAL_R1))
@@ -35,7 +35,7 @@ void intake_control(void *)
         else if (master.get_digital(DIGITAL_R2))
             set_intake(-127); //Outtake
         else
-            set_intake(0); //No movement
+            set_intake(10); //No movement
         pros::delay(20);
     }
 }
@@ -62,12 +62,11 @@ void drive_control(void *)
 }
 
 pros::Task tray_pid_t(tray_pid, nullptr, "name");
-
 void tray_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     int counter = 0;
-    tray_hold();
+    tray_coast();
     pros::delay(100);
     while (true)
     {
@@ -81,7 +80,7 @@ void tray_control(void *)
             case 0:
                 tray_pid_t.resume();
                 set_tray_pid(TRAY_IN);
-                intake_hold();
+                intake_coast();
                 break;
             case 1:
                 set_tray_pid(PROTECTED);
@@ -110,7 +109,7 @@ void arm_control(void *)
     pros::Task arm_pid_t(arm_pid, nullptr, "name");
     set_arm_pid(0);
     int counter = 0;
-    arm_hold();
+    arm_coast();
     while(true){
         if(master.get_digital(DIGITAL_L2))
         {
@@ -124,7 +123,7 @@ void arm_control(void *)
                     pros::delay(500);
                     set_tray_pid(TRAY_IN);
                     arm_pid_t.suspend();
-                    set_arm(-5);
+                    set_arm(-10);
                     break;
                 case 1:
                     arm_pid_t.resume();

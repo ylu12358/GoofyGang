@@ -16,12 +16,6 @@ void preauton(){
 	reset_drive_encoder();
 	reset_intake_encoder();
 	reset_tray_encoder();
-	
-	//Set brakes
-	drive_hold();
-	intake_hold();
-	tray_hold();
-	arm_hold();
 
 	//Deploy
 	set_intake(-127);
@@ -34,12 +28,15 @@ void initialize()
 {
 	pros::lcd::initialize();
 	pros::lcd::register_btn1_cb(on_center_button);
-	set_tray_pid(TRAY_IN);
+
 
 	reset_drive_encoder();
 	reset_tray_encoder();
 	reset_arm_encoder();
 	reset_intake_encoder();
+
+	set_tray_pid(TRAY_IN);
+	
 //	auto_selector();
 /*
 	if (selector == 1)
@@ -63,8 +60,14 @@ void competition_initialize() {}
 void autonomous() {
 
 	//chassis_straight();
-	//chassis_turn();
-
+	chassis_turn();
+	while(1){
+		FILE* usd_file_write = fopen("/GoofyGang/file.txt","a");
+		fprintf(usd_file_write,"Left(%d): \n",get_left_drive_spe);
+		fprintf(usd_file_write,"Right(%d): \n",get_left_drive_spe);
+		pros::delay(30);
+	}
+	
 	//path_straight();
 	//path_curve();
 
@@ -86,9 +89,10 @@ void autonomous() {
 //-----------------------------------------------------------------------
 
 void opcontrol() {
+	chassisController.stop();
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
-
+	
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
 	pros::Task arm_control_t(arm_control, nullptr, "name");
@@ -96,15 +100,10 @@ void opcontrol() {
 
 	while (true)
 	{
-		
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
 		pros::lcd::set_text(4, "Number: " + std::to_string(get_auton_select()));
-
-//		pros::lcd::set_text(4, "Left: " + std::to_string(get_left_drive_pos()));
-//		pros::lcd::set_text(4, "Right: " + std::to_string(get_right_drive_pos()));
-
 
 		pros::delay(20);
 	}

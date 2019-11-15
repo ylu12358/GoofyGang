@@ -2,10 +2,10 @@
 
 // Otherwise, you should specify the gearset and scales for your robot
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {11, 12}, {-20, 19},
-    IterativePosPIDController::Gains{0.001, 0, 0.0001}, //{0.001, 0, 0.0001}}
+    {13, 14}, {-15, -16},
+    IterativePosPIDController::Gains{0.002, 0, 0.0004}, //{0.001, 0, 0.0001}}
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
-    IterativePosPIDController::Gains{0.001, 0, 0.0001},
+    IterativePosPIDController::Gains{0, 0, 0},
     IterativePosPIDController::Gains{0.01725, 0.025, 0.0004}, //0.01, 0.000325, 0.01425, 0.0004
     AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
     {4.125_in, 12.28125_in});
@@ -21,10 +21,12 @@ pros::Motor lb_drive(14, MOTOR_GEARSET_18);
 pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
-pros::Motor l_intake(20, MOTOR_GEARSET_18);
-pros::Motor r_intake(10, MOTOR_GEARSET_18, true);
-pros::Motor tray(12, MOTOR_GEARSET_18);
-pros::Motor arm(11, MOTOR_GEARSET_18);
+pros::Motor l_intake(7, MOTOR_GEARSET_18);
+pros::Motor r_intake(9, MOTOR_GEARSET_18, true);
+pros::Motor tray(1, MOTOR_GEARSET_18);
+pros::Motor arm(12, MOTOR_GEARSET_18);
+//port 11 isnt dead
+//port 20, 19, 18, 17, 10, 8 dead
 
 //Sensors
 pros::ADIPotentiometer tray_pot('E');
@@ -61,7 +63,7 @@ void set_tank(int input_l, int input_r)
 
 void set_intake(int input)
 {
-    l_intake.move(-input);
+    l_intake.move(input);
     r_intake.move(input);
 }
 
