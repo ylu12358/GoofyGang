@@ -6,7 +6,7 @@ ChassisControllerPID chassisController = ChassisControllerFactory::create(
     IterativePosPIDController::Gains{0.002, 0, 0.0004}, //{0.001, 0, 0.0001}}
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
-    IterativePosPIDController::Gains{0.01725, 0.025, 0.0004}, //0.01, 0.000325, 0.01425, 0.0004
+    IterativePosPIDController::Gains{0.01725, 0.025, 0.0005}, //0.01, 0.000325, 0.01425, 0.0004
     AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
     {4.125_in, 12.28125_in});
 
@@ -21,12 +21,13 @@ pros::Motor lb_drive(14, MOTOR_GEARSET_18);
 pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
-pros::Motor l_intake(7, MOTOR_GEARSET_18);
+pros::Motor l_intake(6, MOTOR_GEARSET_18);
 pros::Motor r_intake(9, MOTOR_GEARSET_18, true);
 pros::Motor tray(1, MOTOR_GEARSET_18);
 pros::Motor arm(12, MOTOR_GEARSET_18);
 //port 11 isnt dead
 //port 20, 19, 18, 17, 10, 8 dead
+//7
 
 //Sensors
 pros::ADIPotentiometer tray_pot('E');

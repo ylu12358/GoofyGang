@@ -33,7 +33,7 @@ void intake_control(void *)
         if (master.get_digital(DIGITAL_R1))
             set_intake(127); //Intake
         else if (master.get_digital(DIGITAL_R2))
-            set_intake(-127); //Outtake
+            set_intake(-85); //Outtake
         else
             set_intake(10); //No movement
         pros::delay(20);
@@ -61,21 +61,22 @@ void drive_control(void *)
     }
 }
 
+
+int tray_counter = 0;
 pros::Task tray_pid_t(tray_pid, nullptr, "name");
 void tray_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    int counter = 0;
     tray_coast();
     pros::delay(100);
     while (true)
     {
         if (master.get_digital(DIGITAL_L1))
         {
-            counter++;
+            tray_counter++;
             while (master.get_digital(DIGITAL_L1))
                 pros::delay(10);
-            switch (counter)
+            switch (tray_counter)
             {
             case 0:
                 tray_pid_t.resume();
@@ -88,7 +89,7 @@ void tray_control(void *)
             case 2: 
                 tray_pid_t.suspend();
                 tray_outtake();
-                counter = -1;
+                tray_counter = -1;
                 break;
             }
         }
@@ -114,29 +115,39 @@ void arm_control(void *)
         if(master.get_digital(DIGITAL_L2))
         {
             counter++;
+            //master.set_text(0, 0, counter);
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
             switch(counter)
             {
                 case 0:
-                    set_arm_pid(-20);
-                    pros::delay(500);
-                    set_tray_pid(TRAY_IN);
-                    arm_pid_t.suspend();
-                    set_arm(-10);
+                    if(tray_counter==0)
+                    {
+                        set_arm_pid(-20);
+                        pros::delay(500);
+                        set_tray_pid(TRAY_IN);
+                        arm_pid_t.suspend();
+                        set_arm(-10);    
+                    }
                     break;
                 case 1:
-                    arm_pid_t.resume();
-                    set_tray_pid(PROTECTED-100);
-                    set_arm_pid(364);
+                    if(tray_counter==0){
+                        arm_pid_t.resume();
+                        set_tray_pid(PROTECTED-100);
+                        set_arm_pid(1117);
+                    }
                     break;
                 case 2:
-                    set_arm_pid(450);
+                    if(tray_counter==0){
+                        set_arm_pid(1700);
+                    }
+                    counter = -1;
                     break;
-                case 3:
+/*                case 3:
                     set_arm_pid(605);
                     counter = -1;
                     break;
+*/
             }
         }
         pros::delay(20);

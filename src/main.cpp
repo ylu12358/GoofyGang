@@ -61,12 +61,7 @@ void autonomous() {
 
 	//chassis_straight();
 	chassis_turn();
-	while(1){
-		FILE* usd_file_write = fopen("/GoofyGang/file.txt","a");
-		fprintf(usd_file_write,"Left(%d): \n",get_left_drive_spe);
-		fprintf(usd_file_write,"Right(%d): \n",get_left_drive_spe);
-		pros::delay(30);
-	}
+	
 	
 	//path_straight();
 	//path_curve();
@@ -108,3 +103,5 @@ void opcontrol() {
 		pros::delay(20);
 	}
 }
+//1117
+//1727
