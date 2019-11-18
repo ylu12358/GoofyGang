@@ -30,6 +30,118 @@ void path_curve(){
     profileController.removePath("B");
 }
 
+void eightPath(){
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{44_in, -23_in, 0_deg}}, "A");
+}
+
+void init_unpro(){
+    drive_hold();
+    set_intake(127);
+    set_arm(-20);
+    pros::delay(100);
+    chassisController.moveDistance(44_in);
+    chassisController.waitUntilSettled();
+    chassisController.moveDistance(4_in);
+    chassisController.waitUntilSettled();
+    pros::Controller master(CONTROLLER_MASTER);
+	master.set_text(0, 0, "A");
+
+    set_arm(-10);
+    pros::delay(100);
+//    chassisController.moveDistance(-10_in);
+//16
+//    chassisController.waitUntilSettled();
+    	master.set_text(0, 0, "B");
+    set_tank(-80,-15);
+    pros::delay(1600);
+      
+//    chassisController.turnAngle(-366);
+//    chassisController.waitUntilSettled();
+
+ //   	master.set_text(0, 0, "C");
+    intake_relative(-400,180);
+    set_tray_pid(PROTECTED);
+    chassisController.moveDistance(44_in);
+//    autonController.moveDistance(16.5_in);
+//    autonController.waitUntilSettled();
+    tray_outtake();
+    set_tank(-80,-80);
+    pros::delay(1500);
+	chassisController.stop();
+	autonController.stop();
+}
+
+void unprotected(){
+// preauton
+    set_tank(127,127);
+    set_arm(-10);
+    pros::delay(100);
+    set_intake(-127);
+    set_tank(-90,-90);
+    pros::delay(100);
+    set_arm(-20);
+    
+    set_intake(127);
+    chassisController.moveDistance(44_in);
+    chassisController.waitUntilSettled();
+    chassisController.moveDistance(4_in);
+    chassisController.waitUntilSettled();
+    set_arm(-10);
+    pros::delay(100);
+    chassisController.moveDistance(-26_in);
+    chassisController.waitUntilSettled();
+    chassisController.turnAngle(-370);
+    chassisController.waitUntilSettled();
+    intake_relative(-400,180);
+    set_tray_pid(PROTECTED);
+    autonController.moveDistance(16.5_in);
+    autonController.waitUntilSettled();
+    tray_outtake();
+	chassisController.stop();
+	autonController.stop();
+
+//    profileController.setTarget("B", true);
+//    profileController.waitUntilSettled();
+//    profileController.removePath("B");
+    //-45_deg for red;
+//    chassisController.turnAngle(45_deg);
+//    chassisController.moveDistance(14_in);
+    tray_outtake(); 
+}   
+
+void eightCube(){
+    // preauton
+    set_tank(127,127);
+    set_arm(-10);
+    pros::delay(100);
+    set_intake(-127);
+    set_tank(-90,-90);
+    pros::delay(100);
+    set_arm(-20);
+    
+    set_intake(127);
+    pros::delay(100);
+    chassisController.moveDistance(44_in);
+    chassisController.waitUntilSettled();
+    profileController.setTarget("A", true);
+    profileController.waitUntilSettled();
+    profileController.removePath("A");
+    chassisController.moveDistance(44_in);
+    chassisController.waitUntilSettled();
+
+    set_intake(10);
+    set_arm(-10);
+    pros::delay(100);
+    chassisController.turnAngle(-380);
+    chassisController.waitUntilSettled();
+    intake_relative(-600, 180);
+    set_tray_pid(PROTECTED);
+    chassisController.moveDistance(16.5_in);
+    chassisController.waitUntilSettled();
+    chassisController.stop();
+
+}
+
 /*
 
 

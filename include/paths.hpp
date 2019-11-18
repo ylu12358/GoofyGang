@@ -26,4 +26,11 @@ void chassis_turn();
 void path_straight();
 void path_curve();
 
+void unprotected();
+
+void init_unpro();
+
+void eightPath();
+void eightCube();
+
 #endif

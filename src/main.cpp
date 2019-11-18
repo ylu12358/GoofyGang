@@ -60,14 +60,18 @@ void competition_initialize() {}
 void autonomous() {
 
 	//chassis_straight();
-	chassis_turn();
+	//chassis_turn();
 	
 	
 	//path_straight();
 	//path_curve();
 
 //preauton();
-
+	
+	
+	//blue
+	init_unpro();
+//	unprotected();
 /*
 	if (selector == 1)
 		unpro();
@@ -84,7 +88,7 @@ void autonomous() {
 //-----------------------------------------------------------------------
 
 void opcontrol() {
-	chassisController.stop();
+
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
 	

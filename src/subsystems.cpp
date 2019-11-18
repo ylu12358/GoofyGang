@@ -33,7 +33,7 @@ void intake_control(void *)
         if (master.get_digital(DIGITAL_R1))
             set_intake(127); //Intake
         else if (master.get_digital(DIGITAL_R2))
-            set_intake(-127); //Outtake
+            set_intake(-85); //Outtake
         else
             set_intake(10); //No movement
         pros::delay(20);
@@ -133,7 +133,7 @@ void arm_control(void *)
                 case 1:
                     if(tray_counter==0){
                         arm_pid_t.resume();
-                        set_tray_pid(PROTECTED-100);
+                        set_tray_pid(PROTECTED-200);
                         set_arm_pid(1117);
                     }
                     break;

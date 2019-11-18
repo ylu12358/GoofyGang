@@ -5,6 +5,7 @@
 using namespace okapi;
 
 extern ChassisControllerPID chassisController;
+extern ChassisControllerPID autonController;
 extern AsyncMotionProfileController profileController;
 
 extern int selector;
@@ -41,9 +42,10 @@ void set_tray_pid(int input);
 void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
+void intake_relative(int pos, int vel);
 
 #define TRAY_OUT 1950
 #define PROTECTED 1100
-#define TRAY_IN 618
+#define TRAY_IN 750
 
 #endif

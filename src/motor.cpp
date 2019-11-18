@@ -3,12 +3,22 @@
 // Otherwise, you should specify the gearset and scales for your robot
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {13, 14}, {-15, -16},
-    IterativePosPIDController::Gains{0.002, 0, 0.0004}, //{0.001, 0, 0.0001}}
+    IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
-    IterativePosPIDController::Gains{0.01725, 0.025, 0.0005}, //0.01, 0.000325, 0.01425, 0.0004
+    IterativePosPIDController::Gains{0.017, 0.0001, 0.0000}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
     AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
     {4.125_in, 12.28125_in});
+
+ChassisControllerPID autonController = ChassisControllerFactory::create(
+    {13, 14}, {-15, -16},
+    IterativePosPIDController::Gains{0.0015, 0, 0.000}, //{0.001, 0, 0.0001}}//.0006
+    //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
+    IterativePosPIDController::Gains{0, 0, 0},
+    IterativePosPIDController::Gains{0.017, 0.0001, 0.0000}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
+    AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
+    {4.125_in, 12.28125_in});
+
 
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
     0.8,                // Maximum linear velocity of the Chassis in m/s
@@ -22,11 +32,11 @@ pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
 pros::Motor l_intake(2, MOTOR_GEARSET_18);
-pros::Motor r_intake(4, MOTOR_GEARSET_18, true);
+pros::Motor r_intake(3, MOTOR_GEARSET_18, true);
 pros::Motor tray(1, MOTOR_GEARSET_18);
 pros::Motor arm(12, MOTOR_GEARSET_18);
 //port 3, 11 available for swapping onto
-//port 20, 19, 18, 17, 10, 9, 8, 7, 6, 5 dead
+//port 20, 19, 18, 17, 10, 9, 8, 7, 6, 5, 4 dead
 //7
 
 //Sensors
@@ -270,4 +280,10 @@ void arm_pid(void *)
         set_arm(power);
         pros::delay(20);
     }
+}
+
+void intake_relative(int pos, int vel)
+{
+    l_intake.move_relative(pos, vel);
+    r_intake.move_relative(pos, vel);
 }
