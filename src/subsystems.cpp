@@ -1,5 +1,7 @@
 #include "main.h"
 
+int arm_counter = 0;
+
 void tray_outtake()
 {
     while (get_tray_pos() < 1420)
@@ -32,9 +34,13 @@ void intake_control(void *)
     {
         if (master.get_digital(DIGITAL_R1))
             set_intake(127); //Intake
-        else if (master.get_digital(DIGITAL_R2))
+        else if (master.get_digital(DIGITAL_R2) && arm_counter == -1)
             set_intake(-85); //Outtake
-        else
+        else if (master.get_digital(DIGITAL_R2) && arm_counter == 1){
+            set_intake(-65);
+        } else if (master.get_digital(DIGITAL_R2) && arm_counter == 0){
+            set_intake(-127);
+        } else
             set_intake(10); //No movement
         pros::delay(20);
     }
@@ -109,20 +115,20 @@ void arm_control(void *)
     set_arm(0);
     pros::Task arm_pid_t(arm_pid, nullptr, "name");
     set_arm_pid(0);
-    int counter = 0;
     arm_coast();
     while(true){
         if(master.get_digital(DIGITAL_L2))
         {
-            counter++;
+            arm_counter++;
             //master.set_text(0, 0, counter);
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
-            switch(counter)
+            switch(arm_counter)
             {
                 case 0:
                     if(tray_counter==0)
                     {
+                        //10
                         set_arm_pid(-20);
                         pros::delay(500);
                         set_tray_pid(TRAY_IN);
@@ -135,14 +141,17 @@ void arm_control(void *)
                         arm_pid_t.resume();
                         set_tray_pid(PROTECTED+100);
                         set_arm_pid(1117);
+                        //1123
                     }
+                    arm_counter = -1;
                     break;
-                case 2:
+                /* case 2:
                     if(tray_counter==0){
-                        set_arm_pid(1700);
+                        //1700
+                        set_arm_pid(1437);
                     }
-                    counter = -1;
-                    break;
+                    arm_counter = -1;
+                    break; */
 /*                case 3:
                     set_arm_pid(605);
                     counter = -1;
