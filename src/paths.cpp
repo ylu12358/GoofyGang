@@ -36,78 +36,43 @@ void eightPath(){
 
 void init_unpro(){
     drive_hold();
-    set_intake(127);
-    set_arm(-20);
-    pros::delay(100);
-    chassisController.moveDistance(44_in);
-    chassisController.waitUntilSettled();
-    chassisController.moveDistance(4_in);
-    chassisController.waitUntilSettled();
-    pros::Controller master(CONTROLLER_MASTER);
-	master.set_text(0, 0, "A");
-
-    set_arm(-10);
-    pros::delay(100);
-//    chassisController.moveDistance(-10_in);
-//16
-//    chassisController.waitUntilSettled();
-    	master.set_text(0, 0, "B");
-    set_tank(-80,-15);
-    pros::delay(1600);
-      
-//    chassisController.turnAngle(-366);
-//    chassisController.waitUntilSettled();
-
- //   	master.set_text(0, 0, "C");
-    intake_relative(-400,180);
-    set_tray_pid(PROTECTED);
-    chassisController.moveDistance(44_in);
-//    autonController.moveDistance(16.5_in);
-//    autonController.waitUntilSettled();
-    tray_outtake();
-    set_tank(-80,-80);
-    pros::delay(1500);
-	chassisController.stop();
-	autonController.stop();
-}
-
-void unprotected(){
-// preauton
+/* preauton
     set_tank(127,127);
     set_arm(-10);
     pros::delay(100);
     set_intake(-127);
-    set_tank(-90,-90);
-    pros::delay(100);
-    set_arm(-20);
-    
+    set_tank(-70,-70);
+    pros::delay(200);
+*/
+//intake row
     set_intake(127);
+    set_arm(-20);
+    pros::delay(100);
     chassisController.moveDistance(44_in);
     chassisController.waitUntilSettled();
     chassisController.moveDistance(4_in);
     chassisController.waitUntilSettled();
     set_arm(-10);
     pros::delay(100);
-    chassisController.moveDistance(-26_in);
-    chassisController.waitUntilSettled();
-    chassisController.turnAngle(-370);
-    chassisController.waitUntilSettled();
+
+//swing turn
+    set_tank(-80,-15);
+    pros::delay(1600);
+
+//outtake
     intake_relative(-400,180);
     set_tray_pid(PROTECTED);
-    autonController.moveDistance(16.5_in);
-    autonController.waitUntilSettled();
+    chassisController.moveDistance(44_in);
     tray_outtake();
+
+//resets everything
+    set_tank(-80,-80);
+    pros::delay(500);
+    set_tray_pid(TRAY_IN);
+    set_tank(0,0);
 	chassisController.stop();
 	autonController.stop();
-
-//    profileController.setTarget("B", true);
-//    profileController.waitUntilSettled();
-//    profileController.removePath("B");
-    //-45_deg for red;
-//    chassisController.turnAngle(45_deg);
-//    chassisController.moveDistance(14_in);
-    tray_outtake(); 
-}   
+}
 
 void eightCube(){
     // preauton

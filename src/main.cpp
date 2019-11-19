@@ -59,19 +59,10 @@ void competition_initialize() {}
 
 void autonomous() {
 
-	//chassis_straight();
-	//chassis_turn();
-	
-	
-	//path_straight();
-	//path_curve();
-
-//preauton();
-	
-	
-	//blue
+	//preauton();
 	init_unpro();
-//	unprotected();
+	//unprotected();
+
 /*
 	if (selector == 1)
 		unpro();
@@ -107,5 +98,3 @@ void opcontrol() {
 		pros::delay(20);
 	}
 }
-//1117
-//1727

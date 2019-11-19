@@ -133,7 +133,7 @@ void arm_control(void *)
                 case 1:
                     if(tray_counter==0){
                         arm_pid_t.resume();
-                        set_tray_pid(PROTECTED-200);
+                        set_tray_pid(PROTECTED+100);
                         set_arm_pid(1117);
                     }
                     break;
