@@ -133,7 +133,7 @@ void arm_control(void *)
                         pros::delay(500);
                         set_tray_pid(TRAY_IN);
                         arm_pid_t.suspend();
-                        set_arm(-10);    
+                        set_arm(-20);    
                     }
                     break;
                 case 1:
@@ -143,20 +143,15 @@ void arm_control(void *)
                         set_arm_pid(1117);
                         //1123
                     }
-                    arm_counter = -1;
                     break;
-                /* case 2:
+                 case 2:
                     if(tray_counter==0){
                         //1700
                         set_arm_pid(1437);
                     }
                     arm_counter = -1;
-                    break; */
-/*                case 3:
-                    set_arm_pid(605);
-                    counter = -1;
-                    break;
-*/
+                    break; 
+
             }
         }
         pros::delay(20);

@@ -38,11 +38,11 @@ void init_unpro(){
     drive_hold();
 /* preauton
     set_tank(127,127);
-    set_arm(-10);
     pros::delay(100);
-    set_intake(-127);
     set_tank(-70,-70);
+    set_tray_pid(PROTECTED);
     pros::delay(200);
+    set_tray_pid(TRAY_IN);
 */
 //intake row
     set_intake(127);
@@ -52,8 +52,6 @@ void init_unpro(){
     chassisController.waitUntilSettled();
     chassisController.moveDistance(4_in);
     chassisController.waitUntilSettled();
-    set_arm(-10);
-    pros::delay(100);
 
 //swing turn
     set_tank(-80,-15);
@@ -77,12 +75,10 @@ void init_unpro(){
 void eightCube(){
     // preauton
     set_tank(127,127);
-    set_arm(-10);
     pros::delay(100);
     set_intake(-127);
     set_tank(-90,-90);
     pros::delay(100);
-    set_arm(-20);
     
     set_intake(127);
     pros::delay(100);
@@ -95,7 +91,6 @@ void eightCube(){
     chassisController.waitUntilSettled();
 
     set_intake(10);
-    set_arm(-10);
     pros::delay(100);
     chassisController.turnAngle(-380);
     chassisController.waitUntilSettled();

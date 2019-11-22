@@ -32,12 +32,10 @@ pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
 pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
 pros::Motor l_intake(2, MOTOR_GEARSET_18);
-pros::Motor r_intake(3, MOTOR_GEARSET_18, true);
+pros::Motor r_intake(4, MOTOR_GEARSET_18, true);
 pros::Motor tray(1, MOTOR_GEARSET_18);
 pros::Motor arm(12, MOTOR_GEARSET_18);
-//port 3, 11 available for swapping onto
-//port 20, 19, 18, 17, 10, 9, 8, 7, 6, 5, 4 dead
-//7
+//port 3 ded
 
 //Sensors
 pros::ADIPotentiometer tray_pot('E');
