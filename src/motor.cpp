@@ -2,7 +2,7 @@
 
 // Otherwise, you should specify the gearset and scales for your robot
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {13, 14}, {-15, -16},
+    {13, 14}, {-15, -17},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
@@ -30,12 +30,12 @@ AsyncMotionProfileController profileController = AsyncControllerFactory::motionP
 pros::Motor lb_drive(14, MOTOR_GEARSET_18);
 pros::Motor lf_drive(13, MOTOR_GEARSET_18);
 pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
-pros::Motor rb_drive(16, MOTOR_GEARSET_18, true);
-pros::Motor l_intake(2, MOTOR_GEARSET_18);
-pros::Motor r_intake(4, MOTOR_GEARSET_18, true);
+pros::Motor rb_drive(17, MOTOR_GEARSET_18, true);
+pros::Motor l_intake(9, MOTOR_GEARSET_18);
+pros::Motor r_intake(6, MOTOR_GEARSET_18, true);
 pros::Motor tray(1, MOTOR_GEARSET_18);
 pros::Motor arm(12, MOTOR_GEARSET_18);
-//port 3 ded
+//port 3, 4, 16, 5, 2, 7, 8,  ded
 
 //Sensors
 pros::ADIPotentiometer tray_pot('E');
@@ -62,6 +62,12 @@ int clipnum(int input, int clip)
 }
 
 //Set Motors
+void set_tank_d(double input_l, double input_r){
+    lb_drive.move(input_l);
+    lf_drive.move(input_l);
+    rf_drive.move(input_r);
+    rb_drive.move(input_r);
+}
 void set_tank(int input_l, int input_r)
 {
     lb_drive.move(input_l);

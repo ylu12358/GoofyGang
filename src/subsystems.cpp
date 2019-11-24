@@ -85,14 +85,17 @@ void tray_control(void *)
             switch (tray_counter)
             {
             case 0:
+            //intake
                 tray_pid_t.resume();
                 set_tray_pid(TRAY_IN);
                 intake_coast();
                 break;
             case 1:
+            //protected (smaller horizontal space)
                 set_tray_pid(PROTECTED);
                 break;
             case 2: 
+            //score
                 tray_pid_t.suspend();
                 tray_outtake();
                 tray_counter = -1;
@@ -129,17 +132,19 @@ void arm_control(void *)
                     if(tray_counter==0)
                     {
                         //10
-                        set_arm_pid(-20);
+                        //arm down
+                        set_arm_pid(0);
                         pros::delay(500);
                         set_tray_pid(TRAY_IN);
                         arm_pid_t.suspend();
-                        set_arm(-20);    
+                        set_arm(-30);    
                     }
                     break;
                 case 1:
                     if(tray_counter==0){
+                        //first tower height
                         arm_pid_t.resume();
-                        set_tray_pid(PROTECTED+100);
+                        set_tray_pid(PROTECTED-100);
                         set_arm_pid(1117);
                         //1123
                     }
@@ -147,6 +152,7 @@ void arm_control(void *)
                  case 2:
                     if(tray_counter==0){
                         //1700
+                        //second tower height
                         set_arm_pid(1437);
                     }
                     arm_counter = -1;

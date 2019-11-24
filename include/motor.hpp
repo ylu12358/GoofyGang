@@ -43,6 +43,7 @@ void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
 void intake_relative(int pos, int vel);
+void set_tank_d(double input_l, double input_r);
 
 #define TRAY_OUT 1950
 #define PROTECTED 1100

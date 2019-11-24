@@ -58,9 +58,11 @@ void competition_initialize() {}
 //----------------------------------------------------------------------------
 
 void autonomous() {
-
+	oneCube();
+//	skillTime();
 	//preauton();
-	init_unpro();
+//	unproBlue();
+//protectedTime();
 	//unprotected();
 
 /*
