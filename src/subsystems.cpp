@@ -4,16 +4,18 @@ int arm_counter = 0;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1420)
+    
+    while (get_tray_pos() < 1470)
         set_tray(127);
-    while (get_tray_pos() < 1800)
-        set_tray(40);
+    while (get_tray_pos() < 1760)
+        set_tray(50);
     while (get_tray_pos() < TRAY_OUT)
     {
         set_intake(-40);
         set_tray(20);
         intake_coast();
     }
+    
     set_tray(0);
     set_intake(0);
 }
@@ -120,10 +122,15 @@ void arm_control(void *)
     set_arm_pid(0);
     arm_coast();
     while(true){
-        if(master.get_digital(DIGITAL_L2))
+        if(tray_counter == 0 && arm_counter == 0){
+            arm_pid_t.suspend();
+            set_arm(-20);
+        } else if(master.get_digital(DIGITAL_L2))
         {
             arm_counter++;
-            //master.set_text(0, 0, counter);
+            if(arm_counter == 1 && tray_counter == 0){
+                arm_pid_t.resume();                
+            }
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
             switch(arm_counter)
@@ -136,14 +143,11 @@ void arm_control(void *)
                         set_arm_pid(0);
                         pros::delay(500);
                         set_tray_pid(TRAY_IN);
-                        arm_pid_t.suspend();
-                        set_arm(-30);    
                     }
                     break;
                 case 1:
                     if(tray_counter==0){
                         //first tower height
-                        arm_pid_t.resume();
                         set_tray_pid(PROTECTED-100);
                         set_arm_pid(1117);
                         //1123

@@ -58,13 +58,13 @@ void competition_initialize() {}
 //----------------------------------------------------------------------------
 
 void autonomous() {
-	oneCube();
+//	oneCube();
 //	skillTime();
 	//preauton();
 //	unproBlue();
 //protectedTime();
 	//unprotected();
-
+chassis_straight();
 /*
 	if (selector == 1)
 		unpro();

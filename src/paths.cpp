@@ -9,7 +9,7 @@ void init_skills()
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
 
 void chassis_straight(){
-    chassisController.moveDistanceAsync(96_in);
+    chassisController.moveDistanceAsync(36_in);
 }
 
 void chassis_turn(){
