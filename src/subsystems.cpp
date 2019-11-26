@@ -157,9 +157,8 @@ void arm_control(void *)
                     }
                     arm_counter = -1;
                     break; 
-
             }
-        } else if(tray_counter == 0 && arm_counter == 0){
+        } else if(tray_counter == 0 && arm_counter <= 0){
             arm_pid_t.suspend();
             set_arm(-25);
         }
