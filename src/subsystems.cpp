@@ -122,15 +122,11 @@ void arm_control(void *)
     set_arm_pid(0);
     arm_coast();
     while(true){
-        if(tray_counter == 0 && arm_counter == 0){
-            arm_pid_t.suspend();
-            set_arm(-20);
-        } else if(master.get_digital(DIGITAL_L2))
+        if(master.get_digital(DIGITAL_L2))
         {
+            set_arm(0);
             arm_counter++;
-            if(arm_counter == 1 && tray_counter == 0){
-                arm_pid_t.resume();                
-            }
+            arm_pid_t.resume();                
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
             switch(arm_counter)
@@ -163,6 +159,9 @@ void arm_control(void *)
                     break; 
 
             }
+        } else if(tray_counter == 0 && arm_counter == 0){
+            arm_pid_t.suspend();
+            set_arm(-25);
         }
         pros::delay(20);
     }
