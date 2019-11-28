@@ -5,7 +5,6 @@
 using namespace okapi;
 
 extern ChassisControllerPID chassisController;
-extern ChassisControllerPID autonController;
 extern AsyncMotionProfileController profileController;
 
 extern int selector;
@@ -13,16 +12,21 @@ extern int selector;
 int sgn(int input);
 int clipnum(int input, int clip);
 
+void set_tank(double input_l, double input_r);
 void set_tank(int input_l, int input_r);
-void set_intake(int input);
-void set_tray(int input);
-void set_arm(int input);
+void slow_chassis();
+void normal_chassis();
 void drive_hold();
 void drive_coast();
+void set_intake(int input);
+void intake_relative(int pos, int vel);
+void set_intake_speed(int32_t input);
 void intake_hold();
 void intake_coast();
+void set_tray(int input);
 void tray_hold();
 void tray_coast();
+void set_arm(int input);
 void arm_hold();
 void arm_coast();
 void reset_drive_encoder();
@@ -42,10 +46,9 @@ void set_tray_pid(int input);
 void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
-void intake_relative(int pos, int vel);
-void set_tank_d(double input_l, double input_r);
+void drive_straight(int speed, int dis);
 
-#define TRAY_OUT 1950
+#define TRAY_OUT 1980
 #define PROTECTED 1100
 #define TRAY_IN 750
 

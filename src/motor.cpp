@@ -1,6 +1,5 @@
 #include "main.h"
 
-// Otherwise, you should specify the gearset and scales for your robot
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {13, 14}, {-15, -17},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
@@ -10,21 +9,13 @@ ChassisControllerPID chassisController = ChassisControllerFactory::create(
     AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
     {4.125_in, 12.28125_in});
 
-ChassisControllerPID autonController = ChassisControllerFactory::create(
-    {13, 14}, {-15, -16},
-    IterativePosPIDController::Gains{0.0015, 0, 0.000}, //{0.001, 0, 0.0001}}//.0006
-    //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
-    IterativePosPIDController::Gains{0, 0, 0},
-    IterativePosPIDController::Gains{0.017, 0.0001, 0.0000}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
-    AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
-    {4.125_in, 12.28125_in});
-
-
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
-    0.8,                // Maximum linear velocity of the Chassis in m/s
-    1.75,               // Maximum linear acceleration of the Chassis in m/s/s
-    15.0,               // Maximum linear jerk of the Chassis in m/s/s/s
+    0.8,                // Maximum linear velocity in m/s
+    1.75,               // Maximum linear acceleration in m/s/s
+    15.0,               // Maximum linear jerk in m/s/s/s
     chassisController); // Chassis Controller
+
+int selector;
 
 //Motors
 pros::Motor lb_drive(14, MOTOR_GEARSET_18);
@@ -38,9 +29,8 @@ pros::Motor arm(12, MOTOR_GEARSET_18);
 //port 3, 4, 16, 5, 2, 7, 8,  ded
 
 //Sensors
-pros::ADIPotentiometer tray_pot('E');
-pros::ADIPotentiometer arm_pot('F');
-pros::ADIPotentiometer auton_selector('B');
+pros::ADIPotentiometer tray_pot(5);
+pros::ADIPotentiometer auton_selector(6);
 
 //Math
 int sgn(int input)
@@ -62,7 +52,7 @@ int clipnum(int input, int clip)
 }
 
 //Set Motors
-void set_tank_d(double input_l, double input_r){
+void set_tank(double input_l, double input_r){
     lb_drive.move(input_l);
     lf_drive.move(input_l);
     rf_drive.move(input_r);
@@ -76,23 +66,22 @@ void set_tank(int input_l, int input_r)
     rb_drive.move(input_r);
 }
 
-void set_intake(int input)
+void slow_chassis()
 {
-    l_intake.move(input);
-    r_intake.move(input);
+    lb_drive.set_voltage_limit(8000);
+    lf_drive.set_voltage_limit(8000);
+    rf_drive.set_voltage_limit(8000);
+    rb_drive.set_voltage_limit(8000);
 }
 
-void set_tray(int input)
+void normal_chassis()
 {
-    tray.move(input);
+    lb_drive.set_voltage_limit(10000);
+    lf_drive.set_voltage_limit(10000);
+    rf_drive.set_voltage_limit(10000);
+    rb_drive.set_voltage_limit(10000);
 }
 
-void set_arm(int input)
-{
-    arm.move(input);
-}
-
-//Stop Motors
 void drive_hold()
 {
     lb_drive.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -109,6 +98,24 @@ void drive_coast()
     rb_drive.set_brake_mode(MOTOR_BRAKE_COAST);
 }
 
+void set_intake(int input)
+{
+    l_intake.move(input);
+    r_intake.move(input);
+}
+
+void intake_relative(int pos, int vel)
+{
+    l_intake.move_relative(pos, vel);
+    r_intake.move_relative(pos, vel);
+}
+
+void set_intake_speed(int32_t input)
+{
+    l_intake.set_voltage_limit(input);
+    r_intake.set_voltage_limit(input);
+}
+
 void intake_hold()
 {
     l_intake.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -121,6 +128,11 @@ void intake_coast()
     r_intake.set_brake_mode(MOTOR_BRAKE_COAST);
 }
 
+void set_tray(int input)
+{
+    tray.move(input);
+}
+
 void tray_hold()
 {
     tray.set_brake_mode(MOTOR_BRAKE_HOLD);
@@ -129,6 +141,11 @@ void tray_hold()
 void tray_coast()
 {
     tray.set_brake_mode(MOTOR_BRAKE_COAST);
+}
+
+void set_arm(int input)
+{
+    arm.move(input);
 }
 
 void arm_hold()
@@ -204,33 +221,48 @@ void auto_selector()
 {
     pros::delay(300);
 
-    //RED FRONT
-    if (get_auton_select() > 0 && get_auton_select() < 1000)
+    //unprotected red
+    if (get_auton_select() > 3850 && get_auton_select() < 4096)
     {
         selector = 1;
         return;
     }
 
-    //BLUE FRONT
-    else if (get_auton_select() > 1000 && get_auton_select() < 2000)
+    //unprotected blue
+    else if (get_auton_select() > 2890 && get_auton_select() < 3850)
     {
         selector = 2;
         return;
     }
 
-    //RED BACK
-    else if (get_auton_select() > 2000 && get_auton_select() < 3000)
+    //protected red
+    else if (get_auton_select() > 2065 && get_auton_select() < 2890)
     {
         selector = 3;
         return;
     }
 
-    //BLUE BACK
-    else if (get_auton_select() > 3000 && get_auton_select() < 4096)
+    //protected blue
+    else if (get_auton_select() > 1427 && get_auton_select() < 2065)
     {
         selector = 4;
         return;
     }
+
+    //skills
+    else if (get_auton_select() > 712 && get_auton_select() < 1427)
+    {
+        selector = 5;
+        return;
+    }
+
+    //one cube for now
+    else if (get_auton_select() > 0 && get_auton_select() < 712)
+    {
+        selector = 6;
+        return;
+    }
+    
     return;
 }
 
@@ -249,7 +281,6 @@ void tray_pid(void *)
         pros::delay(20);
     }
 }
-
 
 int a_target;
 void set_arm_pid(int input)
@@ -270,24 +301,40 @@ void arm_pid(void *)
     while (true)
     {
         error = a_target - get_arm_pos();
-        proportion = error*kp;
-        if(error<integralActiveZone&&error!=0){
+        proportion = error * kp;
+        if(error < integralActiveZone && error!=0){
             errorT++;
         } else{
             errorT = 0;
         }
-        if(errorT>50){
+        if(errorT > 50){
             errorT = 50;
         }
-        integral = errorT*ki;
-        power = integral+proportion;
+        integral = errorT * ki;
+        power = integral + proportion;
         set_arm(power);
         pros::delay(20);
     }
 }
 
-void intake_relative(int pos, int vel)
+void drive_straight(int speed, int dis)
 {
-    l_intake.move_relative(pos, vel);
-    r_intake.move_relative(pos, vel);
+    reset_drive_encoder();
+    //tank_brake();
+    int l_output, r_output;
+    int speed_output;
+    int error = dis - get_left_drive_pos();
+    float kp = 0.07;
+    while (abs(error) > 10)
+    {
+        error = dis - get_left_drive_pos();
+        speed_output = clipnum(error * kp, speed);
+
+        l_output = speed_output;
+        r_output = speed_output;
+        set_tank(l_output, r_output);
+
+        pros::delay(2);
+    }
+    set_tank(0, 0);
 }

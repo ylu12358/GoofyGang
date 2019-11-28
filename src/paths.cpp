@@ -2,18 +2,21 @@
 
 int selector = 0;
 
-void init_skills()
-{
-}
-
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
 
-void chassis_straight(){
+void chassis_straight()
+{
     chassisController.moveDistanceAsync(36_in);
 }
 
-void chassis_turn(){
+void chassis_turn()
+{
     chassisController.turnAngle(90_deg);
+}
+
+void init_skills()
+{
+    //skills paths
 }
 
 void path_straight(){
@@ -33,196 +36,6 @@ void path_curve(){
 void eightPath(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{44_in, -23_in, 0_deg}}, "A");
 }
-
-void unproBlue(){
-    drive_hold();
-/* preauton
-    set_tank(127,127);
-    pros::delay(100);
-    set_tank(-70,-70);
-    set_tray_pid(PROTECTED);
-    pros::delay(200);
-    set_tray_pid(TRAY_IN);
-*/
-//intake row
-    set_intake(127);
-    set_arm(-20);
-    pros::delay(100);
-    chassisController.moveDistance(44_in);
-    chassisController.waitUntilSettled();
-    chassisController.moveDistance(8_in);
-    chassisController.waitUntilSettled();
-
-//swing turn
-    set_tank(-80,-15);
-    pros::delay(1600);
-
-//outtake
-    intake_relative(-400,180);
-    set_tray_pid(PROTECTED);
-    chassisController.moveDistance(44_in);
-    tray_outtake();
-
-//resets everything
-    set_tank(-80,-80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0,0);
-	chassisController.stop();
-	autonController.stop();
-}
-
-void unproRed(){
-    drive_hold();
-
-    set_tank(127,127);
-    pros::delay(230);
-    set_tank(-70,-70);
-    set_tray_pid(PROTECTED);
-    pros::delay(300);
-    set_tray_pid(TRAY_IN);
-
-//intake row
-    set_intake(127);
-    set_arm(-30);
-    pros::delay(100);
-    chassisController.moveDistance(44_in);
-    chassisController.waitUntilSettled();
-    chassisController.moveDistance(8_in);
-    chassisController.waitUntilSettled();
-
-//swing turn
-    set_tank_d(-15,-78.75);
-    pros::delay(1600);
-
-//outtake
-    intake_relative(-400,180);
-    set_tray_pid(PROTECTED);
-    chassisController.moveDistance(43_in);
-    set_tank(20,20);
-    pros::delay(400);
-    tray_outtake();
-
-//resets everything
-    set_tank(-80,-80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0,0);
-	chassisController.stop();
-	autonController.stop();
-}
-
-
-void skillTime(){
-    drive_hold();
-//
-    set_tank(127,127);
-    pros::delay(230);
-    set_tank(-70,-70);
-    set_tray_pid(PROTECTED);
-    pros::delay(300);
-    set_tray_pid(TRAY_IN);
-//
-
-//intake row
-    set_intake(127);
-    set_arm(-20);
-
-    set_tank_d(25.3,25);
-    pros::delay(16000);
-/*    set_tank(0,20);
-    pros::delay(100);
-    set_tank(30,30);
-    pros::delay(100);
-    set_tank(20,0);
-    pros::delay(100);
-    set_tank(50,50);
-    pros::delay(2000);
-    */
-//remove momentum
-    set_tank(-20,-20);
-    pros::delay(1000);
-//point turn
-    set_tank(40,-40);
-    set_tray_pid(PROTECTED);
-    pros::delay(1700);
-
-    //drive to score
-    set_tank(30,30);
-    set_intake(0);
-    pros::delay(5000);
-    set_tank(20,0);
-    intake_relative(-250,180);
-    pros::delay(1000);
-    tray_outtake();
-
-//resets everything
-    set_tank(-80,-80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0,0);
-}
-
-void protectedTime(){
-    
-    drive_hold();
-// preauton
-    set_tank(127,127);
-    pros::delay(330);
-    set_tank(-70,-70);
-    set_intake(0);
-    set_tray_pid(PROTECTED);
-    set_arm(-20);
-    pros::delay(400);
-    set_tank(-10,-10);
-    pros::delay(1000);
-    set_tray_pid(TRAY_IN);
-
-//intake row
-    set_intake(90);
-    set_tank(40,40);
-    pros::delay(1500);
-
-//point turn
-    set_tank(-40,40);
-    pros::delay(1400);
-
-//row
-    set_tank(40,40);
-    pros::delay(1000);
-
-//turn
-/*    set_tank(-40,40);
-    pros::delay(600);
-    intake_relative(-400,180);
-*/
-//score
-    set_tank(40,40);
-    pros::delay(900);
-
-//turn
-/*
-    set_tank(-40,40);
-
-    pros::delay(750);*/
-//drive
-    set_tank(20,20);
-    //intake_relative(-400,180);
-    set_intake(0);
-    set_tray_pid(PROTECTED);
-
-    pros::delay(4000);
-    set_tank(0,0);
-    pros::delay(100);
-    tray_outtake();
-
-//resets everything
-    set_tank(-80,-80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0,0);
-}
-
 
 void eightCube(){
     // preauton
@@ -252,17 +65,6 @@ void eightCube(){
     chassisController.waitUntilSettled();
     chassisController.stop();
 
-}
-
-void oneCube(){
-    set_tank(70,70);
-    pros::delay(700);
-    set_tank(-70,-70);
-    pros::delay(700);
-    set_tank(0,0);
-    set_tray_pid(PROTECTED);
-    pros::delay(1700);
-    set_tray_pid(TRAY_IN);
 }
 
 /*
@@ -355,7 +157,7 @@ void init_upb(){
 void skills()
 {
 }
-/*
+
 void pro_red()
 {
     //forward
@@ -412,8 +214,7 @@ void pro_blue()
     set_intake(0);
     
 }
-*/
-/*
+
 void unpro(){
     
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
@@ -463,10 +264,8 @@ void unpro(){
     profileController.waitUntilSettled();
     profileController.removePath("F");
 }
-*/
 
 
-/*
 void unpro_maybe()
 {
     //intake, 
@@ -511,12 +310,10 @@ void unpro_maybe()
     tray_outtake();
     set_tank(-70,-70);
     pros::delay(100);
-    tray_intake();
+    set_tray_pid(TRAY_IN);
     set_tank(0,0);
 }
-*/
 
-/*
 void full()
 {
     //First row
@@ -579,10 +376,9 @@ void full()
     tray_outtake();
     set_tank(-100,-100);
     pros::delay(100);
-    tray_intake();
+    set_tray_pid(TRAY_IN);
 }
-*/
-/*
+
 void blueTime(){
    //ignore (first row)
     set_intake(-127);
@@ -646,8 +442,7 @@ void blueTime(){
     pros::delay(800);
     set_tank(0,0);
 }
-*/
-/*
+
 void redTime()
 {
     //Row of 4
@@ -683,4 +478,3 @@ void redTime()
     pros::delay(800);
     set_tank(0,0);
 }
-*/

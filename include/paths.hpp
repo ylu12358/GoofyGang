@@ -26,15 +26,7 @@ void chassis_turn();
 void path_straight();
 void path_curve();
 
-void unproBlue();
-void unproRed();
-
 void eightPath();
 void eightCube();
 
-void skillTime();
-void protectedTimeRed();
-void protectedTime();
-
-void oneCube();
 #endif
