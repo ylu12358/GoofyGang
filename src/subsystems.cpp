@@ -134,7 +134,6 @@ void arm_control(void *)
                 case 0:
                     if(tray_counter==0)
                     {
-                        //10
                         //arm down
                         set_arm_pid(0);
                         pros::delay(500);
@@ -146,12 +145,10 @@ void arm_control(void *)
                         //first tower height
                         set_tray_pid(PROTECTED-100);
                         set_arm_pid(1117);
-                        //1123
                     }
                     break;
-                 case 2:
+                case 2:
                     if(tray_counter==0){
-                        //1700
                         //second tower height
                         set_arm_pid(1437);
                     }
