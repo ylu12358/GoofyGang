@@ -1,9 +1,7 @@
 #include "main.h"
 
-int arm_counter = 0;
+int arm_counter = 1;
 int tray_counter = 0;
-pros::Task tray_pid_t(tray_pid, nullptr, "name");
-pros::Task arm_pid_t(arm_pid, nullptr, "name");
 
 void tray_outtake()
 {
@@ -30,7 +28,9 @@ void intake_control(void *)
     {
         if (master.get_digital(DIGITAL_R1))
             set_intake(127);
-        else if (arm_counter == 0)
+        else if (master.get_digital(DIGITAL_R2))
+            set_intake(-127);
+        else if (arm_counter == 1)
             set_intake(10);
         else
             set_intake(0);
@@ -67,13 +67,14 @@ void tray_control(void *)
     {
         if (master.get_digital(DIGITAL_L1))
         {
-            tray_counter++;
+            if(arm_counter == 1)
+                tray_counter++;
             while (master.get_digital(DIGITAL_L1))
                 pros::delay(10);
             switch (tray_counter)
             {
             case 0: //intake
-                tray_pid_t.resume();
+                resume_tray();
                 set_tray_pid(TRAY_IN);
                 intake_coast();
                 break;
@@ -81,7 +82,7 @@ void tray_control(void *)
                 set_tray_pid(PROTECTED);
                 break;
             case 2: //score
-                tray_pid_t.suspend();
+                suspend_tray();
                 tray_outtake();
                 tray_counter = -1;
                 break;
@@ -94,51 +95,55 @@ void tray_control(void *)
 void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
+    
     set_arm(-80);
     pros::delay(100);
     reset_arm_encoder();
     set_arm(0);
     set_arm_pid(0);
     arm_coast();
+    bool pid_on = true;
+
     while(true){
         if(master.get_digital(DIGITAL_L2))
         {
             set_arm(0);
-            arm_counter++;
-            arm_pid_t.resume();                
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
             switch(arm_counter)
             {
             case 0: //arm down
-                if (tray_counter == 0)
+                if (tray_counter <= 0)
                 {
                     set_arm_pid(0);
                     pros::delay(500);
                     set_tray_pid(TRAY_IN);
                     set_intake_speed(12000);
+                    arm_counter++;
                 }
                 break;
             case 1: //first tower height
-                if (tray_counter == 0)
+                if (tray_counter <= 0)
                 {
+                    resume_arm();
                     set_tray_pid(PROTECTED - 100);
                     set_arm_pid(1117);
                     set_intake_speed(8500);
+                    arm_counter++;
                 }
                 break;
             case 2: //second tower height
-                if (tray_counter == 0)
+                if (tray_counter <= 0)
                 {
                     set_arm_pid(1437);
                     set_intake_speed(6500);
                 }
-                arm_counter = -1;
+                arm_counter = 0;
                 break; 
             }
-        } else if(tray_counter == 0 && arm_counter <= 0){
-            arm_pid_t.suspend();
-            set_arm(-25);
+        } else if(get_arm_pos() < 20 && arm_counter == 1){
+            suspend_arm();
+            set_arm(-55);
             reset_arm_encoder();
             set_intake_speed(12000);
         }

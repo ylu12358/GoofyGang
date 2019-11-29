@@ -9,5 +9,6 @@ void unproBlue();
 void protectedTime();
 
 void skillsTime();
+void skills();
 
 #endif

@@ -201,3 +201,27 @@ void skillsTime()
     set_tray_pid(TRAY_IN);
     set_tank(0, 0);
 }
+
+void skills()
+{
+    suspend_tray();
+    set_tray_pid(PROTECTED + 100);
+    while (get_tray_pos() < PROTECTED + 100)
+        set_tray(127);
+    set_tray(0);
+    resume_tray();
+    set_arm(-55);
+    set_tray_pid(TRAY_IN);
+    set_intake(127);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    profileController.setTarget("B", true);
+    profileController.waitUntilSettled();
+    set_tank(-127, -127);
+    pros::delay(600);
+    set_tank(0,0);
+    profileController.removePath("B");
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    set_intake(0);
+}

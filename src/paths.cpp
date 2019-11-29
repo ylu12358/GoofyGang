@@ -1,7 +1,5 @@
 #include "main.h"
 
-int selector = 0;
-
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
 
 void chassis_straight()
@@ -16,7 +14,8 @@ void chassis_turn()
 
 void init_skills()
 {
-    //skills paths
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "A");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2_ft, 0_deg}}, "B");
 }
 
 void path_straight(){
@@ -95,12 +94,6 @@ reset tray
 
 */
 
-
-
-
-
-
-/*
 void init_pr()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
@@ -124,8 +117,7 @@ void init_upr()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 275_deg}}, "C");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "D");
 }
-*/
-/*
+
 void init_upb_maybe()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
@@ -137,8 +129,7 @@ void init_upb_maybe()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "E");
     //5.5_in
 }
-*/
-/*
+
 void init_upb(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "B");
@@ -152,10 +143,6 @@ void init_upb(){
     //E,E
     //s-curve (may need to chunk)
     //intake, A, E, E, E, intake, C, D, deploy
-}
-*/
-void skills()
-{
 }
 
 void pro_red()

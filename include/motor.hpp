@@ -13,7 +13,6 @@ int sgn(int input);
 int clipnum(int input, int clip);
 
 void set_tank(double input_l, double input_r);
-void set_tank(int input_l, int input_r);
 void slow_chassis();
 void normal_chassis();
 void drive_hold();
@@ -47,6 +46,10 @@ void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
 void drive_straight(int speed, int dis);
+void suspend_tray();
+void resume_tray();
+void suspend_arm();
+void resume_arm();
 
 #define TRAY_OUT 1980
 #define PROTECTED 1100

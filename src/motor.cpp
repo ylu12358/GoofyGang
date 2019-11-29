@@ -1,7 +1,7 @@
 #include "main.h"
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {13, 14}, {-15, -17},
+    {14, 13}, {-17, -15},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
@@ -15,7 +15,7 @@ AsyncMotionProfileController profileController = AsyncControllerFactory::motionP
     15.0,               // Maximum linear jerk in m/s/s/s
     chassisController); // Chassis Controller
 
-int selector;
+int selector = 0;
 
 //Motors
 pros::Motor lb_drive(14, MOTOR_GEARSET_18);
@@ -25,7 +25,7 @@ pros::Motor rb_drive(17, MOTOR_GEARSET_18, true);
 pros::Motor l_intake(9, MOTOR_GEARSET_18);
 pros::Motor r_intake(6, MOTOR_GEARSET_18, true);
 pros::Motor tray(1, MOTOR_GEARSET_18);
-pros::Motor arm(12, MOTOR_GEARSET_18);
+pros::Motor arm(11, MOTOR_GEARSET_18);
 //port 3, 4, 16, 5, 2, 7, 8,  ded
 
 //Sensors
@@ -53,13 +53,6 @@ int clipnum(int input, int clip)
 
 //Set Motors
 void set_tank(double input_l, double input_r){
-    lb_drive.move(input_l);
-    lf_drive.move(input_l);
-    rf_drive.move(input_r);
-    rb_drive.move(input_r);
-}
-void set_tank(int input_l, int input_r)
-{
     lb_drive.move(input_l);
     lf_drive.move(input_l);
     rf_drive.move(input_r);
@@ -337,4 +330,27 @@ void drive_straight(int speed, int dis)
         pros::delay(2);
     }
     set_tank(0, 0);
+}
+
+pros::Task tray_pid_t(tray_pid, nullptr, "name");
+pros::Task arm_pid_t(arm_pid, nullptr, "name");
+
+void suspend_tray()
+{
+    tray_pid_t.suspend();
+}
+
+void resume_tray()
+{
+    tray_pid_t.resume();
+}
+
+void suspend_arm()
+{
+    arm_pid_t.suspend();
+}
+
+void resume_arm()
+{
+    arm_pid_t.resume();
 }

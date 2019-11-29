@@ -59,10 +59,10 @@ void autonomous()
 	if (selector == 4)
 		pro_blue();
 	if (selector == 5)
-		skillsTime();
+		skills();
 	if (selector == 6) //TESTING SLOT
-		//oneCube();
-		chassis_straight();
+		oneCube();
+		//chassis_straight();
 }
 
 void opcontrol()
@@ -79,7 +79,6 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-		pros::lcd::set_text(4, "Number: " + std::to_string(get_auton_select()));
 
 		pros::delay(20);
 	}
