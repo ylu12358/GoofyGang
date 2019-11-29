@@ -68,24 +68,26 @@ void tray_control(void *)
         if (master.get_digital(DIGITAL_L1))
         {
             if(arm_counter == 1)
+            {
                 tray_counter++;
+                switch (tray_counter)
+                {
+                case 0: //intake
+                    resume_tray();
+                    set_tray_pid(TRAY_IN);
+                    intake_coast();
+                    break;
+                case 1: //protected (smaller horizontal space)
+                    set_tray_pid(PROTECTED);
+                    break;
+                case 2: //score
+                    suspend_tray();
+                    tray_outtake();
+                    tray_counter = -1;
+                    break;
+                }
             while (master.get_digital(DIGITAL_L1))
                 pros::delay(10);
-            switch (tray_counter)
-            {
-            case 0: //intake
-                resume_tray();
-                set_tray_pid(TRAY_IN);
-                intake_coast();
-                break;
-            case 1: //protected (smaller horizontal space)
-                set_tray_pid(PROTECTED);
-                break;
-            case 2: //score
-                suspend_tray();
-                tray_outtake();
-                tray_counter = -1;
-                break;
             }
         }
         pros::delay(20);
@@ -113,7 +115,7 @@ void arm_control(void *)
             switch(arm_counter)
             {
             case 0: //arm down
-                if (tray_counter <= 0)
+                if (tray_counter == 0)
                 {
                     set_arm_pid(0);
                     pros::delay(500);
@@ -123,7 +125,7 @@ void arm_control(void *)
                 }
                 break;
             case 1: //first tower height
-                if (tray_counter <= 0)
+                if (tray_counter == 0)
                 {
                     resume_arm();
                     set_tray_pid(PROTECTED - 100);
@@ -133,7 +135,7 @@ void arm_control(void *)
                 }
                 break;
             case 2: //second tower height
-                if (tray_counter <= 0)
+                if (tray_counter == 0)
                 {
                     set_arm_pid(1437);
                     set_intake_speed(6500);
