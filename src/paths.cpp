@@ -148,6 +148,8 @@ void init_upb(){
 
 void pro_red()
 {
+    //grab 4 stack??
+    
     //forward
     set_intake(127);
     profileController.setTarget("A");

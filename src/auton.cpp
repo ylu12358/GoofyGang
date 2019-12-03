@@ -236,6 +236,9 @@ void skillsTime()
 
 void skills()
 {
+//    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}, Point{2_ft, 2.2_ft, 0_deg}, Point{5.1_ft, 2.2_ft, 0_deg}}, "D");
+
+    //put paths in init
     suspend_arm();
     set_arm(127);
     suspend_tray();
@@ -251,8 +254,9 @@ void skills()
     profileController.setTarget("A");
     pros::delay(100);
     set_intake(127);
+    //increase x component of 2nd point: not reaching
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2.2_ft, 0_deg}}, "B");
-    profileController.waitUntilSettled();
+    profileController.waitUntilSettled();   
     normal_chassis();
     profileController.setTarget("B", true);
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
@@ -269,6 +273,7 @@ void skills()
     profileController.setTarget("C");
     set_intake(-20);
     pros::delay(300);
+    //increase time - grip
     set_intake(20);
     profileController.waitUntilSettled();
     //set_tank(20, 20);
