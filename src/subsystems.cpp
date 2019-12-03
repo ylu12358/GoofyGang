@@ -5,14 +5,14 @@ int tray_counter = 0;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1470)
+    while (get_tray_pos() < 1500)
         set_tray(127);
     while (get_tray_pos() < 1760)
-        set_tray(50);
+        set_tray(70);
         set_intake(-40);
     while (get_tray_pos() < TRAY_OUT)
     {
-        set_tray(20);
+        set_tray(50);
         intake_coast();
     }
     
@@ -129,7 +129,7 @@ void arm_control(void *)
                 {
                     resume_arm();
                     set_tray_pid(PROTECTED - 100);
-                    set_arm_pid(1117);
+                    set_arm_pid(1180);
                     set_intake_speed(8500);
                     arm_counter++;
                 }
@@ -137,7 +137,7 @@ void arm_control(void *)
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
-                    set_arm_pid(1437);
+                    set_arm_pid(1530);
                     set_intake_speed(6500);
                 }
                 arm_counter = 0;

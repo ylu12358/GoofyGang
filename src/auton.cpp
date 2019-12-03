@@ -185,6 +185,65 @@ void protectedTime()
 
 void skillsTime()
 {
+    //preauton
+    suspend_arm();
+    set_arm(127);
+    suspend_tray();
+    set_tray(100);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
+    set_arm(-55);
+    while (get_tray_pos() < PROTECTED + 100)
+        set_tray(127);
+    set_tray(0);
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    pros::delay(100);
+
+    //remove 1 cube
+    set_tank(127, 127);
+    set_intake(127);
+    pros::delay(200);
+    set_tank(0,0);
+    turn(100);
+    set_intake(-127);
+    pros::delay(100);
+    turn(-100);
+    //align
+    set_tank(-127,-127);
+    pros::delay(100);
+    set_tank(-40,-40);
+    pros::delay(100);
+    //intake
+    profileController.setTarget("A");
+    set_intake(100);
+    profileController.waitUntilSettled();
+    turn(-135);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5.5_ft, 0_ft, 0_deg}}, "B");
+    //collects that 1 cube
+    profileController.removePath("A");    
+    profileController.waitUntilSettled();
+    set_intake(-20);
+    //align with zone
+    set_tank(20, 20);
+    pros::delay(300);
+    set_intake(20);
+    tray_outtake();
+    set_tank(-127, -127);
+    pros::delay(1000);
+    set_tank(0,0);
+    profileController.removePath("B");
+    //remove pid
+    profileController.flipDisable();
+    chassisController.stop();
+
+    
+
+
+
+
+
+
+    /*
     drive_hold();
     //
     set_tank(127, 127);
@@ -200,7 +259,7 @@ void skillsTime()
     set_arm(-20);
 
     set_tank(25.3, 25.0);
-    pros::delay(16000);
+    pros::delay(16000);*/
     /*    set_tank(0,20);
     pros::delay(100);
     set_tank(30,30);
@@ -210,28 +269,28 @@ void skillsTime()
     set_tank(50,50);
     pros::delay(2000);
     */
-    //remove momentum
-    set_tank(-20, -20);
-    pros::delay(1000);
-    //point turn
-    set_tank(40, -40);
-    set_tray_pid(PROTECTED);
-    pros::delay(1700);
+    // //remove momentum
+    // set_tank(-20, -20);
+    // pros::delay(1000);
+    // //point turn
+    // set_tank(40, -40);
+    // set_tray_pid(PROTECTED);
+    // pros::delay(1700);
 
-    //drive to score
-    set_tank(30, 30);
-    set_intake(0);
-    pros::delay(5000);
-    set_tank(20, 0);
-    intake_relative(-250, 180);
-    pros::delay(1000);
-    tray_outtake();
+    // //drive to score
+    // set_tank(30, 30);
+    // set_intake(0);
+    // pros::delay(5000);
+    // set_tank(20, 0);
+    // intake_relative(-250, 180);
+    // pros::delay(1000);
+    // tray_outtake();
 
-    //resets everything
-    set_tank(-80, -80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
+    // //resets everything
+    // set_tank(-80, -80);
+    // pros::delay(500);
+    // set_tray_pid(TRAY_IN);
+    // set_tank(0, 0);
 }
 
 void skills()
@@ -254,8 +313,7 @@ void skills()
     profileController.setTarget("A");
     pros::delay(100);
     set_intake(127);
-    //increase x component of 2nd point: not reaching
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2.2_ft, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 3_ft, 0_deg}}, "B");
     profileController.waitUntilSettled();   
     normal_chassis();
     profileController.setTarget("B", true);
@@ -269,14 +327,14 @@ void skills()
     profileController.setTarget("A");
     profileController.waitUntilSettled();
     normal_chassis();
-    turn(275);
+    turn(300);
     profileController.setTarget("C");
     set_intake(-20);
-    pros::delay(300);
+    pros::delay(280);
     //increase time - grip
     set_intake(20);
     profileController.waitUntilSettled();
-    //set_tank(20, 20);
+    set_tank(20, 20);
     pros::delay(300);
     tray_outtake();
     set_tank(-127, -127);

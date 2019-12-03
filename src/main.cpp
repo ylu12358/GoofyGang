@@ -59,7 +59,7 @@ void autonomous()
 	if (selector == 4)
 		pro_blue();
 	if (selector == 5)
-		skills();
+		skillsTime();
 	if (selector == 6) //TESTING SLOT
 		oneCube();
 		//chassis_straight();
