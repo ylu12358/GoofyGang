@@ -13,6 +13,7 @@ int sgn(int input);
 int clipnum(int input, int clip);
 
 void set_tank(double input_l, double input_r);
+void set_slow_tank(int input_l, int input_r);
 void slow_chassis();
 void normal_chassis();
 void drive_hold();

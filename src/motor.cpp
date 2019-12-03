@@ -59,12 +59,23 @@ void set_tank(double input_l, double input_r){
     rb_drive.move(input_r);
 }
 
+void set_slow_tank(int input_l, int input_r)
+{
+    input_l = abs(input_l) > 100 ? sgn(input_l) * 100 : input_l;
+    input_r = abs(input_r) > 100 ? sgn(input_r) * 100 : input_r;
+
+    lb_drive.move_velocity(input_l);
+    lf_drive.move_velocity(input_l);
+    rf_drive.move_velocity(input_r);
+    rb_drive.move_velocity(input_r);
+}
+
 void slow_chassis()
 {
-    lb_drive.set_voltage_limit(8000);
-    lf_drive.set_voltage_limit(8000);
-    rf_drive.set_voltage_limit(8000);
-    rb_drive.set_voltage_limit(8000);
+    lb_drive.set_voltage_limit(5000);
+    lf_drive.set_voltage_limit(5000);
+    rf_drive.set_voltage_limit(5000);
+    rb_drive.set_voltage_limit(5000);
 }
 
 void normal_chassis()

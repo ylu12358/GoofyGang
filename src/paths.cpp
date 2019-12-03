@@ -14,8 +14,9 @@ void chassis_turn()
 
 void init_skills()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2_ft, 0_deg}}, "B");
+    //profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
+    //profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2.2_ft, 0_deg}}, "B");
+    //profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
 }
 
 void path_straight(){

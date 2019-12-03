@@ -1,5 +1,37 @@
 #include "main.h"
 
+void turn(int target)
+{
+    //Set parameters
+    drive_hold();
+
+    //Const Ints
+    int thresh = 1;
+    float kp = 0.5;
+    int l_first = get_left_drive_pos();
+    int r_first = get_right_drive_pos();
+
+    //Ints
+    int l_error = target - (get_left_drive_pos() - l_first);
+    int r_error = -target - (get_right_drive_pos() - r_first);
+
+    while (abs(l_error) > thresh && abs(r_error) > thresh)
+    {
+        //Recalculate error in loop
+        l_error = target - (get_left_drive_pos() - l_first);
+        r_error = -target - (get_right_drive_pos() - r_first);
+
+        //Set motors to error*kp (p controller)
+        set_slow_tank((l_error * kp) + (sgn(l_error) + 10), (r_error * kp) + (sgn(r_error) + 10));
+
+        pros::delay(10);
+    }
+    set_tank(0, 0);
+
+    //Give time for the braketype to initiate
+    pros::delay(250);
+}
+
 void oneCube()
 {
     set_tank(70, 70);
@@ -204,24 +236,45 @@ void skillsTime()
 
 void skills()
 {
+    suspend_arm();
+    set_arm(127);
     suspend_tray();
-    set_tray_pid(PROTECTED + 100);
+    set_tray(100);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
+    set_arm(-55);
     while (get_tray_pos() < PROTECTED + 100)
         set_tray(127);
     set_tray(0);
     resume_tray();
-    set_arm(-55);
     set_tray_pid(TRAY_IN);
-    set_intake(127);
+    slow_chassis();
     profileController.setTarget("A");
+    pros::delay(100);
+    set_intake(127);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 2.2_ft, 0_deg}}, "B");
     profileController.waitUntilSettled();
+    normal_chassis();
     profileController.setTarget("B", true);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
     profileController.waitUntilSettled();
     set_tank(-127, -127);
     pros::delay(600);
     set_tank(0,0);
     profileController.removePath("B");
+    slow_chassis();
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-    set_intake(0);
+    normal_chassis();
+    turn(275);
+    profileController.setTarget("C");
+    set_intake(-20);
+    pros::delay(300);
+    set_intake(20);
+    profileController.waitUntilSettled();
+    //set_tank(20, 20);
+    pros::delay(300);
+    tray_outtake();
+    set_tank(-127, -127);
+    pros::delay(1000);
+    set_tank(0,0);
 }
