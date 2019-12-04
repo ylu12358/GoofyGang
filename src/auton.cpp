@@ -183,7 +183,58 @@ void protectedTime()
     set_tank(0, 0);
 }
 
-void skillsTime()
+
+void skillsTime(){
+     //preauton
+    suspend_arm();
+    set_arm(127);
+    suspend_tray();
+    set_tray(100);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
+    set_arm(-55);
+    while (get_tray_pos() < PROTECTED + 100)
+        set_tray(127);
+    set_tray(0);
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    pros::delay(100);
+
+    //off route
+    set_intake(127);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    turn(-135);
+    //turn to face 4 stack, hopefully intake cube next to tower
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    //turn towards wall
+    turn(-405);
+    //picks up one more cube
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+
+    //turn to face and drive to score zone
+    turn(275);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    profileController.removePath("A");    
+
+    set_intake(-20);
+    //align with zone
+    set_tank(20, 20);
+    pros::delay(200);
+    set_intake(20);
+    tray_outtake();
+    set_tank(-127, -127);
+    pros::delay(1000);
+    set_tank(0,0);
+    //remove pid
+    profileController.flipDisable();
+    chassisController.stop();
+   
+}
+
+void skillstime()
 {
     //preauton
     suspend_arm();
