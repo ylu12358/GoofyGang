@@ -216,16 +216,7 @@ void unproBlue2()
 
 void proRed()
 {
-
-}
-
-void proBlue()
-{
-    
-}
-
-void skillsTime(){
-     //preauton
+    //preauton
     suspend_arm();
     set_arm(127);
     suspend_tray();
@@ -257,7 +248,7 @@ void skillsTime(){
     turn(275);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-    profileController.removePath("A");    
+    profileController.removePath("A");
 
     set_intake(-20);
     //align with zone
@@ -267,63 +258,16 @@ void skillsTime(){
     tray_outtake();
     set_tank(-127, -127);
     pros::delay(1000);
-    set_tank(0,0);
+    set_tank(0, 0);
     //remove pid
     profileController.flipDisable();
     chassisController.stop();
-   
+}
+
+void proBlue()
+{
 }
 
 void skills()
-{
-    //preauton
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
-    set_arm(-55);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    pros::delay(100);
-
-    //remove 1 cube
-    set_tank(127, 127);
-    set_intake(127);
-    pros::delay(200);
-    set_tank(0,0);
-    turn(100);
-    set_intake(-127);
-    pros::delay(100);
-    turn(-100);
-    //align
-    set_tank(-127,-127);
-    pros::delay(100);
-    set_tank(-40,-40);
-    pros::delay(100);
-    //intake
-    profileController.setTarget("A");
-    set_intake(100);
-    profileController.waitUntilSettled();
-    turn(-135);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5.5_ft, 0_ft, 0_deg}}, "B");
-    //collects that 1 cube
-    profileController.removePath("A");    
-    profileController.waitUntilSettled();
-    set_intake(-20);
-    //align with zone
-    set_tank(20, 20);
-    pros::delay(300);
-    set_intake(20);
-    tray_outtake();
-    set_tank(-127, -127);
-    pros::delay(1000);
-    set_tank(0,0);
-    profileController.removePath("B");
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
+{      
 }

@@ -10,7 +10,6 @@ void unproBlue2();
 void proRed();
 void proBlue();
 
-void skillsTime();
 void skills();
 
 void oneCube();
