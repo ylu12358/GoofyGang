@@ -23,20 +23,6 @@ void initialize()
 	set_tray_pid(TRAY_IN);
 	
 	auto_selector();
-
-	if (selector == 1)
-		init_upr();
-	if (selector == 2)
-		init_upb();
-	if (selector == 3)
-		init_pr();
-	if (selector == 4)
-		init_pb();
-	if (selector == 5)
-		init_skills();
-	if (selector == 6)
-		init_skills();
-		//one cube
 }
 
 void disabled() {}
@@ -51,13 +37,13 @@ void autonomous()
 	reset_intake_encoder();
 
 	if (selector == 1)
-		unproRed();
+		unproRed1();
 	if (selector == 2)
-		unproBlue();
+		unproBlue1();
 	if (selector == 3)
-		pro_red();
+		proRed();
 	if (selector == 4)
-		pro_blue();
+		proBlue();
 	if (selector == 5)
 		skillsTime();
 	if (selector == 6) //TESTING SLOT

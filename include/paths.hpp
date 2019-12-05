@@ -8,15 +8,6 @@ void init_upr();
 void init_upb();
 
 void skills();
-void pro_red();
-void pro_blue();
-void unpro();
-
-//void timeTime();
-void blueTime();
-void redTime();
-
-
 
 //tests/
 

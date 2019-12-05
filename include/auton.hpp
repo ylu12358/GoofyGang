@@ -1,14 +1,18 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
 
-void oneCube();
+void unproRed1();
+void unproBlue1();
 
-void unproRed();
-void unproBlue();
+void unproRed2();
+void unproBlue2();
 
-void protectedTime();
+void proRed();
+void proBlue();
 
 void skillsTime();
 void skills();
+
+void oneCube();
 
 #endif
