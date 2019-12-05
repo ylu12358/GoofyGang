@@ -70,12 +70,12 @@ void set_slow_tank(int input_l, int input_r)
     rb_drive.move_velocity(input_r);
 }
 
-void slow_chassis()
+void slow_chassis(int volt)
 {
-    lb_drive.set_voltage_limit(5000);
-    lf_drive.set_voltage_limit(5000);
-    rf_drive.set_voltage_limit(5000);
-    rb_drive.set_voltage_limit(5000);
+    lb_drive.set_voltage_limit(volt);
+    lf_drive.set_voltage_limit(volt);
+    rf_drive.set_voltage_limit(volt);
+    rb_drive.set_voltage_limit(volt);
 }
 
 void normal_chassis()

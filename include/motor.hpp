@@ -14,7 +14,7 @@ int clipnum(int input, int clip);
 
 void set_tank(double input_l, double input_r);
 void set_slow_tank(int input_l, int input_r);
-void slow_chassis();
+void slow_chassis(int volt);
 void normal_chassis();
 void drive_hold();
 void drive_coast();
