@@ -214,7 +214,7 @@ void unproBlue2()
     chassisController.stop();
 }
 
-void proRed2()
+void proRed1()
 {
     //preauton
     suspend_arm();
@@ -222,7 +222,7 @@ void proRed2()
     suspend_tray();
     set_tray(100);
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0.7_ft, 0_ft, 0_deg}}, "A");
-    set_arm(-60);
+    set_arm(-50);
     while (get_tray_pos() < PROTECTED + 100)
         set_tray(127);
     set_tray(0);
@@ -265,7 +265,7 @@ void proRed2()
     chassisController.stop();
 }
 
-void proRed1()
+void proRed2()
 {
     //preauton
     suspend_arm();

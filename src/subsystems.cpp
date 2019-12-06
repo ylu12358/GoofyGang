@@ -42,6 +42,7 @@ void drive_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     drive_coast();
+    normal_chassis();
     bool tank = true;
     while (true)
     {

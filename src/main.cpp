@@ -41,7 +41,7 @@ void autonomous()
 	if (selector == 2)
 		unproBlue1();
 	if (selector == 3)
-		proRed2();
+		proRed1();
 	if (selector == 4)
 		proBlue();
 	if (selector == 5)

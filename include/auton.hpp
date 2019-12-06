@@ -7,8 +7,9 @@ void unproBlue1();
 void unproRed2();
 void unproBlue2();
 
-void proRed2();
 void proRed1();
+void proRed2();
+
 void proBlue();
 
 void skills();
