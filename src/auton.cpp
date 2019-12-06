@@ -221,7 +221,8 @@ void proRed1()
     set_arm(127);
     suspend_tray();
     set_tray(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0.7_ft, 0_ft, 0_deg}}, "A");
+    slow_chassis(5000);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.8_ft, 0_ft, 0_deg}}, "A");
     set_arm(-50);
     while (get_tray_pos() < PROTECTED + 100)
         set_tray(127);
@@ -231,20 +232,23 @@ void proRed1()
     pros::delay(100);
 
     //off route
-    set_intake(127);
     profileController.setTarget("A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{10.4_ft, 0_ft, 0_deg}}, "B");
     profileController.waitUntilSettled();
-    turn(-60);
+    turn(-70);
     //turn to face 4 stack, hopefully intake cube next to tower
     slow_chassis(2400);
+    set_intake(60);
     profileController.setTarget("B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.5_ft, 0_ft, 0_deg}}, "C");    
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.5_ft, 0_ft, 0_deg}}, "C");
+    pros::delay(1500);
+    set_intake(127);   
     profileController.waitUntilSettled();
     set_tray_pid(1000);
     normal_chassis();
     //turn towards wall
-    turn(-285);
+    slow_chassis(8000);
+    turn(-260);
     //picks up one more cube
     profileController.setTarget("C");
     profileController.waitUntilSettled();
@@ -257,7 +261,7 @@ void proRed1()
     set_intake(20);
     pros::delay(100);
     tray_outtake();
-    set_tank(-127, -127);
+    set_tank(-80, -80);
     pros::delay(800);
     set_tank(0, 0);
     //remove pid
