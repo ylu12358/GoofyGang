@@ -23,6 +23,16 @@ void initialize()
 	set_tray_pid(TRAY_IN);
 	
 	auto_selector();
+	pros::delay(100);
+	if (selector == 1)
+		init_upr();
+	if (selector == 2)
+		init_upb();
+	if (selector == 3)
+		init_pr();
+	if (selector == 4)
+		init_pb();
+
 }
 
 void disabled() {}
@@ -64,7 +74,6 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-
 		pros::delay(20);
 	}
 }

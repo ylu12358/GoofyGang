@@ -41,26 +41,29 @@ reset tray
 
 void init_pr()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 2_ft, 0_deg}}, "C");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 0_ft, 0_deg}}, "D");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{11_ft, 0_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 2_ft, 0_deg}}, "C");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 0_ft, 0_deg}}, "D");
 }
 
 void init_pb()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, -2_ft, 0_deg}}, "C");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 0_ft, 0_deg}}, "D");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{11_ft, 0_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, -2_ft, 0_deg}}, "C");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 0_ft, 0_deg}}, "D");
 }
 
 void init_upr()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 0_deg}}, "B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 275_deg}}, "C");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "D");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "A");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 275_deg}}, "C");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 0_ft, 0_deg}}, "D");
 }
 
 void init_upb_maybe()
@@ -76,12 +79,14 @@ void init_upb_maybe()
 }
 
 void init_upb(){
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.916_ft, 0_ft, 0_deg}},"E");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{43.5_in, 2_ft, 4.5_deg}}, "C");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -1_ft, 95_deg}}, "D");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{1_ft, 0_ft, 0_deg}}, "F");
+        profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{5_ft, 0_ft, 0_deg}}, "A");
+
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30.5_in, 0_ft, 0_deg}}, "A");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.458_ft, 0_ft, 0_deg}}, "B");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.916_ft, 0_ft, 0_deg}},"E");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{43.5_in, 2_ft, 4.5_deg}}, "C");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -1_ft, 95_deg}}, "D");
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{1_ft, 0_ft, 0_deg}}, "F");
     
     //intake, 
     //30.5_ft
