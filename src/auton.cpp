@@ -87,6 +87,7 @@ void unproRed1()
 
     //remove pid   
     profileController.removePath("A");
+    profileController.removePath("C");
     profileController.flipDisable();
     chassisController.stop();
 
@@ -189,6 +190,7 @@ void unproBlue1()
 
     //remove pid   
     profileController.removePath("A");
+    profileController.removePath("C");
     profileController.flipDisable();
     chassisController.stop();
 
@@ -278,7 +280,7 @@ void proRed1()
     profileController.setTarget("B");
     //generate path during down time
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.5_ft, 0_ft, 0_deg}}, "C");
-    pros::delay(1500);
+    pros::delay(2000);
     set_intake(127);   
     //intakes cube
     profileController.waitUntilSettled();
@@ -286,15 +288,15 @@ void proRed1()
     set_tray_pid(1000);
     slow_chassis(8000);
     //turn towards goal
-    turn(-270);
+    turn(-277);
     //drive toward goal
     profileController.setTarget("C");
     profileController.waitUntilSettled();
     //outtake a bit, so the cubes are lower to the ground
-    set_intake(-20);
+    set_intake(-30);
     pros::delay(300);
     //score
-    set_tank(20, 20);
+    set_tank(35, 35);
     set_intake(20);
     pros::delay(100);
     tray_outtake();
@@ -302,6 +304,9 @@ void proRed1()
     pros::delay(800);
     set_tank(0, 0);
     //remove pid
+    profileController.removePath("A");
+    profileController.removePath("B");
+    profileController.removePath("C");
     profileController.flipDisable();
     chassisController.stop();
 }
@@ -420,6 +425,9 @@ void proBlue()
     pros::delay(800);
     set_tank(0, 0);
     //remove pid
+    profileController.removePath("A");
+    profileController.removePath("B");
+    profileController.removePath("C");
     profileController.flipDisable();
     chassisController.stop();
 }

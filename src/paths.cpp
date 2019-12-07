@@ -41,7 +41,7 @@ reset tray
 
 void init_pr()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{11_ft, 0_ft, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{12_ft, 0_ft, 0_deg}}, "B");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, 2_ft, 0_deg}}, "C");
@@ -50,7 +50,7 @@ void init_pr()
 
 void init_pb()
 {
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{11_ft, 0_ft, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{12_ft, 0_ft, 0_deg}}, "B");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "B");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{6_ft, -2_ft, 0_deg}}, "C");
