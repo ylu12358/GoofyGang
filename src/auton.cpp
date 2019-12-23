@@ -434,7 +434,153 @@ void proBlue()
 
 void skills()
 {      
+    //preauton
+
+    //maybe drive forward
     
+        // set_tank(40,40);
+        // pros::delay(100);
+        // set_tank(-40,-40);
+        // pros::delay(100);
+        
+        // chassisController.moveDistance(12_in);
+        // chassisController.waitUntilSettled();
+        // chassisController.moveDistance(-12_in);
+        // chassisController.waitUntilSettled();
+    normal_chassis();
+    suspend_arm();
+    set_arm(127);
+    suspend_tray();
+    set_tray(100);
+    set_arm(-50);
+    pros::delay(100);
+    while (get_tray_pos() < PROTECTED + 100)
+        set_tray(127);
+    set_tray(0);
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    pros::delay(100);
+
+    //1 cube in tower
+    set_intake(127);
+    chassisController.moveDistance(43_in);
+    chassisController.waitUntilSettled();
+        //outtake a bit, so cube is in intake, not tray
+            set_intake(-20);
+            pros::delay(100);
+            set_intake(0);
+        //arm
+            resume_arm();
+            set_tray_pid(PROTECTED - 100);
+            set_arm_pid(1180);
+    set_intake(-90);
+    pros::delay(100);
+
+    //come back and wall align
+    set_tank(-60,-60);
+    set_intake(127);
+        //arm
+            set_arm_pid(0);
+            pros::delay(500);
+            set_tray_pid(TRAY_IN);
+
+
+    //8 cubes straight
+    chassisController.moveDistanceAsync(120_in);
+        //disable arm
+        suspend_arm();
+        set_arm(-55);
+        reset_arm_encoder();
+
+    chassisController.waitUntilSettled();
+
+    //turn and score
+    chassisController.turnAngle(-45_deg);
+    chassisController.waitUntilSettled();
+    chassisController.moveDistance(20_in);
+    chassisController.waitUntilSettled();
+    set_intake(0);
+    suspend_tray();
+    tray_outtake();
+    
+    //come back
+    chassisController.moveDistanceAsync(-20_in);
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    chassisController.waitUntilSettled();
+    
+    //turn (backward) and wall align with row of cube
+    chassisController.turnAngleAsync(225_deg);
+    set_intake(127);
+    chassisController.waitUntilSettled();
+    set_tank(-60,-60);
+    pros::delay(100);
+
+    //3 cubes straight
+    chassisController.moveDistance(22_in);
+    chassisController.waitUntilSettled();
+        //outtake a bit, so cube is in intake, not tray
+            set_intake(-20);
+            pros::delay(100);
+            set_intake(0);
+
+    //turn and tower on center
+    chassisController.turnAngleAsync(45_deg);
+        //arm
+            resume_arm();
+            set_tray_pid(PROTECTED - 100);
+            set_arm_pid(1180);
+    chassisController.waitUntilSettled();
+        //longer distance = greater voltage
+        set_intake(-127);
+        pros::delay(100);
+
+    //turn
+    chassisController.turnAngleAsync(59_deg);
+    set_intake(0);
+        //arm
+        set_arm_pid(0);
+        pros::delay(500);
+        set_tray_pid(TRAY_IN);
+    chassisController.waitUntilSettled();
+
+    //tower in side tower
+    chassisController.moveDistanceAsync(49.5_in);
+        //outtake a bit, so cube is in intake, not tray
+            set_intake(-20);
+            pros::delay(100);
+            set_intake(0);
+        //arm
+            set_tray_pid(PROTECTED - 100);
+            set_arm_pid(1180);
+    chassisController.waitUntilSettled();
+    set_intake(-90);
+    pros::delay(100);
+
+    //come back with opposite angle (symmetric, lined up with last tower)
+    chassisController.turnAngleAsync(-59_deg);
+    set_intake(0);
+        //arm
+        set_arm_pid(0);
+        pros::delay(500);
+        set_tray_pid(TRAY_IN);
+    chassisController.waitUntilSettled();
+    chassisController.moveDistanceAsync(-49.5_in);
+            //outtake a bit, so cube is in intake, not tray
+            set_intake(-20);
+            pros::delay(100);
+            set_intake(0);
+        //arm
+            set_tray_pid(PROTECTED - 100);
+            set_arm_pid(1180);
+    chassisController.waitUntilSettled();
+
+    //turn and tower
+    chassisController.turnAngle(14_deg);
+        //longer distance = greater voltage
+        set_intake(-127);
+        pros::delay(100);
+
 }
 
 void newRedPro(){
@@ -508,7 +654,7 @@ void newRedUnpro(){
     resume_tray();
     set_tray_pid(TRAY_IN);
     pros::delay(100);
-    //straight 6 cubes, including preload
+    //straight 5 cubes, excluding preload
     set_intake(127);
     chassisController.moveDistance(60_in); //originally 54
     chassisController.waitUntilSettled();
@@ -529,14 +675,15 @@ void newRedUnpro(){
     chassisController.waitUntilSettled();
     normal_chassis();
     //turn to face score zone
-    set_intake(0);
     chassisController.turnAngle(-135_deg);
     chassisController.waitUntilSettled();
-    //score
+    //grab the preload
     chassisController.moveDistanceAsync(30_in);
     // set_intake(-20);
     // pros::delay(100);
     chassisController.waitUntilSettled();
+    set_intake(0);
+    //score
     tray_outtake();
     set_tank(-80, -80);
     pros::delay(800);
@@ -616,7 +763,7 @@ void newBlueUnpro(){
     resume_tray();
     set_tray_pid(TRAY_IN);
     pros::delay(100);
-    //straight 6 cubes, including preload
+    //straight 5 cubes, excluding preload
     set_intake(127);
     chassisController.moveDistance(60_in); //originally 54
     chassisController.waitUntilSettled();
@@ -636,15 +783,16 @@ void newBlueUnpro(){
     chassisController.moveDistance(24.5_in); //originally 22
     chassisController.waitUntilSettled();
     normal_chassis();
-    //turn to face zone
-    set_intake(0);
+    //turn to face score zone
     chassisController.turnAngle(135_deg);
     chassisController.waitUntilSettled();
-    //score
+    //grab the preload
     chassisController.moveDistanceAsync(30_in);
     // set_intake(-20);
     // pros::delay(100);
     chassisController.waitUntilSettled();
+    set_intake(0);
+    //score
     tray_outtake();
     set_tank(-80, -80);
     pros::delay(800);
