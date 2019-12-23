@@ -50,7 +50,7 @@ void drive_control(void *)
             set_tank((master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)), (-master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)));
         else if(tank) //tank
             set_tank(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_Y));
-        if(master.get_digital(DIGITAL_DOWN)){
+        if(master.get_digital(DIGITAL_DOWN)){ //switch
             while (master.get_digital(DIGITAL_DOWN))
                 pros::delay(10);
             tank = !tank;

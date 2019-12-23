@@ -16,4 +16,9 @@ void skills();
 
 void oneCube();
 
+void newRedPro();
+void newRedUnpro();
+void newBluePro();
+void newBlueUnpro();
+void test();
 #endif
