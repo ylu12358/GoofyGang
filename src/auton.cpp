@@ -448,17 +448,13 @@ void skills()
         // chassisController.moveDistance(-12_in);
         // chassisController.waitUntilSettled();
     normal_chassis();
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    set_arm(-50);
+    set_tank(100,100);
     pros::delay(100);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
+    set_tank(-100,-100);
+    suspend_arm();
+    set_arm(-50);
     set_tray_pid(TRAY_IN);
+    set_intake(-127);
     pros::delay(100);
 
     //1 cube in tower
@@ -585,16 +581,10 @@ void skills()
 
 void newRedPro(){
     //preauton
+    normal_chassis();
     suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
     set_arm(-50);
-    pros::delay(100);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
+    set_intake(-127);
     set_tray_pid(TRAY_IN);
     pros::delay(100);
 
@@ -603,17 +593,20 @@ void newRedPro(){
     chassisController.waitUntilSettled();
     chassisController.turnAngle(40_deg);
     chassisController.waitUntilSettled();
+    
     //turn to face 4 stack. Slow chassis to intake, not push, cube
     slow_chassis(9000);
     set_intake(127);
     chassisController.moveDistance(56_in); //originally 50 in
     chassisController.waitUntilSettled();
     normal_chassis();
+    
     //turn to collect 2 cubes
     chassisController.moveDistance(-17_in); 
     chassisController.waitUntilSettled();
     chassisController.turnAngle(140_deg);
     chassisController.waitUntilSettled();
+    
     //go forward to grab cube
     // set_tank(127,127);
     // pros::delay(100);
@@ -621,12 +614,15 @@ void newRedPro(){
     // pros::delay(100);
     chassisController.moveDistance(46_in);
     chassisController.waitUntilSettled();
+    
     //come back to score
     chassisController.moveDistance(-46_in);
     chassisController.waitUntilSettled();
+    
     //turn to face score zone
     chassisController.turnAngle(-45_deg);
     chassisController.waitUntilSettled();
+    
     //score
     chassisController.moveDistance(30_in);
     chassisController.waitUntilSettled();
@@ -635,139 +631,29 @@ void newRedPro(){
     set_tank(-80, -80);
     pros::delay(800);
     set_tank(0, 0);
+    
     //remove pid
     profileController.flipDisable();
     chassisController.stop();
 }
 void newRedUnpro(){
     //preauton
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    slow_chassis(9000);
-    pros::delay(100);
-    set_arm(-50);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    pros::delay(100);
-    //straight 5 cubes, excluding preload
-    set_intake(127);
-    chassisController.moveDistance(60_in); //originally 54
-    chassisController.waitUntilSettled();
     normal_chassis();
-    //2nd row
-    //chassisController.turnAngle(-26.565_deg);
-    //set_tank(-127,-127);
-    //pros::delay(100);
-    //set_tank(0,0);
-    //pros::delay(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 24_in, 0_deg}}, "A");
-    profileController.setTarget("A", true);
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
-    slow_chassis(9000);
-    //straight (3 cube)
+    set_tank(100,100);
+    pros::delay(100);
+    set_tank(-100,-100);
+    suspend_arm();
+    set_arm(-50);
+    set_tray_pid(TRAY_IN);
+    set_intake(-127);
+    pros::delay(100);
+    
+    //straight 4 cubes, including preload
+    set_intake(127);
     chassisController.moveDistance(24.5_in); //originally 22
     chassisController.waitUntilSettled();
     normal_chassis();
-    //turn to face score zone
-    chassisController.turnAngle(-135_deg);
-    chassisController.waitUntilSettled();
-    //grab the preload
-    chassisController.moveDistanceAsync(30_in);
-    // set_intake(-20);
-    // pros::delay(100);
-    chassisController.waitUntilSettled();
-    set_intake(0);
-    //score
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-void newBluePro(){
-    //preauton
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    set_arm(-50);
-    pros::delay(100);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    pros::delay(100);
-
-    //small distance
-    chassisController.moveDistance(10_in);
-    chassisController.waitUntilSettled();
-    chassisController.turnAngle(-40_deg);
-    chassisController.waitUntilSettled();
-    //turn to face 4 stack. Slow chassis to intake, not push, cube
-    slow_chassis(9000);
-    set_intake(127);
-    chassisController.moveDistance(56_in); //originally 50 in
-    chassisController.waitUntilSettled();
-    normal_chassis();
-    //turn to collect 2 cubes
-    chassisController.moveDistance(-17_in);
-    chassisController.waitUntilSettled();
-    chassisController.turnAngle(-140_deg);
-    chassisController.waitUntilSettled();
-    //go forward to grab cube
-    // set_tank(127,127);
-    // pros::delay(100);
-    // set_tank(0,0);
-    // pros::delay(100);
-    chassisController.moveDistance(46_in);
-    chassisController.waitUntilSettled();
-    //come back to score
-    chassisController.moveDistance(-46_in);
-    chassisController.waitUntilSettled();
-    //turn to face score zone
-    chassisController.turnAngle(45_deg);
-    chassisController.waitUntilSettled();
-    //score
-    chassisController.moveDistance(30_in);
-    chassisController.waitUntilSettled();
-    set_intake(0);
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-void newBlueUnpro(){
-    //preauton
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    slow_chassis(9000);
-    pros::delay(100);
-    set_arm(-50);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    pros::delay(100);
-    //straight 5 cubes, excluding preload
-    set_intake(127);
-    chassisController.moveDistance(60_in); //originally 54
-    chassisController.waitUntilSettled();
-    normal_chassis();
+    
     //2nd row
     //chassisController.turnAngle(26.565_deg);
     //set_tank(-127,-127);
@@ -779,24 +665,142 @@ void newBlueUnpro(){
     profileController.waitUntilSettled();
     profileController.removePath("A");
     slow_chassis(9000);
-    //straight (3 cube)
-    chassisController.moveDistance(24.5_in); //originally 22
+    
+    //straight (5 cube)
+    chassisController.moveDistance(60_in); //originally 54
     chassisController.waitUntilSettled();
     normal_chassis();
+    
     //turn to face score zone
-    chassisController.turnAngle(135_deg);
+    chassisController.turnAngle(-158_deg);
     chassisController.waitUntilSettled();
-    //grab the preload
-    chassisController.moveDistanceAsync(30_in);
+    
+    //drive to score
+    chassisController.moveDistanceAsync(33_in);
     // set_intake(-20);
     // pros::delay(100);
     chassisController.waitUntilSettled();
     set_intake(0);
+    
     //score
     tray_outtake();
     set_tank(-80, -80);
     pros::delay(800);
     set_tank(0, 0);
+    
+    //remove pid
+    profileController.flipDisable();
+    chassisController.stop();
+}
+void newBluePro(){
+    //preauton
+    normal_chassis();
+    suspend_arm();
+    set_arm(-50);
+    set_tray_pid(TRAY_IN);
+    set_intake(-127);
+    pros::delay(100);
+
+    //small distance
+    chassisController.moveDistance(10_in);
+    chassisController.waitUntilSettled();
+    chassisController.turnAngle(-40_deg);
+    chassisController.waitUntilSettled();
+    
+    //turn to face 4 stack. Slow chassis to intake, not push, cube
+    slow_chassis(9000);
+    set_intake(127);
+    chassisController.moveDistance(56_in); //originally 50 in
+    chassisController.waitUntilSettled();
+    normal_chassis();
+    
+    //turn to collect 2 cubes
+    chassisController.moveDistance(-17_in);
+    chassisController.waitUntilSettled();
+    chassisController.turnAngle(-140_deg);
+    chassisController.waitUntilSettled();
+    
+    //go forward to grab cube
+    // set_tank(127,127);
+    // pros::delay(100);
+    // set_tank(0,0);
+    // pros::delay(100);
+    chassisController.moveDistance(46_in);
+    chassisController.waitUntilSettled();
+    
+    //come back to score
+    chassisController.moveDistance(-46_in);
+    chassisController.waitUntilSettled();
+    
+    //turn to face score zone
+    chassisController.turnAngle(45_deg);
+    chassisController.waitUntilSettled();
+    
+    //score
+    chassisController.moveDistance(30_in);
+    chassisController.waitUntilSettled();
+    set_intake(0);
+    tray_outtake();
+    set_tank(-80, -80);
+    pros::delay(800);
+    set_tank(0, 0);
+    
+    //remove pid
+    profileController.flipDisable();
+    chassisController.stop();
+}
+void newBlueUnpro(){
+    //preauton
+    normal_chassis();
+    set_tank(100,100);
+    pros::delay(100);
+    set_tank(-100,-100);
+    suspend_arm();
+    set_arm(-50);
+    set_tray_pid(TRAY_IN);
+    set_intake(-127);
+    pros::delay(100);
+
+    //straight 4 cubes, including preload
+    set_intake(127);
+    chassisController.moveDistance(24.5_in); //originally 22
+    chassisController.waitUntilSettled();
+    normal_chassis();
+    
+    //2nd row
+    //chassisController.turnAngle(-26.565_deg);
+    //set_tank(-127,-127);
+    //pros::delay(100);
+    //set_tank(0,0);
+    //pros::delay(100);
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 24_in, 0_deg}}, "A");
+    profileController.setTarget("A", true);
+    profileController.waitUntilSettled();
+    profileController.removePath("A");
+    slow_chassis(9000);
+
+    //straight (5 cube)
+    chassisController.moveDistance(60_in); //originally 54
+    chassisController.waitUntilSettled();
+    normal_chassis();
+
+    //turn to face score zone
+    chassisController.turnAngle(158_deg);
+    chassisController.waitUntilSettled();
+
+    //drive to score
+    chassisController.moveDistanceAsync(33_in);
+    // set_intake(-20);
+    // pros::delay(100);
+    chassisController.waitUntilSettled();
+    set_intake(0);
+
+    //score
+    tray_outtake();
+    set_tank(-80, -80);
+    pros::delay(800);
+    set_tank(0, 0);
+    
     //remove pid
     profileController.flipDisable();
     chassisController.stop();
@@ -806,19 +810,24 @@ void test(){
     //straight
     chassisController.moveDistance(72_in);
     chassisController.waitUntilSettled();
+
     //turn
+    slow_chassis(5000);
     chassisController.turnAngle(90_deg);
     chassisController.waitUntilSettled();
+    
     //straight
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "A");
     profileController.setTarget("A");
     profileController.waitUntilSettled();
     profileController.removePath("A");
+    
     //turn
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0_ft, 0_ft, 90_deg}}, "B");
     profileController.setTarget("B");
     profileController.waitUntilSettled();
     profileController.removePath("B");
+    
     //s curve
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 0_deg}}, "C");
     profileController.setTarget("C", true);
@@ -829,6 +838,7 @@ void test(){
     //test whether cube amount screws pid (less friction from wheel... different weight distribution)
     //test whether initial chassis voltage is 10,000 or not (so distance is accurate with which voltage setting)
     //test to see whether pid and voltage limitation is removed during driver op
+    //test if angle is affected by voltage limiting
 
     //test inertia sensor? (velocity * time to determine distance -> pid)
 
