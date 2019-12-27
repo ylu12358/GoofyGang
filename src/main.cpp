@@ -47,17 +47,22 @@ void autonomous()
 	reset_intake_encoder();
 
 	if (selector == 1)
-		unproRed1();
+//		unproRed1();
+		newRedUnpro();
 	if (selector == 2)
-		unproBlue1();
+//		unproBlue1();
+		newBlueUnpro();
 	if (selector == 3)
-		proRed1();
+//		proRed1();
+		newRedPro();
 	if (selector == 4)
-		proBlue();
+//		proBlue();
+		newBluePro();
 	if (selector == 5)
-		skills();
+		skills();		
 	if (selector == 6) //TESTING SLOT
-		oneCube();
+//		oneCube();
+		test();
 }
 
 void opcontrol()
@@ -66,8 +71,8 @@ void opcontrol()
 	master.set_text(0, 0, "#ThankYou448X");
 	
 	pros::Task drive_control_t(drive_control, nullptr, "name");
-	pros::Task tray_control_t(tray_control, nullptr, "name");
-	pros::Task arm_control_t(arm_control, nullptr, "name");
+//	pros::Task tray_control_t(tray_control, nullptr, "name");
+//	pros::Task arm_control_t(arm_control, nullptr, "name");
 	pros::Task intake_control_t(intake_control, nullptr, "name");
 	while (true)
 	{
