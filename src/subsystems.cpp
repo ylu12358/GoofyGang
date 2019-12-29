@@ -2,6 +2,7 @@
 
 int arm_counter = 1;
 int tray_counter = 0;
+bool cube = false;
 
 void tray_outtake()
 {
@@ -26,14 +27,28 @@ void intake_control(void *)
     intake_coast();
     while (true)
     {
-        if (master.get_digital(DIGITAL_R1))
+        if (master.get_digital(DIGITAL_R1)) {
             set_intake(127);
+            cube = true;
+        }
         else if (master.get_digital(DIGITAL_R2))
             set_intake(-127);
-        else if (arm_counter == 1)
-            set_intake(10);
-        else
-            set_intake(0);
+        else {
+            if(cube){
+                //change sensor value
+                while(get_line()<0){
+                    //test if outtake voltage is usable for all amount of cubes -> might be non-linear
+                    set_intake(-20);
+                    pros::delay(20);
+                }
+            } else{
+                set_intake(0);
+            }
+        }
+        // else if (arm_counter == 1)
+        //     set_intake(10);
+        // else
+        //     set_intake(0);
         pros::delay(20);
     }
 }
@@ -82,6 +97,7 @@ void tray_control(void *)
                     set_tray_pid(PROTECTED);
                     break;
                 case 2: //score
+                    cube = false;
                     suspend_tray();
                     tray_outtake();
                     tray_counter = -1;
@@ -128,26 +144,34 @@ void arm_control(void *)
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
+                    cube = false;
                     resume_arm();
                     set_tray_pid(PROTECTED - 100);
                     set_arm_pid(1180);
                     set_intake_speed(8500);
+                    //set_intake(-127);
+                    //pros::delay(100);
                     arm_counter++;
+                    //cube = true;
                 }
                 break;
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
+                    cube = false;
                     set_arm_pid(1530);
                     set_intake_speed(6500);
+                    //set_intake(-127);
+                    //pros::delay(100);
+                    //cube = true;
                 }
                 arm_counter = 0;
                 break; 
             }
         } else if(get_arm_pos() < 20 && arm_counter == 1){
-            suspend_arm();
-            set_arm(-55);
-            reset_arm_encoder();
+//            suspend_arm();
+//            set_arm(-55);
+//            reset_arm_encoder();
             set_intake_speed(12000);
         }
         pros::delay(20);

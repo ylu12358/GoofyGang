@@ -31,6 +31,8 @@ pros::Motor arm(11, MOTOR_GEARSET_18);
 //Sensors
 pros::ADIPotentiometer tray_pot(5);
 pros::ADIPotentiometer auton_selector(6);
+//add port
+pros::ADILineSensor cube_in(3);
 
 //Math
 int sgn(int input)
@@ -218,6 +220,10 @@ int get_arm_pos()
 int get_auton_select()
 {
     return auton_selector.get_value();
+}
+
+int get_line(){
+    return cube_in.get_value();
 }
 
 //Auto
