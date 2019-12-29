@@ -1,5 +1,19 @@
 #include "main.h"
 
+//p decrease rise time
+
+//i decrease settle time
+//i increase overshoot, but gets to target
+//i decrease oscillation
+
+//d decrease overshoot
+//d is sensitive to noise
+//d is also sensitive to disturbance (cube pressing arm up)
+
+//twitching like crazy might mean 
+    //too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
+
+
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {14, 13}, {-17, -15},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
