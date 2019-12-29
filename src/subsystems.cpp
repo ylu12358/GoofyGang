@@ -134,6 +134,7 @@ void arm_control(void *)
             case 0: //arm down
                 if (tray_counter == 0)
                 {
+                    //cube = true;
                     set_arm_pid(0);
                     pros::delay(500);
                     set_tray_pid(TRAY_IN);
@@ -149,10 +150,7 @@ void arm_control(void *)
                     set_tray_pid(PROTECTED - 100);
                     set_arm_pid(1180);
                     set_intake_speed(8500);
-                    //set_intake(-127);
-                    //pros::delay(100);
                     arm_counter++;
-                    //cube = true;
                 }
                 break;
             case 2: //second tower height
@@ -161,9 +159,6 @@ void arm_control(void *)
                     cube = false;
                     set_arm_pid(1530);
                     set_intake_speed(6500);
-                    //set_intake(-127);
-                    //pros::delay(100);
-                    //cube = true;
                 }
                 arm_counter = 0;
                 break; 

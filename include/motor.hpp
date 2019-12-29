@@ -58,4 +58,6 @@ void resume_arm();
 #define PROTECTED 1300
 #define TRAY_IN 875
 
+//#define CUBE_IN
+
 #endif
