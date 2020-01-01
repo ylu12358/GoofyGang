@@ -1,5 +1,19 @@
 #include "main.h"
 
+//p decrease rise time
+
+//i decrease settle time
+//i increase overshoot, but gets to target
+//i decrease oscillation
+
+//d decrease overshoot
+//d is sensitive to noise
+//d is also sensitive to disturbance (cube pressing arm up)
+
+//twitching like crazy might mean 
+    //too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
+
+
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {15, 17}, {-19, -18},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
@@ -31,6 +45,8 @@ pros::Motor arm(10, MOTOR_GEARSET_18, true);
 //Sensors
 pros::ADIPotentiometer tray_pot(1);
 pros::ADIPotentiometer auton_selector(6);
+//add port
+pros::ADILineSensor cube_in(3);
 
 //Math
 int sgn(int input)
@@ -218,6 +234,10 @@ int get_arm_pos()
 int get_auton_select()
 {
     return auton_selector.get_value();
+}
+
+int get_line(){
+    return cube_in.get_value();
 }
 
 //Auto

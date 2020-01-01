@@ -39,6 +39,7 @@ int get_left_drive_spe();
 int get_right_drive_spe();
 int get_tray_pos();
 int get_arm_pos();
+int get_line();
 int get_auton_select();
 bool tray_pressed();
 void auto_selector();
@@ -55,5 +56,7 @@ void resume_arm();
 #define TRAY_OUT 3530
 #define PROTECTED 2400
 #define TRAY_IN 2000
+
+//#define CUBE_IN
 
 #endif

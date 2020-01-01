@@ -79,6 +79,8 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
+		pros::lcd::set_text(4, "Line Sensor:" + std::to_string(get_line()));
+		master.print(0, 0, "%f", "test:" + selector);
 		pros::delay(20);
 	}
 }
