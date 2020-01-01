@@ -181,8 +181,8 @@ void arm_coast()
 //Sensors
 void reset_drive_encoder()
 {
-    lb_drive.set_zero_position(0);
-    rb_drive.set_zero_position(0);
+   lb_drive.set_zero_position(0);
+   rb_drive.set_zero_position(0);
 }
 
 void reset_intake_encoder()
@@ -322,6 +322,9 @@ void arm_pid(void *)
     float error;
     float errorT;
     float integralActiveZone = 20;
+    float kd = 0;
+    float derivative;
+    float last_error;
     while (true)
     {
         error = a_target - get_arm_pos();
@@ -335,7 +338,9 @@ void arm_pid(void *)
             errorT = 50;
         }
         integral = errorT * ki;
-        power = integral + proportion;
+        derivative = (error-last_error)*kd;
+        last_error = error;
+        power = integral + proportion + derivative;
         set_arm(power);
         pros::delay(20);
     }
@@ -384,4 +389,11 @@ void suspend_arm()
 void resume_arm()
 {
     arm_pid_t.resume();
+}
+
+int get_left_intake_pos(){
+    return l_intake.get_position();
+}
+int get_right_intake_pos(){
+    return r_intake.get_position();
 }

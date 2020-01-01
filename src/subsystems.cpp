@@ -3,18 +3,22 @@
 int arm_counter = 1;
 int tray_counter = 0;
 bool cube = false;
+bool intake;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 2300)
+    while (get_tray_pos() < 2400)
         set_tray(127);
-    while (get_tray_pos() < 3000)
-        set_tray(70);
-        set_intake(-40);
+    intake_coast();
+    while (get_tray_pos() < 2800)
+    {
+        set_tray(100);
+        set_intake(13);
+    }
     while (get_tray_pos() < TRAY_OUT)
     {
+        set_intake(-13);
         set_tray(50);
-        intake_coast();
     }
     
     set_tray(0);
@@ -24,32 +28,39 @@ void tray_outtake()
 void intake_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    intake_coast();
+    //intake_coast();
+    intake_hold();
     while (true)
     {
-        if (master.get_digital(DIGITAL_R1)) {
-            set_intake(127);
-            cube = true;
-        }
-        else if (master.get_digital(DIGITAL_R2))
-            set_intake(-127);
-        else {
-            if(cube){
-                //change sensor value
-                while(get_line()<0){
-                    //test if outtake voltage is usable for all amount of cubes -> might be non-linear
-                    set_intake(-20);
-                    pros::delay(20);
-                }
-            } else{
-                set_intake(0);
+        // if(intake){
+        //     master.print(0, 0, "%f", "test:" + intake);
+            if (master.get_digital(DIGITAL_R1)) {
+                set_intake(127);
+                cube = true;
             }
-        }
-        // else if (arm_counter == 1)
-        //     set_intake(10);
-        // else
-        //     set_intake(0);
+            else if (master.get_digital(DIGITAL_R2))
+                set_intake(-127);
+            // else {
+            //     if(cube){
+            //         //change sensor value
+            //         while(get_line()<0){
+            //             //test if outtake voltage is usable for all amount of cubes -> might be non-linear
+            //             set_intake(-20);
+            //             pros::delay(20);
+            //         }
+            //     } else{
+            //         set_intake(0);
+            //     }
+            //}
+            else if (arm_counter == 1){
+
+                set_intake(10);
+            }
+            else
+                set_intake(0);
+//        }
         pros::delay(20);
+
     }
 }
 
@@ -101,6 +112,7 @@ void tray_control(void *)
                     suspend_tray();
                     tray_outtake();
                     tray_counter = -1;
+                    intake_hold();
                     break;
                 }
             while (master.get_digital(DIGITAL_L1))
@@ -143,9 +155,17 @@ void arm_control(void *)
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
+                    intake = true;
+                    pros::delay(20);
+                    intake_relative(-10000.0,-200);		
                     cube = false;
                     resume_arm();
-                    set_arm_pid(500);
+                    
+                    //500
+                    set_arm_pid(1300);
+                    //change time delay
+                    pros::delay(190);
+                    intake = false;
                     set_intake_speed(8500);
                     arm_counter++;
                 }
@@ -153,8 +173,10 @@ void arm_control(void *)
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
-                    set_arm_pid(800);
-                    set_intake_speed(6500);
+                    //800
+                    set_arm_pid(1600);
+                    //6500
+                    set_intake_speed(10000);
                 }
                 arm_counter = 0;
                 break; 

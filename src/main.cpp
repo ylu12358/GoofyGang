@@ -76,11 +76,21 @@ void opcontrol()
 	pros::Task intake_control_t(intake_control, nullptr, "name");
 	while (true)
 	{
+
+
+		if(intake){
+			intake_control_t.suspend();
+		} else if(!intake){
+			intake_control_t.resume();
+		}
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-		pros::lcd::set_text(4, "Line Sensor:" + std::to_string(get_line()));
-		master.print(0, 0, "%f", "test:" + selector);
+		pros::lcd::set_text(4, ""+ std::to_string(get_left_intake_pos()));
+        pros::lcd::set_text(5, ""+ std::to_string(get_right_intake_pos()));
+
+//		pros::lcd::set_text(4, "Line Sensor:" + std::to_string(get_line()));
+		//master.print(0, 0, "%f", "test:" + selector);
 		pros::delay(20);
 	}
 }

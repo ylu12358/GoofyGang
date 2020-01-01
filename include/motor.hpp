@@ -52,10 +52,13 @@ void suspend_tray();
 void resume_tray();
 void suspend_arm();
 void resume_arm();
+int get_left_intake_pos();
+int get_right_intake_pos();
 
-#define TRAY_OUT 3530
+
+#define TRAY_OUT 3520
 #define PROTECTED 2400
-#define TRAY_IN 2000
+#define TRAY_IN 1990
 
 //#define CUBE_IN
 
