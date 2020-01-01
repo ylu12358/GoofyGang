@@ -1,7 +1,7 @@
 #include "main.h"
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {14, 13}, {-17, -15},
+    {15, 17}, {-19, -18},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
@@ -18,18 +18,18 @@ AsyncMotionProfileController profileController = AsyncControllerFactory::motionP
 int selector = 0;
 
 //Motors
-pros::Motor lb_drive(14, MOTOR_GEARSET_18);
-pros::Motor lf_drive(13, MOTOR_GEARSET_18);
-pros::Motor rf_drive(15, MOTOR_GEARSET_18, true);
-pros::Motor rb_drive(17, MOTOR_GEARSET_18, true);
-pros::Motor l_intake(10, MOTOR_GEARSET_18);
-pros::Motor r_intake(6, MOTOR_GEARSET_18, true);
-pros::Motor tray(1, MOTOR_GEARSET_18);
-pros::Motor arm(11, MOTOR_GEARSET_18);
-//port 2, 3, 4, 5, 7, 8, 9  ded
+pros::Motor lb_drive(15, MOTOR_GEARSET_18, true);
+pros::Motor lf_drive(17, MOTOR_GEARSET_18, true);
+pros::Motor rf_drive(18, MOTOR_GEARSET_18);
+pros::Motor rb_drive(19, MOTOR_GEARSET_18);
+pros::Motor l_intake(20, MOTOR_GEARSET_18);
+pros::Motor r_intake(1, MOTOR_GEARSET_18, true);
+pros::Motor tray(6, MOTOR_GEARSET_18);
+pros::Motor arm(10, MOTOR_GEARSET_18, true);
+//port 2, 3, 4, 5, 7, 8, 9, 16  ded
 
 //Sensors
-pros::ADIPotentiometer tray_pot(5);
+pros::ADIPotentiometer tray_pot(1);
 pros::ADIPotentiometer auton_selector(6);
 
 //Math
@@ -55,8 +55,8 @@ int clipnum(int input, int clip)
 void set_tank(double input_l, double input_r){
     lb_drive.move(input_l);
     lf_drive.move(input_l);
-    rf_drive.move(input_r);
-    rb_drive.move(input_r);
+    rf_drive.move(-input_r);
+    rb_drive.move(-input_r);
 }
 
 void set_slow_tank(int input_l, int input_r)

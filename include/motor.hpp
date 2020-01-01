@@ -52,8 +52,8 @@ void resume_tray();
 void suspend_arm();
 void resume_arm();
 
-#define TRAY_OUT 1980
-#define PROTECTED 1300
-#define TRAY_IN 875
+#define TRAY_OUT 3530
+#define PROTECTED 2400
+#define TRAY_IN 2000
 
 #endif

@@ -5,9 +5,9 @@ int tray_counter = 0;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1500)
+    while (get_tray_pos() < 2300)
         set_tray(127);
-    while (get_tray_pos() < 1760)
+    while (get_tray_pos() < 3000)
         set_tray(70);
         set_intake(-40);
     while (get_tray_pos() < TRAY_OUT)
@@ -99,7 +99,7 @@ void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     
-    set_arm(-80);
+    set_arm(-50);
     pros::delay(100);
     reset_arm_encoder();
     set_arm(0);
@@ -119,8 +119,6 @@ void arm_control(void *)
                 if (tray_counter == 0)
                 {
                     set_arm_pid(0);
-                    pros::delay(500);
-                    set_tray_pid(TRAY_IN);
                     set_intake_speed(12000);
                     arm_counter++;
                 }
@@ -129,8 +127,7 @@ void arm_control(void *)
                 if (tray_counter == 0)
                 {
                     resume_arm();
-                    set_tray_pid(PROTECTED - 100);
-                    set_arm_pid(1180);
+                    set_arm_pid(500);
                     set_intake_speed(8500);
                     arm_counter++;
                 }
@@ -138,7 +135,7 @@ void arm_control(void *)
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
-                    set_arm_pid(1530);
+                    set_arm_pid(800);
                     set_intake_speed(6500);
                 }
                 arm_counter = 0;
@@ -146,7 +143,7 @@ void arm_control(void *)
             }
         } else if(get_arm_pos() < 20 && arm_counter == 1){
             suspend_arm();
-            set_arm(-55);
+            set_arm(-10);
             reset_arm_encoder();
             set_intake_speed(12000);
         }
