@@ -636,6 +636,86 @@ void newRedPro(){
     profileController.flipDisable();
     chassisController.stop();
 }
+void newNewRedUnpro(){
+    //preauton
+    normal_chassis();
+    suspend_arm();
+    set_tray_pid(TRAY_IN);
+    set_arm(-10);
+
+    //take first cube in the way
+    set_intake(127);
+    set_tank(100,100);
+    pros::delay(600);
+
+    //go back
+    set_tank(-35,-35);
+    pros::delay(2600);
+    set_tank(40,40);
+    pros::delay(500);
+
+    //turn towards goal
+    set_tank(-50, 50);
+    pros::delay(700);
+    set_tank(0, 0);
+    set_intake(0);
+    
+    //release cube
+    set_intake(-127);	
+    resume_arm();
+    set_arm_pid(1300);
+    pros::delay(190);
+    set_intake(0);
+    while(get_arm_pos() < 1290)
+        pros::delay(10);
+    set_intake(-127);
+    pros::delay(500);
+    set_intake(0);
+    set_arm_pid(0);
+    set_tank(50, -50);
+    pros::delay(700);
+    set_tank(0, 0);
+    set_tank(-35, -35);
+    pros::delay(1000);
+    set_tank(0, 0);
+    pros::delay(10);
+    //48
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{40_in, 0_in, 0_deg}}, "A");
+
+    //grab stack
+    set_intake(127);
+    pros::delay(10);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+	pros::Controller master(CONTROLLER_MASTER);
+	master.set_text(0, 0, "1");
+
+    //turn towards goal
+    turn(130);
+    set_tray_pid(PROTECTED);
+    master.set_text(0, 0, "2");
+    
+    //move towards goal
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    
+    //slowly align
+    set_intake(0);
+    set_tank(30,30);
+    pros::delay(1000);
+
+    //score
+    tray_outtake();
+    set_tank(-80, -80);
+    set_intake(-40);
+    pros::delay(800);
+    set_tank(0, 0);
+    
+
+    //remove pid
+    profileController.flipDisable();
+}
+
 void newRedUnpro(){
     //preauton
     normal_chassis();
@@ -692,6 +772,8 @@ void newRedUnpro(){
     profileController.flipDisable();
     chassisController.stop();
 }
+
+
 void newBluePro(){
     //preauton
     normal_chassis();

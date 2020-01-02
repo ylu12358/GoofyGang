@@ -152,19 +152,22 @@ void arm_control(void *)
                 if (tray_counter == 0)
                 {
                     intake = true;
+                    intake_hold();
                     int l_intake_value = get_left_intake_pos();
                     pros::delay(20);
-                    intake_relative(-10000.0,-200);		
+                    intake_relative(-525,-200);		
                     cube = false;
                     resume_arm();
                     set_arm_pid(1300);
                     //change time delay
-                    while(get_left_intake_pos()!=l_intake_value){
-                        pros::delay(10);
+                    while(get_left_intake_pos()-l_intake_value>=-500){
+                        pros::delay(20);
                     }
                     // delete if top is working
-                    // pros::delay(190);
+                    //pros::delay(195);
+                    pros::delay(20);
                     intake = false;
+                    pros::delay(20);
                     set_intake_speed(8500);
                     arm_counter++;
                 }

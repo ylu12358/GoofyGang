@@ -22,16 +22,16 @@ void initialize()
 
 	set_tray_pid(TRAY_IN);
 	
-	auto_selector();
+//	auto_selector();
 	pros::delay(100);
-	if (selector == 1)
-		init_upr();
-	if (selector == 2)
-		init_upb();
-	if (selector == 3)
-		init_pr();
-	if (selector == 4)
-		init_pb();
+	// if (selector == 1)
+	// 	init_upr();
+	// if (selector == 2)
+	// 	init_upb();
+	// if (selector == 3)
+	// 	init_pr();
+	// if (selector == 4)
+	// 	init_pb();
 
 }
 
@@ -46,23 +46,26 @@ void autonomous()
 	reset_arm_encoder();
 	reset_intake_encoder();
 
-	if (selector == 1)
-//		unproRed1();
-		newRedUnpro();
-	if (selector == 2)
-//		unproBlue1();
-		newBlueUnpro();
-	if (selector == 3)
-//		proRed1();
-		newRedPro();
-	if (selector == 4)
-//		proBlue();
-		newBluePro();
-	if (selector == 5)
-		skills();		
-	if (selector == 6) //TESTING SLOT
-//		oneCube();
-		test();
+	newNewRedUnpro();
+
+
+// 	if (selector == 1)
+// //		unproRed1();
+// 		newRedUnpro();
+// 	if (selector == 2)
+// //		unproBlue1();
+// 		newBlueUnpro();
+// 	if (selector == 3)
+// //		proRed1();
+// 		newRedPro();
+// 	if (selector == 4)
+// //		proBlue();
+// 		newBluePro();
+// 	if (selector == 5)
+// 		skills();		
+// 	if (selector == 6) //TESTING SLOT
+// //		oneCube();
+// 		test();
 }
 
 void opcontrol()
@@ -75,18 +78,18 @@ void opcontrol()
 	pros::Task arm_control_t(arm_control, nullptr, "name");
 
 
-//	pros::Task intake_control_t(intake_control, nullptr, "name");
+	pros::Task intake_control_t(intake_control, nullptr, "name");
 //  pull value for how much intake is moving to succeed, then replace it 
 	while (true)
 	{
 
 
-/*		if(intake){
+		if(intake){
 			intake_control_t.suspend();
 		} else if(!intake){
 			intake_control_t.resume();
 		}
-*/
+
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));

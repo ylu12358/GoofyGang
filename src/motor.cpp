@@ -15,7 +15,7 @@
 
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {15, 17}, {-19, -18},
+    {15, 17}, {19, 18},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
@@ -24,7 +24,7 @@ ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {4.125_in, 12.28125_in});
 
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
-    0.8,                // Maximum linear velocity in m/s
+    2.0,                // Maximum linear velocity in m/s
     1.75,               // Maximum linear acceleration in m/s/s
     15.0,               // Maximum linear jerk in m/s/s/s
     chassisController); // Chassis Controller
@@ -71,8 +71,8 @@ int clipnum(int input, int clip)
 void set_tank(double input_l, double input_r){
     lb_drive.move(input_l);
     lf_drive.move(input_l);
-    rf_drive.move(-input_r);
-    rb_drive.move(-input_r);
+    rf_drive.move(input_r);
+    rb_drive.move(input_r);
 }
 
 void set_slow_tank(int input_l, int input_r)

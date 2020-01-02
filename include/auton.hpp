@@ -21,4 +21,6 @@ void newRedUnpro();
 void newBluePro();
 void newBlueUnpro();
 void test();
+
+void newNewRedUnpro();
 #endif
