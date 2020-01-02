@@ -7,6 +7,7 @@ bool intake;
 
 void tray_outtake()
 {
+    //decrease speed somewhere
     while (get_tray_pos() < 2400)
         set_tray(127);
     intake_coast();
@@ -28,37 +29,33 @@ void tray_outtake()
 void intake_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    //intake_coast();
     intake_hold();
     while (true)
     {
-        // if(intake){
-        //     master.print(0, 0, "%f", "test:" + intake);
-            if (master.get_digital(DIGITAL_R1)) {
-                set_intake(127);
-                cube = true;
-            }
-            else if (master.get_digital(DIGITAL_R2))
-                set_intake(-127);
-            // else {
-            //     if(cube){
-            //         //change sensor value
-            //         while(get_line()<0){
-            //             //test if outtake voltage is usable for all amount of cubes -> might be non-linear
-            //             set_intake(-20);
-            //             pros::delay(20);
-            //         }
-            //     } else{
-            //         set_intake(0);
-            //     }
-            //}
-            else if (arm_counter == 1){
+        if (master.get_digital(DIGITAL_R1)) {
+            set_intake(127);
+            cube = true;
+        }
+        else if (master.get_digital(DIGITAL_R2))
+            set_intake(-127);
+        // else {
+        //     if(cube){
+        //         //change sensor value
+        //         while(get_line()<0){
+        //             //test if outtake voltage is usable for all amount of cubes -> might be non-linear
+        //             set_intake(-20);
+        //             pros::delay(20);
+        //         }
+        //     } else{
+        //         set_intake(0);
+        //     }
+        //}
+        else if (arm_counter == 1){
 
-                set_intake(10);
-            }
-            else
-                set_intake(0);
-//        }
+            set_intake(10);
+        }
+        else
+            set_intake(0);
         pros::delay(20);
 
     }
@@ -126,7 +123,6 @@ void tray_control(void *)
 void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    
     set_arm(-50);
     pros::delay(100);
     reset_arm_encoder();
@@ -156,15 +152,18 @@ void arm_control(void *)
                 if (tray_counter == 0)
                 {
                     intake = true;
+                    int l_intake_value = get_left_intake_pos();
                     pros::delay(20);
                     intake_relative(-10000.0,-200);		
                     cube = false;
                     resume_arm();
-                    
-                    //500
                     set_arm_pid(1300);
                     //change time delay
-                    pros::delay(190);
+                    while(get_left_intake_pos()!=l_intake_value){
+                        pros::delay(10);
+                    }
+                    // delete if top is working
+                    // pros::delay(190);
                     intake = false;
                     set_intake_speed(8500);
                     arm_counter++;
@@ -173,9 +172,7 @@ void arm_control(void *)
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
-                    //800
                     set_arm_pid(1600);
-                    //6500
                     set_intake_speed(10000);
                 }
                 arm_counter = 0;
@@ -183,6 +180,7 @@ void arm_control(void *)
             }
         } else if(get_arm_pos() < 20 && arm_counter == 1){
             suspend_arm();
+            //remove this when pid is tuned?
             set_arm(-10);
             reset_arm_encoder();
             set_intake_speed(12000);
