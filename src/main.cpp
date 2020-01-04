@@ -24,10 +24,10 @@ void initialize()
 	
 	auto_selector();
 	pros::delay(100);
-	// if (selector == 1)
-	// 	init_upr();
-	// if (selector == 2)
-	// 	init_upb();
+	if (selector == 1)
+		init_upr();
+	if (selector == 2)
+		init_upb();
 	// if (selector == 3)
 	// 	init_pr();
 	// if (selector == 4)
@@ -50,31 +50,31 @@ void autonomous()
 
 //deploy is just outtaking rollers
 
-// 	if (selector == 1)
-// //		unproRed1();
-// 		newRedUnpro();
-// 	if (selector == 2)
-// //		unproBlue1();
-// 		newBlueUnpro();
-// 	if (selector == 3)
-// //		proRed1();
-// 		newRedPro();
-// 	if (selector == 4)
-// //		proBlue();
-// 		newBluePro();
-// 	if (selector == 5)
-// 		skills();		
+	if (selector == 1)
+		unproRed1();
+//		newRedUnpro();
+	if (selector == 2)
+		unproBlue1();
+//		newBlueUnpro();
+	if (selector == 3)
+//		proRed1();
+//		newRedPro();
+	if (selector == 4)
+//		proBlue();
+//		newBluePro();
+	if (selector == 5)
+		skills();		
 
 	if (selector == 6) //TESTING SLOT
-//		oneCube();
-		newNewRedUnpro();
+		oneCube();
+//		newNewRedUnpro();
 //		test();
 }
 
 void opcontrol()
 {
 	pros::Controller master(CONTROLLER_MASTER);
-	master.set_text(0, 0, "#ThankYou448X");
+	// master.set_text(0, 0, "#ThankYou448X");
 	
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
@@ -96,8 +96,8 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-		pros::lcd::set_text(4, ""+ std::to_string(get_left_intake_pos()));
         pros::lcd::set_text(5, ""+ std::to_string(get_right_intake_pos()));
+        pros::lcd::set_text(6, ""+ std::to_string(get_left_intake_pos()));
 
 //		pros::lcd::set_text(4, "Line Sensor:" + std::to_string(get_line()));
 		//master.print(0, 0, "%f", "test:" + selector);

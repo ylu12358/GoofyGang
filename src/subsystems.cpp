@@ -53,13 +53,11 @@ void intake_control(void *)
         //     }
         //}
         else if (arm_counter == 1){
-
             set_intake(10);
         }
         else
             set_intake(0);
         pros::delay(20);
-
     }
 }
 
@@ -156,6 +154,7 @@ void arm_control(void *)
                     intake = true;
                     intake_hold();
                     int l_intake_value = get_left_intake_pos();
+                    master.clear_line(0);
                     pros::delay(20);
                     intake_relative(-525,-200);		
                     cube = false;
@@ -163,14 +162,26 @@ void arm_control(void *)
                     set_arm_pid(1300);
                     set_tray_pid(1990);
                     //change time delay
-                    while(get_left_intake_pos()-l_intake_value>=-515){
+                    while(get_left_intake_pos()-l_intake_value>=-510){
+		            pros::lcd::set_text(4, "in");
                         pros::delay(5);
+                        if(get_left_intake_pos()-l_intake_value>=-510){
+                            set_intake(-75);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        
                     }
+
                     // delete if top is working
                     //pros::delay(195);
-                    pros::delay(20);
+                    pros::delay(30);
+                    master.clear_line(0);
                     intake = false;
-                    pros::delay(20);
+            		pros::lcd::set_text(4, "out");
+                    pros::delay(30);
                     set_intake_speed(8500);
                     arm_counter++;
                 }
@@ -187,7 +198,7 @@ void arm_control(void *)
         } else if(get_arm_pos() < 20 && arm_counter == 1){
             suspend_arm();
             //remove this when pid is tuned?
-            set_arm(-10);
+            set_arm(-10); //pid not enough power
             reset_arm_encoder();
             set_intake_speed(12000);
         }

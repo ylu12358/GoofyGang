@@ -49,25 +49,24 @@ void oneCube()
 
 void unproRed1()
 {
-    //preauton deploy
+    //preauton
+    normal_chassis();
     suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    pros::delay(300);
-    set_arm(-55);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
     set_tray_pid(TRAY_IN);
+    set_arm(-10);
+
+    //
+    set_tank(-30,-30);
+    set_intake(-127);
+    pros::delay(1000);
+
     //slows down drivetrain, so intake not push cubes
     slow_chassis(5000);
     profileController.setTarget("A");
     pros::delay(100);
     set_intake(127);
     //generate path when theres time
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, 3_ft, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2.3_ft, -2.3_ft, 0_deg}}, "B");
     profileController.waitUntilSettled();
     normal_chassis();
     //curve to second row
@@ -75,8 +74,8 @@ void unproRed1()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
     profileController.waitUntilSettled();
     //wall align
-    set_tank(-127, -127);
-    pros::delay(600);
+    set_tank(-30, -30);
+    pros::delay(1000);
     set_tank(0, 0);
     profileController.removePath("B");
     slow_chassis(5000);
@@ -152,25 +151,24 @@ void unproRed2()
 
 void unproBlue1()
 {
-    //preauton deploy
+    //preauton
+    normal_chassis();
     suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    pros::delay(300);
-    set_arm(-55);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
     set_tray_pid(TRAY_IN);
+    set_arm(-10);
+
+    //
+    set_tank(-30,-30);
+    set_intake(-127);
+    pros::delay(1000);
+
     //slows down drivetrain, so intake not push cubes
     slow_chassis(5000);
     profileController.setTarget("A");
     pros::delay(100);
     set_intake(127);
     //generate path when theres time
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3_ft, -2.3_ft, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2.3_ft, -2.3_ft, 17_deg}}, "B");
     profileController.waitUntilSettled();
     normal_chassis();
     //curve to second row
@@ -178,8 +176,8 @@ void unproBlue1()
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
     profileController.waitUntilSettled();
     //wall align
-    set_tank(-127, -127);
-    pros::delay(600);
+    set_tank(-30, -30);
+    pros::delay(1000);
     set_tank(0, 0);
     profileController.removePath("B");
     slow_chassis(5000);
