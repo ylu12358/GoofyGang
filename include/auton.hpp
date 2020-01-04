@@ -23,4 +23,5 @@ void newBlueUnpro();
 void test();
 
 void newNewRedUnpro();
+void ActRedPro();
 #endif

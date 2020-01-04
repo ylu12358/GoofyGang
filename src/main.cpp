@@ -58,7 +58,7 @@ void autonomous()
 //		newBlueUnpro();
 	if (selector == 3)
 //		proRed1();
-//		newRedPro();
+		ActRedPro();
 	if (selector == 4)
 //		proBlue();
 //		newBluePro();
