@@ -7,5 +7,6 @@ void drive_control(void *);
 void tray_control(void *);
 void arm_control(void *);
 extern bool intake;
+extern bool tank;
 
 #endif

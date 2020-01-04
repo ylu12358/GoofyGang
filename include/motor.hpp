@@ -58,7 +58,8 @@ int get_right_intake_pos();
 
 #define TRAY_OUT 3520
 #define PROTECTED 2400
-#define TRAY_IN 1990
+//1990
+#define TRAY_IN 2100
 
 //#define CUBE_IN
 

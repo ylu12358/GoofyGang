@@ -22,7 +22,7 @@ void initialize()
 
 	set_tray_pid(TRAY_IN);
 	
-//	auto_selector();
+	auto_selector();
 	pros::delay(100);
 	// if (selector == 1)
 	// 	init_upr();
@@ -32,7 +32,8 @@ void initialize()
 	// 	init_pr();
 	// if (selector == 4)
 	// 	init_pb();
-
+	if (selector == 5)
+		tank = false;
 }
 
 void disabled() {}
@@ -46,8 +47,8 @@ void autonomous()
 	reset_arm_encoder();
 	reset_intake_encoder();
 
-	newNewRedUnpro();
 
+//deploy is just outtaking rollers
 
 // 	if (selector == 1)
 // //		unproRed1();
@@ -63,9 +64,11 @@ void autonomous()
 // 		newBluePro();
 // 	if (selector == 5)
 // 		skills();		
-// 	if (selector == 6) //TESTING SLOT
-// //		oneCube();
-// 		test();
+
+	if (selector == 6) //TESTING SLOT
+//		oneCube();
+		newNewRedUnpro();
+//		test();
 }
 
 void opcontrol()

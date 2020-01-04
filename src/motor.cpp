@@ -44,7 +44,7 @@ pros::Motor arm(10, MOTOR_GEARSET_18, true);
 
 //Sensors
 pros::ADIPotentiometer tray_pot(1);
-pros::ADIPotentiometer auton_selector(6);
+pros::ADIPotentiometer auton_selector(2);
 //add port
 pros::ADILineSensor cube_in(3);
 

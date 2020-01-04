@@ -4,6 +4,8 @@ int arm_counter = 1;
 int tray_counter = 0;
 bool cube = false;
 bool intake;
+bool tank = true;
+
 
 void tray_outtake()
 {
@@ -66,7 +68,6 @@ void drive_control(void *)
     pros::Controller master(CONTROLLER_MASTER);
     drive_coast();
     normal_chassis();
-    bool tank = true;
     while (true)
     {
         if(!tank) //arcade
@@ -144,6 +145,7 @@ void arm_control(void *)
                 {
                     //cube = true;
                     set_arm_pid(0);
+                    set_tray_pid(TRAY_IN);
                     set_intake_speed(12000);
                     arm_counter++;
                 }
@@ -159,9 +161,10 @@ void arm_control(void *)
                     cube = false;
                     resume_arm();
                     set_arm_pid(1300);
+                    set_tray_pid(1990);
                     //change time delay
-                    while(get_left_intake_pos()-l_intake_value>=-500){
-                        pros::delay(20);
+                    while(get_left_intake_pos()-l_intake_value>=-515){
+                        pros::delay(5);
                     }
                     // delete if top is working
                     //pros::delay(195);
