@@ -51,47 +51,42 @@ void autonomous()
 //deploy is just outtaking rollers
 
 	if (selector == 1)
-		unproRed1();
-//		newRedUnpro();
+//		unproRed1();
+		newRedUnpro();
 	if (selector == 2)
-		unproBlue1();
-//		newBlueUnpro();
+//		unproBlue1();
+		newBlueUnpro();
 	if (selector == 3)
 //		proRed1();
-		ActRedPro();
+		newRedPro();
 	if (selector == 4)
 //		proBlue();
-//		newBluePro();
+		newBluePro();
 	if (selector == 5)
 		skills();		
 
 	if (selector == 6) //TESTING SLOT
-		oneCube();
-//		newNewRedUnpro();
-//		test();
+//		oneCube();
+		test();
 }
 
 void opcontrol()
 {
 	pros::Controller master(CONTROLLER_MASTER);
-	// master.set_text(0, 0, "#ThankYou448X");
+	master.set_text(0, 0, "#ThankYou448X");
 	
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
 	pros::Task arm_control_t(arm_control, nullptr, "name");
-
-
 	pros::Task intake_control_t(intake_control, nullptr, "name");
-//  pull value for how much intake is moving to succeed, then replace it 
+
 	while (true)
 	{
-
-
-		if(intake){
-			intake_control_t.suspend();
-		} else if(!intake){
-			intake_control_t.resume();
-		}
+		// if(intake){
+		// 	intake_control_t.suspend();
+		// } else if(!intake){
+		// 	intake_control_t.resume();
+		// }
 
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));

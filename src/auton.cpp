@@ -430,6 +430,22 @@ void proBlue()
     chassisController.stop();
 }
 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
 void skills()
 {      
     //preauton
@@ -577,6 +593,24 @@ void skills()
 
 }
 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
 void ActRedPro(){
         //preauton
     slow_chassis(5000);
@@ -702,7 +736,7 @@ void ActRedPro(){
 
 }
 
-void newRedPro(){
+void newRedNewPro(){
     //preauton
     slow_chassis(5000);
     suspend_arm();
@@ -893,6 +927,53 @@ void newNewRedUnpro(){
     profileController.flipDisable();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+void newRedPro(){
+    //preauton
+
+    //go forward to grab cube
+
+    //go back
+
+    //launch cube into zone
+
+    //turn back to 4 stack
+
+    //grab 4 stack
+
+    //turn to face zone
+
+    //go forward
+
+    //score
+
+    //reset
+
+}
 void newRedUnpro(){
     //preauton
     normal_chassis();

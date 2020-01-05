@@ -1,15 +1,13 @@
 #include "main.h"
 
-int arm_counter = 1;
+int arm_counter = 0;
 int tray_counter = 0;
 bool cube = false;
 bool intake;
 bool tank = true;
 
-
 void tray_outtake()
 {
-    //decrease speed somewhere
     while (get_tray_pos() < 2400)
         set_tray(127);
     intake_coast();
@@ -34,7 +32,25 @@ void intake_control(void *)
     intake_hold();
     while (true)
     {
-        if (master.get_digital(DIGITAL_R1)) {
+        if(master.get_digital(DIGITAL_L2)){
+            if(arm_counter == 1){
+                intake_hold();
+                int l_intake_value = get_left_intake_pos();
+                intake_relative(-525,-200);		
+                while(get_left_intake_pos()-l_intake_value>=-510){
+                    pros::lcd::set_text(4, "in");
+                    pros::delay(5);
+                    if(get_left_intake_pos()-l_intake_value>=-510){
+                        set_intake(-75);
+                    }
+                    else {
+                        continue;
+                    }
+                }
+                pros::lcd::set_text(4, "out");
+            }
+        }
+        else if (master.get_digital(DIGITAL_R1)) {
             set_intake(127);
             cube = true;
         }
@@ -100,7 +116,7 @@ void tray_control(void *)
                     set_tray_pid(TRAY_IN);
                     intake_coast();
                     break;
-                case 1: //protected (smaller horizontal space)
+                case 1: //protected
                     set_tray_pid(PROTECTED);
                     break;
                 case 2: //score
@@ -128,11 +144,11 @@ void arm_control(void *)
     set_arm(0);
     set_arm_pid(0);
     arm_coast();
-    bool pid_on = true;
 
     while(true){
         if(master.get_digital(DIGITAL_L2))
         {
+            arm_counter++;
             set_arm(0);
             while(master.get_digital(DIGITAL_L2))
                 pros::delay(10);
@@ -145,45 +161,15 @@ void arm_control(void *)
                     set_arm_pid(0);
                     set_tray_pid(TRAY_IN);
                     set_intake_speed(12000);
-                    arm_counter++;
                 }
                 break;
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
-                    intake = true;
-                    intake_hold();
-                    int l_intake_value = get_left_intake_pos();
-                    master.clear_line(0);
-                    pros::delay(20);
-                    intake_relative(-525,-200);		
-                    cube = false;
                     resume_arm();
                     set_arm_pid(1300);
                     set_tray_pid(1990);
-                    //change time delay
-                    while(get_left_intake_pos()-l_intake_value>=-510){
-		            pros::lcd::set_text(4, "in");
-                        pros::delay(5);
-                        if(get_left_intake_pos()-l_intake_value>=-510){
-                            set_intake(-75);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        
-                    }
-
-                    // delete if top is working
-                    //pros::delay(195);
-                    pros::delay(30);
-                    master.clear_line(0);
-                    intake = false;
-            		pros::lcd::set_text(4, "out");
-                    pros::delay(30);
                     set_intake_speed(8500);
-                    arm_counter++;
                 }
                 break;
             case 2: //second tower height
@@ -192,13 +178,13 @@ void arm_control(void *)
                     set_arm_pid(1600);
                     set_intake_speed(10000);
                 }
-                arm_counter = 0;
+                arm_counter = -1;
                 break; 
             }
         } else if(get_arm_pos() < 20 && arm_counter == 1){
             suspend_arm();
             //remove this when pid is tuned?
-            set_arm(-10); //pid not enough power
+            set_arm(-10);
             reset_arm_encoder();
             set_intake_speed(12000);
         }
