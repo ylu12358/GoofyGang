@@ -5,6 +5,8 @@ int tray_counter = 0;
 bool cube = false;
 bool intake;
 bool tank = true;
+bool arm_ready = false;
+bool in_ready = false;
 
 void tray_outtake()
 {
@@ -33,7 +35,11 @@ void intake_control(void *)
     while (true)
     {
         if(master.get_digital(DIGITAL_L2)){
-            if(arm_counter == 1){
+            while(!arm_ready){
+                pros::delay(1);
+            }
+            in_ready = true;
+            // if(arm_counter == 1){
                 intake_hold();
                 int l_intake_value = get_left_intake_pos();
                 intake_relative(-525,-200);		
@@ -48,7 +54,7 @@ void intake_control(void *)
                     }
                 }
                 pros::lcd::set_text(4, "out");
-            }
+            // }
         }
         else if (master.get_digital(DIGITAL_R1)) {
             set_intake(127);
@@ -166,6 +172,10 @@ void arm_control(void *)
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
+                    arm_ready = true;
+                    while(!in_ready){
+                        pros::delay(1);
+                    }
                     resume_arm();
                     set_arm_pid(1300);
                     set_tray_pid(1990);
