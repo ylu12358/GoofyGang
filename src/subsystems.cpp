@@ -43,16 +43,17 @@ void intake_control(void *)
                 intake_hold();
                 int l_intake_value = get_left_intake_pos();
                 intake_relative(-525,-200);		
-                while(get_left_intake_pos()-l_intake_value>=-510){
-                    pros::lcd::set_text(4, "in");
-                    pros::delay(5);
-                    if(get_left_intake_pos()-l_intake_value>=-510){
-                        set_intake(-75);
-                    }
-                    else {
-                        continue;
-                    }
-                }
+                // while(get_left_intake_pos()-l_intake_value>=-510){
+                //     pros::lcd::set_text(4, "in");
+                //     pros::delay(5);
+                //     if(get_left_intake_pos()-l_intake_value>=-510){
+                //         set_intake(-75);
+                //     }
+                //     else {
+                //         continue;
+                //     }
+                // }
+                arm_ready = false;
                 pros::lcd::set_text(4, "out");
             // }
         }
@@ -180,6 +181,7 @@ void arm_control(void *)
                     set_arm_pid(1300);
                     set_tray_pid(1990);
                     set_intake_speed(8500);
+                    in_ready = false;
                 }
                 break;
             case 2: //second tower height
