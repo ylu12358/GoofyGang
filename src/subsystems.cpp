@@ -6,12 +6,18 @@ bool cube = false;
 bool intake;
 bool tank = true;
 
+void print_counters()
+{
+    pros::lcd::set_text(5, "Arm: " + std::to_string(arm_counter));
+    pros::lcd::set_text(6, "Tray: " + std::to_string(tray_counter));
+}
+
 void tray_outtake()
 {
-    while (get_tray_pos() < 2400)
+    while (get_tray_pos() < 1300)
         set_tray(127);
     intake_coast();
-    while (get_tray_pos() < 2800)
+    while (get_tray_pos() < 2500)
     {
         set_tray(100);
         set_intake(13);
@@ -36,12 +42,13 @@ void intake_control(void *)
             if(arm_counter == 1){
                 intake_hold();
                 int l_intake_value = get_left_intake_pos();
-                intake_relative(-525,-200);		
-                while(get_left_intake_pos()-l_intake_value>=-510){
+                intake_relative(-535,-200);
+                pros::delay(20);		
+                while(get_left_intake_pos()-l_intake_value>=-522){
                     pros::lcd::set_text(4, "in");
                     pros::delay(5);
-                    if(get_left_intake_pos()-l_intake_value>=-510){
-                        set_intake(-75);
+                    if(get_left_intake_pos()-l_intake_value>=-522){
+                        set_intake(-127);
                     }
                     else {
                         continue;
@@ -68,7 +75,7 @@ void intake_control(void *)
         //         set_intake(0);
         //     }
         //}
-        else if (arm_counter == 1){
+        else if (arm_counter == 0){
             set_intake(10);
         }
         else
@@ -106,7 +113,7 @@ void tray_control(void *)
     {
         if (master.get_digital(DIGITAL_L1))
         {
-            if(arm_counter == 1)
+            if(arm_counter == 0)
             {
                 tray_counter++;
                 switch (tray_counter)
@@ -138,7 +145,7 @@ void tray_control(void *)
 void arm_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    set_arm(-50);
+    set_arm(-100);
     pros::delay(100);
     reset_arm_encoder();
     set_arm(0);
@@ -159,7 +166,6 @@ void arm_control(void *)
                 {
                     //cube = true;
                     set_arm_pid(0);
-                    set_tray_pid(TRAY_IN);
                     set_intake_speed(12000);
                 }
                 break;
@@ -168,7 +174,6 @@ void arm_control(void *)
                 {
                     resume_arm();
                     set_arm_pid(1300);
-                    set_tray_pid(1990);
                     set_intake_speed(8500);
                 }
                 break;
@@ -181,9 +186,8 @@ void arm_control(void *)
                 arm_counter = -1;
                 break; 
             }
-        } else if(get_arm_pos() < 20 && arm_counter == 1){
+        } else if(get_arm_pos() < 20 && arm_counter == 0){
             suspend_arm();
-            //remove this when pid is tuned?
             set_arm(-10);
             reset_arm_encoder();
             set_intake_speed(12000);

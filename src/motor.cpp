@@ -15,7 +15,7 @@
 
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {15, 14}, {17, 18},
+    {11, 12}, {10, 9},
     IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0, 0, 0},
@@ -32,14 +32,14 @@ AsyncMotionProfileController profileController = AsyncControllerFactory::motionP
 int selector = 0;
 
 //Motors
-pros::Motor lb_drive(15, MOTOR_GEARSET_18, true);
-pros::Motor lf_drive(14, MOTOR_GEARSET_18, true);
-pros::Motor rf_drive(18, MOTOR_GEARSET_18);
-pros::Motor rb_drive(17, MOTOR_GEARSET_18);
-pros::Motor l_intake(13, MOTOR_GEARSET_18);
-pros::Motor r_intake(1, MOTOR_GEARSET_18, true);
-pros::Motor tray(6, MOTOR_GEARSET_18);
-pros::Motor arm(10, MOTOR_GEARSET_18, true);
+pros::Motor lb_drive(11, MOTOR_GEARSET_18, true);
+pros::Motor lf_drive(12, MOTOR_GEARSET_18, true);
+pros::Motor rf_drive(9, MOTOR_GEARSET_18);
+pros::Motor rb_drive(10, MOTOR_GEARSET_18);
+pros::Motor l_intake(20, MOTOR_GEARSET_18);
+pros::Motor r_intake(16, MOTOR_GEARSET_18, true);
+pros::Motor tray(8, MOTOR_GEARSET_18);
+pros::Motor arm(15, MOTOR_GEARSET_18, true);
 //port 2, 3, 4, 5, 7, 8, 9, 16, 19, 20  ded
 
 //Sensors
@@ -198,7 +198,7 @@ void reset_tray_encoder()
 
 void reset_arm_encoder()
 {
-    tray.set_zero_position(0);
+    arm.set_zero_position(0);
 }
 
 int get_left_drive_pos()

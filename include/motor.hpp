@@ -56,10 +56,10 @@ int get_left_intake_pos();
 int get_right_intake_pos();
 
 
-#define TRAY_OUT 3520
-#define PROTECTED 2400
+#define TRAY_OUT 2640
+#define PROTECTED 1330
 //1990
-#define TRAY_IN 2100
+#define TRAY_IN 800
 
 //#define CUBE_IN
 

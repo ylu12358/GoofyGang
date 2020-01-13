@@ -1,6 +1,8 @@
 #ifndef SUBSYSTEMS_HPP
 #define SUBSYSTEMS_HPP
 
+void print_counters();
+
 void tray_outtake();
 void intake_control(void *);
 void drive_control(void *);
