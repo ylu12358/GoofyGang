@@ -82,11 +82,11 @@ void opcontrol()
 
 	while (true)
 	{
-		// if(intake){
-		// 	intake_control_t.suspend();
-		// } else if(!intake){
-		// 	intake_control_t.resume();
-		// }
+		if(intake){
+			intake_control_t.suspend();
+		} else if(!intake){
+			intake_control_t.resume();
+		}
 
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));

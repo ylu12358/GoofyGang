@@ -40,30 +40,7 @@ void intake_control(void *)
     intake_hold();
     while (true)
     {
-        if(master.get_digital(DIGITAL_L2)){
-            while(!arm_ready){
-                pros::delay(1);
-            }
-            in_ready = true;
-            // if(arm_counter == 1){
-                intake_hold();
-                int l_intake_value = get_left_intake_pos();
-                intake_relative(-535,-200);
-                pros::delay(20);		
-                while(get_left_intake_pos()-l_intake_value>=-522){
-                    pros::lcd::set_text(4, "in");
-                    pros::delay(5);
-                    if(get_left_intake_pos()-l_intake_value>=-522){
-                        set_intake(-127);
-                    }
-                    else {
-                        continue;
-                    }
-                }
-                pros::lcd::set_text(4, "out");
-            // }
-        }
-        else if (master.get_digital(DIGITAL_R1)) {
+        if (master.get_digital(DIGITAL_R1)) {
             set_intake(127);
             cube = true;
         }
@@ -178,14 +155,21 @@ void arm_control(void *)
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
-                    arm_ready = true;
-                    while(!in_ready){
-                        pros::delay(1);
-                    }
+                    intake = true;
+                    pros::delay(20);
+                    set_intake(-127);
                     resume_arm();
                     set_arm_pid(1300);
+                    //while loop here
+                    reset_intake_encoder();
+                    while (get_left_intake_pos() < 525)
+                    {
+                        pros::delay(5);
+                    }
+                    intake = false;
+                    pros::delay(20);
                     set_intake_speed(8500);
-                    in_ready = false;
+                    arm_counter++;
                 }
                 break;
             case 2: //second tower height
