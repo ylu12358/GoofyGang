@@ -78,16 +78,9 @@ void opcontrol()
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
 	pros::Task arm_control_t(arm_control, nullptr, "name");
-	pros::Task intake_control_t(intake_control, nullptr, "name");
 
 	while (true)
 	{
-		if(intake){
-			intake_control_t.suspend();
-		} else if(!intake){
-			intake_control_t.resume();
-		}
-
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));

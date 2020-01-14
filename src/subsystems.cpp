@@ -34,39 +34,6 @@ void tray_outtake()
     set_intake(0);
 }
 
-void intake_control(void *)
-{
-    pros::Controller master(CONTROLLER_MASTER);
-    intake_hold();
-    while (true)
-    {
-        if (master.get_digital(DIGITAL_R1)) {
-            set_intake(127);
-            cube = true;
-        }
-        else if (master.get_digital(DIGITAL_R2))
-            set_intake(-127);
-        // else {
-        //     if(cube){
-        //         //change sensor value
-        //         while(get_line()<0){
-        //             //test if outtake voltage is usable for all amount of cubes -> might be non-linear
-        //             set_intake(-20);
-        //             pros::delay(20);
-        //         }
-        //     } else{
-        //         set_intake(0);
-        //     }
-        //}
-        else if (arm_counter == 0){
-            set_intake(10);
-        }
-        else
-            set_intake(0);
-        pros::delay(20);
-    }
-}
-
 void drive_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
@@ -155,38 +122,47 @@ void arm_control(void *)
             case 1: //first tower height
                 if (tray_counter == 0)
                 {
-                    intake = true;
-                    pros::delay(20);
-                    set_intake(-127);
-                    resume_arm();
-                    set_arm_pid(1300);
-                    //while loop here
+                    intake_hold();
                     reset_intake_encoder();
-                    while (get_left_intake_pos() < 525)
+                    set_arm(127);
+                    set_intake(-127);
+                    while (get_left_intake_pos() > -522)
                     {
+                        pros::lcd::set_text(4, "in");
                         pros::delay(5);
                     }
-                    intake = false;
-                    pros::delay(20);
+                    set_intake(0);
+                    resume_arm();
+                    set_arm_pid(1300);
                     set_intake_speed(8500);
-                    arm_counter++;
                 }
                 break;
             case 2: //second tower height
                 if (tray_counter == 0)
                 {
+                    resume_arm();
                     set_arm_pid(1600);
                     set_intake_speed(10000);
                 }
                 arm_counter = -1;
                 break; 
             }
-        } else if(get_arm_pos() < 20 && arm_counter == 0){
+        }
+        else if (master.get_digital(DIGITAL_R1))
+            set_intake(127);
+        else if (master.get_digital(DIGITAL_R2))
+            set_intake(-127);
+        else if (get_arm_pos() < 20 && arm_counter == 0)
+        {
             suspend_arm();
-            set_arm(-10);
+            set_arm(-12);
             reset_arm_encoder();
             set_intake_speed(12000);
+            set_intake(10);
         }
+        else
+            set_intake(0);
+        
         pros::delay(20);
     }
 }
