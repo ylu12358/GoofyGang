@@ -32,6 +32,16 @@ void turn(int target)
     pros::delay(250);
 }
 
+void preauton(){
+    normal_chassis();
+    suspend_arm();
+    set_arm(-50);
+    set_intake(-127);
+    set_tray_pid(TRAY_IN);
+    pros::delay(100);
+    set_arm(-10);
+}
+
 void oneCube()
 {
     //forward (score)
@@ -47,78 +57,10 @@ void oneCube()
     set_tray_pid(TRAY_IN);
 }
 
-void unproRed1()
+void unproRed()
 {
     //preauton
-    normal_chassis();
-    suspend_arm();
-    set_tray_pid(TRAY_IN);
-    set_arm(-20);
-
-    //
-    set_tank(-30,-30);
-    set_intake(-127);
-    pros::delay(1000);
-
-    //slows down drivetrain, so intake not push cubes
-    slow_chassis(5000);
-    profileController.setTarget("A");
-    pros::delay(100);
-    set_intake(127);
-    //generate path when theres time
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{1.3_ft, 2.9_ft, 40_deg}}, "B");
-    profileController.waitUntilSettled();
-    normal_chassis();
-    //curve to second row
-    profileController.setTarget("B", true);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
-    profileController.waitUntilSettled();
-    //wall align
-    set_tank(-35, -35);
-    pros::delay(2000);
-    set_tank(0, 0);
-    profileController.removePath("B");
-    slow_chassis(5000);
-    //intake row
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    normal_chassis();
-
-    //remove pid   
-    profileController.removePath("A");
-    profileController.removePath("C");
-    profileController.flipDisable();
-    chassisController.stop();
-
-    //score
-
-    // turn(300);
-    // profileController.setTarget("C");
-    // set_intake(-20);
-    // pros::delay(280);
-    // //increase time - grip
-    // set_intake(20);
-    // profileController.waitUntilSettled();
-    // set_tank(20, 20);
-    // pros::delay(300);
-    // tray_outtake();
-    // set_tank(-127, -127);
-    // pros::delay(1000);
-    // set_tank(0, 0);
-}
-
-void unproRed2()
-{
-    //preauton
-    drive_hold();
-
-    set_tank(127, 127);
-    pros::delay(230);
-    set_tank(-70, -70);
-    set_tray_pid(PROTECTED);
-    pros::delay(300);
-    set_tray_pid(TRAY_IN);
-
+    preauton();
     //intake row
     set_intake(127);
     set_arm(-30);
@@ -149,109 +91,54 @@ void unproRed2()
     chassisController.stop();
 }
 
-void unproBlue1()
+void unproBlue()
 {
     //preauton
-    normal_chassis();
-    suspend_arm();
-    set_tray_pid(TRAY_IN);
-    set_arm(-10);
-
-    //
-    set_tank(-30,-30);
-    set_intake(-127);
-    pros::delay(1000);
-
-    //slows down drivetrain, so intake not push cubes
-    slow_chassis(5000);
-    profileController.setTarget("A");
-    pros::delay(100);
-    set_intake(127);
-    //generate path when theres time
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, -2.3_ft, -40_deg}}, "B");
-    profileController.waitUntilSettled();
-    normal_chassis();
-    //curve to second row
-    profileController.setTarget("B", true);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{3.1_ft, 0_ft, 0_deg}}, "C");
-    profileController.waitUntilSettled();
-    //wall align
-    set_tank(-35, -35);
-    pros::delay(2000);
-    set_tank(0, 0);
-    profileController.removePath("B");
-    slow_chassis(5000);
-    //intake row
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    normal_chassis();
-
-    //remove pid   
-    profileController.removePath("A");
-    profileController.removePath("C");
-    profileController.flipDisable();
-    chassisController.stop();
-
-    //score
-
-    // turn(-300);
-    // profileController.setTarget("C");
-    // set_intake(-20);
-    // pros::delay(280);
-    // //increase time - grip
-    // set_intake(20);
-    // profileController.waitUntilSettled();
-    // set_tank(20, 20);
-    // pros::delay(300);
-    // tray_outtake();
-    // set_tank(-127, -127);
-    // pros::delay(1000);
-    // set_tank(0, 0);
-}
-
-void unproBlue2()
-{
-    //preauton
-    drive_hold();
-
-    set_tank(127, 127);
-    pros::delay(230);
-    set_tank(-70, -70);
-    set_tray_pid(PROTECTED);
-    pros::delay(300);
-    set_tray_pid(TRAY_IN);
-
+ preauton();
     //intake row
     set_intake(127);
     set_arm(-30);
+    slow_chassis(5000);
     pros::delay(100);
-    chassisController.moveDistance(44_in);
-    chassisController.waitUntilSettled();
-    //grab last cube in row
-    chassisController.moveDistance(8_in);
-    chassisController.waitUntilSettled();
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{96_in, 0_in, 0_deg}}, "A");
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
 
-    //swing turn
-    set_tank(-80, -15);
-    pros::delay(1600);
 
-    //score
-    intake_relative(-400, 180);
-    set_tray_pid(PROTECTED);
-    chassisController.moveDistance(43_in);
-    set_tank(20, 20);
-    pros::delay(400);
-    tray_outtake();
+        profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{60_in, -96_in, 0_deg}}, "C");
+    profileController.setTarget("C", true);
+    profileController.waitUntilSettled();
+    profileController.removePath("C");   
 
-    //resets everything
-    set_tank(-80, -80);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
+    // chassisController.waitUntilSettled();
+    // //grab last cube in row
+    // chassisController.moveDistance(8_in);
+    // chassisController.waitUntilSettled();
+
+
+
+
+    // //swing turn
+    // set_tank(-80, -15);
+    // pros::delay(1600);
+
+    // //score
+    // intake_relative(-400, 180);
+    // set_tray_pid(PROTECTED);
+    // chassisController.moveDistance(43_in);
+    // set_tank(20, 20);
+    // pros::delay(400);
+    // tray_outtake();
+
+    // //resets everything
+    // set_tank(-80, -80);
+    // pros::delay(500);
+    // set_tray_pid(TRAY_IN);
+    // set_tank(0, 0);
     chassisController.stop();
 }
 
-void proRed1()
+void proRed()
 {
     //preauton
     suspend_arm();
@@ -309,85 +196,16 @@ void proRed1()
     chassisController.stop();
 }
 
-void proRed2()
-{
-    //preauton
-    suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{2_ft, 0_ft, 0_deg}}, "A");
-    set_arm(-55);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    pros::delay(100);
-
-    //off route
-    set_intake(127);
-    profileController.setTarget("A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{10_ft, 0_ft, 0_deg}}, "B");
-    profileController.waitUntilSettled();
-    turn(-80);
-    //turn to face 4 stack, hopefully intake cube next to tower
-    slow_chassis(2000);
-    profileController.setTarget("B");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{1.8_ft, 0_ft, 0_deg}}, "C");    
-    profileController.waitUntilSettled();
-    //go backward
-    normal_chassis();
-    profileController.setTarget("C", true);
-    profileController.waitUntilSettled();
-    //turn towards wall
-    turn(-300);
-    //picks up one more cube
-    profileController.setTarget("C");
-    profileController.waitUntilSettled();
-
-    //turn to face and intake last cube
-    turn(270);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
-    //drive back from wall
-    set_tank(-30,-30);
-    set_intake(-10);
-    pros::delay(200);
-    
-    //turn to score
-    turn(-270);
-    //align an score
-    set_tank(20, 20);
-    set_intake(20);
-    pros::delay(200);
-    tray_outtake();
-    set_tank(-127, -127);
-    pros::delay(1000);
-    set_tank(0, 0);
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-
-
 void proBlue()
 {
     //preauton
+    normal_chassis();
     suspend_arm();
-    set_arm(127);
-    suspend_tray();
-    set_tray(100);
-    slow_chassis(5000);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{.8_ft, 0_ft, 0_deg}}, "A");
     set_arm(-50);
-    while (get_tray_pos() < PROTECTED + 100)
-        set_tray(127);
-    set_tray(0);
-    resume_tray();
+    set_intake(-127);
     set_tray_pid(TRAY_IN);
     pros::delay(100);
+    set_arm(-10);
 
     //off route
     profileController.setTarget("A");
@@ -430,22 +248,6 @@ void proBlue()
     chassisController.stop();
 }
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
 void skills()
 {      
     //preauton
@@ -461,15 +263,17 @@ void skills()
         // chassisController.waitUntilSettled();
         // chassisController.moveDistance(-12_in);
         // chassisController.waitUntilSettled();
+    // set_tank(100,100);
+    // pros::delay(100);
+    // set_tank(-100,-100);
+
     normal_chassis();
-    set_tank(100,100);
-    pros::delay(100);
-    set_tank(-100,-100);
     suspend_arm();
     set_arm(-50);
-    set_tray_pid(TRAY_IN);
     set_intake(-127);
+    set_tray_pid(TRAY_IN);
     pros::delay(100);
+    set_arm(-10);
 
     //1 cube in tower
     set_intake(127);
@@ -590,590 +394,39 @@ void skills()
         //longer distance = greater voltage
         set_intake(-127);
         pros::delay(100);
-
 }
 
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-void ActRedPro(){
-        //preauton
-    slow_chassis(5000);
-    suspend_arm();
-    set_tray_pid(TRAY_IN);
-    set_arm(-10);
-
-    //
-    set_tank(60,60);
-    pros::delay(650);
-    set_tank(-30,-30);
-    set_intake(-127);
-    pros::delay(800);
-
-    set_tank(0,0);
-    pros::delay(200);
-    //
-    set_tank(100,100);
-    set_intake(127);
-    pros::delay(900);
-
-    //
-    set_tank(-90,90);
-    pros::delay(600);
-        set_tank(0,0);
-    pros::delay(200);
-
-    set_tank(100,100);
-    pros::delay(1000);
-
-    set_tank(-90,90);
-    pros::delay(370);
-    set_tank(0,0);
-    pros::delay(200);
-
-    set_tank(40,40);
-    pros::delay(1600);
-
-
-    set_tank(-25,-25);
-    pros::delay(100);		
-
-    set_intake(-127);
-    pros::delay(4000);
-
-    set_tank(-50,-50);
-    set_intake(0);
-    pros::delay(500);
-
-    set_tank(0,0);
-                        // int l_intake_value = get_left_intake_pos();
-
-    // intake_relative(-600,-200);
-    // set_tank(-25,-25);
-    // pros::delay(200);		
-    //                 // while(get_left_intake_pos()-l_intake_value>=-510){
-	// 	            // pros::lcd::set_text(4, "in");
-    //                 //     pros::delay(5);
-    //                 //     if(get_left_intake_pos()-l_intake_value>=-510){
-    //                 //         set_intake(-75);
-    //                 //     }
-    //                 //     else
-    //                 //     {
-    //                 //         continue;
-    //                 //     }
-                        
-    //                 // }
-
-    // tray_outtake();
-    // set_tank(-80, -80);
-    // set_intake(-100);
-    // pros::delay(800);
-    // set_tank(0, 0);
-
-
-    // //small distance
-    // chassisController.moveDistance(10_in);
-    // chassisController.waitUntilSettled();
-    // chassisController.turnAngle(40_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //turn to face 4 stack. Slow chassis to intake, not push, cube
-    // slow_chassis(9000);
-    // set_intake(127);
-    // chassisController.moveDistance(56_in); //originally 50 in
-    // chassisController.waitUntilSettled();
-    // normal_chassis();
-    
-    // //turn to collect 2 cubes
-    // chassisController.moveDistance(-17_in); 
-    // chassisController.waitUntilSettled();
-    // chassisController.turnAngle(140_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //go forward to grab cube
-    // // set_tank(127,127);
-    // // pros::delay(100);
-    // // set_tank(0,0);
-    // // pros::delay(100);
-    // chassisController.moveDistance(46_in);
-    // chassisController.waitUntilSettled();
-    
-    // //come back to score
-    // chassisController.moveDistance(-46_in);
-    // chassisController.waitUntilSettled();
-    
-    // //turn to face score zone
-    // chassisController.turnAngle(-45_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //score
-    // chassisController.moveDistance(30_in);
-    // chassisController.waitUntilSettled();
-    // set_intake(0);
-    // tray_outtake();
-    // set_tank(-80, -80);
-    // pros::delay(800);
-    // set_tank(0, 0);
-    
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-
-}
-
-void newRedNewPro(){
-    //preauton
-    slow_chassis(5000);
-    suspend_arm();
-    set_tray_pid(TRAY_IN);
-    set_arm(-10);
-
-    //
-    set_tank(60,60);
-    pros::delay(500);
-    set_tank(-30,-30);
-    set_intake(-127);
-    pros::delay(500);
-
-    set_tank(0,0);
-    pros::delay(200);
-    //
-    set_tank(100,100);
-    set_intake(127);
-    pros::delay(900);
-
-    //
-    set_tank(90,-90);
-    pros::delay(600);
-        set_tank(0,0);
-    pros::delay(200);
-
-    set_tank(100,100);
-    pros::delay(1000);
-
-    set_tank(90,-90);
-    pros::delay(370);
-    set_tank(0,0);
-    pros::delay(200);
-
-    set_tank(40,40);
-    pros::delay(1600);
-
-
-    set_intake(0);
-    pros::delay(100);
-                        // int l_intake_value = get_left_intake_pos();
-
-                        intake_relative(-525,-200);		
-                    // while(get_left_intake_pos()-l_intake_value>=-510){
-		            // pros::lcd::set_text(4, "in");
-                    //     pros::delay(5);
-                    //     if(get_left_intake_pos()-l_intake_value>=-510){
-                    //         set_intake(-75);
-                    //     }
-                    //     else
-                    //     {
-                    //         continue;
-                    //     }
-                        
-                    // }
-
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-
-
-    // //small distance
-    // chassisController.moveDistance(10_in);
-    // chassisController.waitUntilSettled();
-    // chassisController.turnAngle(40_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //turn to face 4 stack. Slow chassis to intake, not push, cube
-    // slow_chassis(9000);
-    // set_intake(127);
-    // chassisController.moveDistance(56_in); //originally 50 in
-    // chassisController.waitUntilSettled();
-    // normal_chassis();
-    
-    // //turn to collect 2 cubes
-    // chassisController.moveDistance(-17_in); 
-    // chassisController.waitUntilSettled();
-    // chassisController.turnAngle(140_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //go forward to grab cube
-    // // set_tank(127,127);
-    // // pros::delay(100);
-    // // set_tank(0,0);
-    // // pros::delay(100);
-    // chassisController.moveDistance(46_in);
-    // chassisController.waitUntilSettled();
-    
-    // //come back to score
-    // chassisController.moveDistance(-46_in);
-    // chassisController.waitUntilSettled();
-    
-    // //turn to face score zone
-    // chassisController.turnAngle(-45_deg);
-    // chassisController.waitUntilSettled();
-    
-    // //score
-    // chassisController.moveDistance(30_in);
-    // chassisController.waitUntilSettled();
-    // set_intake(0);
-    // tray_outtake();
-    // set_tank(-80, -80);
-    // pros::delay(800);
-    // set_tank(0, 0);
-    
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-void newNewRedUnpro(){
-    //preauton
-    normal_chassis();
-    suspend_arm();
-    set_tray_pid(TRAY_IN);
-    set_arm(-10);
-
-    //take first cube in the way
-    set_intake(127);
-    set_tank(100,100);
-    pros::delay(600);
-
-    //go back
-    set_tank(-35,-35);
-    pros::delay(2600);
-    set_tank(40,40);
-    pros::delay(500);
-
-    //turn towards goal
-    set_tank(-50, 50);
-    pros::delay(700);
-    set_tank(0, 0);
-    set_intake(0);
-    
-    //release cube
-    set_intake(-127);	
-    resume_arm();
-    set_arm_pid(1300);
-    pros::delay(190);
-    set_intake(0);
-    while(get_arm_pos() < 1290)
-        pros::delay(10);
-    set_intake(-127);
-    pros::delay(500);
-    set_intake(0);
-    set_arm_pid(0);
-    set_tank(50, -50);
-    pros::delay(700);
-    set_tank(0, 0);
-    set_tank(-35, -35);
-    pros::delay(1000);
-    set_tank(0, 0);
-    pros::delay(10);
-    //48
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{40_in, 0_in, 0_deg}}, "A");
-
-    //grab stack
-    set_intake(127);
-    pros::delay(10);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-	pros::Controller master(CONTROLLER_MASTER);
-	master.set_text(0, 0, "1");
-
-    //turn towards goal
-    turn(130);
-    set_tray_pid(PROTECTED);
-    master.set_text(0, 0, "2");
-    
-    //move towards goal
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    
-    //slowly align
-    set_intake(0);
-    set_tank(30,30);
-    pros::delay(1000);
-
-    //score
-    tray_outtake();
-    set_tank(-80, -80);
-    set_intake(-40);
-    pros::delay(800);
-    set_tank(0, 0);
-    
-
-    //remove pid
-    profileController.flipDisable();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-void newRedPro(){
-    //preauton
-
-    //go forward to grab cube
-
-    //go back
-
-    //launch cube into zone
-
-    //turn back to 4 stack
-
-    //grab 4 stack
-
-    //turn to face zone
-
-    //go forward
-
-    //score
-
-    //reset
-
-}
-void newRedUnpro(){
-    //preauton
-    normal_chassis();
-    set_tank(100,100);
-    pros::delay(100);
-    set_tank(-100,-100);
-    suspend_arm();
-    set_arm(-50);
-    set_tray_pid(TRAY_IN);
-    set_intake(-127);
-    pros::delay(100);
-    
-    //straight 4 cubes, including preload
-    set_intake(127);
-    chassisController.moveDistance(24.5_in); //originally 22
-    chassisController.waitUntilSettled();
-    normal_chassis();
-    
-    //2nd row
-    //chassisController.turnAngle(26.565_deg);
-    //set_tank(-127,-127);
-    //pros::delay(100);
-    //set_tank(0,0);
-    //pros::delay(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, -24_in, 0_deg}}, "A");
-    profileController.setTarget("A", true);
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
-    slow_chassis(9000);
-    
-    //straight (5 cube)
-    chassisController.moveDistance(60_in); //originally 54
-    chassisController.waitUntilSettled();
-    normal_chassis();
-    
-    //turn to face score zone
-    chassisController.turnAngle(-158_deg);
-    chassisController.waitUntilSettled();
-    
-    //drive to score
-    chassisController.moveDistanceAsync(33_in);
-    // set_intake(-20);
-    // pros::delay(100);
-    chassisController.waitUntilSettled();
-    set_intake(0);
-    
-    //score
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-    
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-
-
-void newBluePro(){
-    //preauton
-    normal_chassis();
-    suspend_arm();
-    set_arm(-50);
-    set_tray_pid(TRAY_IN);
-    set_intake(-127);
-    pros::delay(100);
-
-    //small distance
-    chassisController.moveDistance(10_in);
-    chassisController.waitUntilSettled();
-    chassisController.turnAngle(-40_deg);
-    chassisController.waitUntilSettled();
-    
-    //turn to face 4 stack. Slow chassis to intake, not push, cube
-    slow_chassis(9000);
-    set_intake(127);
-    chassisController.moveDistance(56_in); //originally 50 in
-    chassisController.waitUntilSettled();
-    normal_chassis();
-    
-    //turn to collect 2 cubes
-    chassisController.moveDistance(-17_in);
-    chassisController.waitUntilSettled();
-    chassisController.turnAngle(-140_deg);
-    chassisController.waitUntilSettled();
-    
-    //go forward to grab cube
-    // set_tank(127,127);
-    // pros::delay(100);
-    // set_tank(0,0);
-    // pros::delay(100);
-    chassisController.moveDistance(46_in);
-    chassisController.waitUntilSettled();
-    
-    //come back to score
-    chassisController.moveDistance(-46_in);
-    chassisController.waitUntilSettled();
-    
-    //turn to face score zone
-    chassisController.turnAngle(45_deg);
-    chassisController.waitUntilSettled();
-    
-    //score
-    chassisController.moveDistance(30_in);
-    chassisController.waitUntilSettled();
-    set_intake(0);
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-    
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-}
-void newBlueUnpro(){
-    //preauton
-    normal_chassis();
-    set_tank(100,100);
-    pros::delay(100);
-    set_tank(-100,-100);
-    suspend_arm();
-    set_arm(-50);
-    set_tray_pid(TRAY_IN);
-    set_intake(-127);
-    pros::delay(100);
-
-    //straight 4 cubes, including preload
-    set_intake(127);
-    chassisController.moveDistance(24.5_in); //originally 22
-    chassisController.waitUntilSettled();
-    normal_chassis();
-    
-    //2nd row
-    //chassisController.turnAngle(-26.565_deg);
-    //set_tank(-127,-127);
-    //pros::delay(100);
-    //set_tank(0,0);
-    //pros::delay(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 24_in, 0_deg}}, "A");
-    profileController.setTarget("A", true);
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
-    slow_chassis(9000);
-
-    //straight (5 cube)
-    chassisController.moveDistance(60_in); //originally 54
-    chassisController.waitUntilSettled();
-    normal_chassis();
-
-    //turn to face score zone
-    chassisController.turnAngle(158_deg);
-    chassisController.waitUntilSettled();
-
-    //drive to score
-    chassisController.moveDistanceAsync(33_in);
-    // set_intake(-20);
-    // pros::delay(100);
-    chassisController.waitUntilSettled();
-    set_intake(0);
-
-    //score
-    tray_outtake();
-    set_tank(-80, -80);
-    pros::delay(800);
-    set_tank(0, 0);
-    
-    //remove pid
-    profileController.flipDisable();
-    chassisController.stop();
-
-}
 void test(){
     //straight
-    chassisController.moveDistance(72_in);
-    chassisController.waitUntilSettled();
+    normal_chassis();
+// //    drivepid(5500);
+//     chassisController.moveDistance(54_in);
+//     chassisController.waitUntilSettled();
 
-    //turn
-    slow_chassis(5000);
-    chassisController.turnAngle(90_deg);
-    chassisController.waitUntilSettled();
+    // //turn
+    // slow_chassis(5000);
+    // chassisController.turnAngle(90_deg);
+    // chassisController.waitUntilSettled();
     
-    //straight
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, 0_ft, 0_deg}}, "A");
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
+ //   pros::delay(500);
+    // //straight
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 0_ft, 0_deg}}, "A");
+    // profileController.setTarget("A");
+    // profileController.waitUntilSettled();
+    // profileController.removePath("A");
     
-    //turn
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0_ft, 0_ft, 90_deg}}, "B");
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
-    profileController.removePath("B");
+    // //turn
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0_ft, 0_ft, 90_deg}}, "B");
+    // profileController.setTarget("B");
+    // profileController.waitUntilSettled();
+    // profileController.removePath("B");
     
     //s curve
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{4_ft, -2_ft, 0_deg}}, "C");
-    profileController.setTarget("C", true);
-    profileController.waitUntilSettled();
-    profileController.removePath("C");   
-
+    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30_in, -48_in, 0_deg}}, "C");
+    // profileController.setTarget("C", true);
+    // profileController.waitUntilSettled();
+    // profileController.removePath("C");   
+}
     //test whether long distance screws pid
     //test whether cube amount screws pid (less friction from wheel... different weight distribution)
     //test whether initial chassis voltage is 10,000 or not (so distance is accurate with which voltage setting)
@@ -1181,5 +434,3 @@ void test(){
     //test if angle is affected by voltage limiting
 
     //test inertia sensor? (velocity * time to determine distance -> pid)
-
-}

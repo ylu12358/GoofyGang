@@ -1,13 +1,11 @@
 #ifndef SUBSYSTEMS_HPP
 #define SUBSYSTEMS_HPP
 
-void print_counters();
+extern bool tank;
 
 void tray_outtake();
 void drive_control(void *);
 void tray_control(void *);
 void arm_control(void *);
-extern bool intake;
-extern bool tank;
 
 #endif

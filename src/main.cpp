@@ -51,17 +51,13 @@ void autonomous()
 //deploy is just outtaking rollers
 
 	if (selector == 1)
-//		unproRed1();
-		newRedUnpro();
+		unproRed();
 	if (selector == 2)
-//		unproBlue1();
-		newBlueUnpro();
+		unproBlue();
 	if (selector == 3)
-//		proRed1();
-		newRedPro();
+		proRed();
 	if (selector == 4)
-//		proBlue();
-		newBluePro();
+		proBlue();
 	if (selector == 5)
 		skills();		
 
@@ -84,7 +80,6 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
-		print_counters();
 
 //		pros::lcd::set_text(4, "Line Sensor:" + std::to_string(get_line()));
 		//master.print(0, 0, "%f", "test:" + selector);

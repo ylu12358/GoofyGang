@@ -37,6 +37,8 @@ int get_left_drive_pos();
 int get_right_drive_pos();
 int get_left_drive_spe();
 int get_right_drive_spe();
+int get_left_intake_pos();
+int get_right_intake_pos();
 int get_tray_pos();
 int get_arm_pos();
 int get_line();
@@ -52,13 +54,10 @@ void suspend_tray();
 void resume_tray();
 void suspend_arm();
 void resume_arm();
-int get_left_intake_pos();
-int get_right_intake_pos();
 
-
+void drivepid(int distance);
 #define TRAY_OUT 2640
 #define PROTECTED 1330
-//1990
 #define TRAY_IN 800
 
 //#define CUBE_IN

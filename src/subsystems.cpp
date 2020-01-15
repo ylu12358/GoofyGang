@@ -2,17 +2,7 @@
 
 int arm_counter = 0;
 int tray_counter = 0;
-bool cube = false;
-bool intake;
 bool tank = true;
-bool arm_ready = false;
-bool in_ready = false;
-
-void print_counters()
-{
-    pros::lcd::set_text(5, "Arm: " + std::to_string(arm_counter));
-    pros::lcd::set_text(6, "Tray: " + std::to_string(tray_counter));
-}
 
 void tray_outtake()
 {
@@ -45,7 +35,8 @@ void drive_control(void *)
             set_tank((master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)), (-master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)));
         else if(tank) //tank
             set_tank(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_Y));
-        if(master.get_digital(DIGITAL_DOWN)){ //switch
+        if(master.get_digital(DIGITAL_DOWN)) //switch
+        {
             while (master.get_digital(DIGITAL_DOWN))
                 pros::delay(10);
             tank = !tank;
@@ -58,7 +49,7 @@ void tray_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     tray_coast();
-    pros::delay(100);
+    pros::delay(100); // allow potentiometer to settle
     while (true)
     {
         if (master.get_digital(DIGITAL_L1))
@@ -68,24 +59,23 @@ void tray_control(void *)
                 tray_counter++;
                 switch (tray_counter)
                 {
-                case 0: //intake
-                    resume_tray();
-                    set_tray_pid(TRAY_IN);
-                    intake_coast();
-                    break;
-                case 1: //protected
-                    set_tray_pid(PROTECTED);
-                    break;
-                case 2: //score
-                    cube = false;
-                    suspend_tray();
-                    tray_outtake();
-                    tray_counter = -1;
-                    intake_hold();
-                    break;
+                    case 0: //intake
+                        resume_tray();
+                        set_tray_pid(TRAY_IN);
+                        intake_coast();
+                        break;
+                    case 1: //protected
+                        set_tray_pid(PROTECTED);
+                        break;
+                    case 2: //score
+                        suspend_tray();
+                        tray_outtake();
+                        tray_counter = -1;
+                        intake_hold();
+                        break;
                 }
-            while (master.get_digital(DIGITAL_L1))
-                pros::delay(10);
+                while (master.get_digital(DIGITAL_L1))
+                    pros::delay(10);
             }
         }
         pros::delay(20);
@@ -126,9 +116,8 @@ void arm_control(void *)
                     reset_intake_encoder();
                     set_arm(127);
                     set_intake(-127);
-                    while (get_left_intake_pos() > -522)
+                    while (get_left_intake_pos() > -515)
                     {
-                        pros::lcd::set_text(4, "in");
                         pros::delay(5);
                     }
                     set_intake(0);
@@ -141,8 +130,8 @@ void arm_control(void *)
                 if (tray_counter == 0)
                 {
                     resume_arm();
-                    set_arm_pid(1600);
-                    set_intake_speed(10000);
+                    set_arm_pid(1650);
+                    set_intake_speed(9300);
                 }
                 arm_counter = -1;
                 break; 

@@ -16,17 +16,17 @@
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {11, 12}, {10, 9},
-    IterativePosPIDController::Gains{0.001, 0.00000001, 0.000}, //{0.001, 0, 0.0001}}//.0006
+    IterativePosPIDController::Gains{0.001, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
-    IterativePosPIDController::Gains{0, 0, 0},
-    IterativePosPIDController::Gains{0.017, 0.0001, 0.0000}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
-    AbstractMotor::gearset::green,                            //0.0175, 0.01, 0.000375
-    {4.125_in, 12.28125_in});
+    IterativePosPIDController::Gains{0.00, 0.00, 0},
+    IterativePosPIDController::Gains{0.001, 0.0015, 0.0001}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
+    AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
+    {5.3_in, 10_in});
 
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
-    2.0,                // Maximum linear velocity in m/s
-    1.75,               // Maximum linear acceleration in m/s/s
-    15.0,               // Maximum linear jerk in m/s/s/s
+    1.41,                // Maximum linear velocity in m/s
+    4.0,               // Maximum linear acceleration in m/s/s //4
+    6.0,               // Maximum linear jerk in m/s/s/s //6
     chassisController); // Chassis Controller
 
 int selector = 0;
@@ -221,6 +221,15 @@ int get_right_drive_spe()
     return rb_drive.get_actual_velocity() / 200 * 127;
 }
 
+int get_left_intake_pos()
+{
+    return l_intake.get_position();
+}
+int get_right_intake_pos()
+{
+    return r_intake.get_position();
+}
+
 int get_tray_pos()
 {
     return tray_pot.get_value();
@@ -346,6 +355,42 @@ void arm_pid(void *)
     }
 }
 
+// void drivepid(int distance)
+// {
+//     float power;
+//     float proportion;
+//     float kp = 0.003;
+//     float integral;
+//     float ki = 0.000;
+//     float error;
+//     float errorT;
+//     float integralActiveZone = 20;
+//     float kd = 0;
+//     float derivative;
+//     float last_error;
+//     reset_drive_encoder();
+
+//     while (true)
+//     {
+//         error = distance - get_left_drive_pos();
+//         proportion = error * kp;
+//         if(error < integralActiveZone && error!=0){
+//             errorT++;
+//         } else{
+//             errorT = 0;
+//         }
+//         if(errorT > 50){
+//             errorT = 50;
+//         }
+//         integral = errorT * ki;
+//         derivative = (error-last_error)*kd;
+//         last_error = error;
+//         power = integral + proportion + derivative;
+//         set_tank(power,power);
+//         pros::delay(20);
+//     }
+// }
+
 void drive_straight(int speed, int dis)
 {
     reset_drive_encoder();
@@ -353,7 +398,7 @@ void drive_straight(int speed, int dis)
     int l_output, r_output;
     int speed_output;
     int error = dis - get_left_drive_pos();
-    float kp = 0.07;
+    float kp = 0.002;
     while (abs(error) > 10)
     {
         error = dis - get_left_drive_pos();
@@ -389,11 +434,4 @@ void suspend_arm()
 void resume_arm()
 {
     arm_pid_t.resume();
-}
-
-int get_left_intake_pos(){
-    return l_intake.get_position();
-}
-int get_right_intake_pos(){
-    return r_intake.get_position();
 }
