@@ -16,12 +16,12 @@
 
 ChassisControllerPID chassisController = ChassisControllerFactory::create(
     {11, 12}, {10, 9},
-    IterativePosPIDController::Gains{0.001, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
+    IterativePosPIDController::Gains{0.1, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
     IterativePosPIDController::Gains{0.00, 0.00, 0},
-    IterativePosPIDController::Gains{0.001, 0.0015, 0.0001}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
+    IterativePosPIDController::Gains{0.1, 0.08, 0.002}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
     AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
-    {5.3_in, 10_in});
+    {5.3_in, 15_in});
 
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
     1.41,                // Maximum linear velocity in m/s

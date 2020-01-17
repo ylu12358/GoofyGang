@@ -409,11 +409,11 @@ void test(){
     // chassisController.waitUntilSettled();
     
  //   pros::delay(500);
-    // //straight
-    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 0_ft, 0_deg}}, "A");
-    // profileController.setTarget("A");
-    // profileController.waitUntilSettled();
-    // profileController.removePath("A");
+    //straight
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 0_ft, 0_deg}}, "A");
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    profileController.removePath("A");
     
     // //turn
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0_ft, 0_ft, 90_deg}}, "B");
@@ -422,10 +422,11 @@ void test(){
     // profileController.removePath("B");
     
     //s curve
-    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{30_in, -48_in, 0_deg}}, "C");
-    // profileController.setTarget("C", true);
-    // profileController.waitUntilSettled();
-    // profileController.removePath("C");   
+    //34, 18
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{52_in, -28_in, 0_deg}}, "C");
+    profileController.setTarget("C", true);
+    profileController.waitUntilSettled();
+    profileController.removePath("C");   
 }
     //test whether long distance screws pid
     //test whether cube amount screws pid (less friction from wheel... different weight distribution)

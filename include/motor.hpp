@@ -60,6 +60,7 @@ void drivepid(int distance);
 #define PROTECTED 1330
 #define TRAY_IN 800
 
+#define LOCK_SAFE 850
 //#define CUBE_IN
 
 #endif

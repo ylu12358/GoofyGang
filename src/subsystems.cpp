@@ -3,21 +3,31 @@
 int arm_counter = 0;
 int tray_counter = 0;
 bool tank = true;
+bool safe = false;
+int last_tray = TRAY_IN;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1300)
+    while (get_tray_pos() < 1600)
         set_tray(127);
     intake_coast();
-    while (get_tray_pos() < 2500)
+    
+    while (get_tray_pos() < 2150)
     {
-        set_tray(100);
+        set_tray(70);
         set_intake(13);
     }
+    
+    while (get_tray_pos() < 2600)
+    {
+        set_tray(40);
+        set_intake(13);
+    }
+
     while (get_tray_pos() < TRAY_OUT)
     {
         set_intake(-13);
-        set_tray(50);
+        set_tray(30);
     }
     
     set_tray(0);
@@ -52,7 +62,11 @@ void tray_control(void *)
     pros::delay(100); // allow potentiometer to settle
     while (true)
     {
-        if (master.get_digital(DIGITAL_L1))
+        if(master.get_digital(DIGITAL_RIGHT)){
+            resume_tray();
+            set_tray_pid(LOCK_SAFE);
+            safe = true;
+        } else if (master.get_digital(DIGITAL_L1))
         {
             if(arm_counter == 0)
             {
@@ -63,21 +77,27 @@ void tray_control(void *)
                         resume_tray();
                         set_tray_pid(TRAY_IN);
                         intake_coast();
+                        last_tray = TRAY_IN;
                         break;
                     case 1: //protected
                         set_tray_pid(PROTECTED);
+                        last_tray = PROTECTED;
                         break;
                     case 2: //score
                         suspend_tray();
                         tray_outtake();
                         tray_counter = -1;
                         intake_hold();
+//                        last_tray = TRAY_IN;
                         break;
                 }
                 while (master.get_digital(DIGITAL_L1))
                     pros::delay(10);
             }
-        }
+        } else if(safe){
+            set_tray_pid(last_tray);
+            safe = false;
+        } 
         pros::delay(20);
     }
 }
@@ -95,46 +115,48 @@ void arm_control(void *)
     while(true){
         if(master.get_digital(DIGITAL_L2))
         {
-            arm_counter++;
-            set_arm(0);
-            while(master.get_digital(DIGITAL_L2))
-                pros::delay(10);
-            switch(arm_counter)
-            {
-            case 0: //arm down
-                if (tray_counter == 0)
+            if(tray_counter == 0){
+                arm_counter++;
+                set_arm(0);
+                while(master.get_digital(DIGITAL_L2))
+                    pros::delay(10);
+                switch(arm_counter)
                 {
-                    //cube = true;
-                    set_arm_pid(0);
-                    set_intake_speed(12000);
-                }
-                break;
-            case 1: //first tower height
-                if (tray_counter == 0)
-                {
-                    intake_hold();
-                    reset_intake_encoder();
-                    set_arm(127);
-                    set_intake(-127);
-                    while (get_left_intake_pos() > -515)
+                case 0: //arm down
+                    if (tray_counter == 0)
                     {
-                        pros::delay(5);
+                        //cube = true;
+                        set_arm_pid(0);
+                        set_intake_speed(12000);
                     }
-                    set_intake(0);
-                    resume_arm();
-                    set_arm_pid(1300);
-                    set_intake_speed(8500);
+                    break;
+                case 1: //first tower height
+                    if (tray_counter == 0)
+                    {
+                        intake_hold();
+                        reset_intake_encoder();
+                        set_arm(127);
+                        set_intake(-127);
+                        while (get_left_intake_pos() > -515)
+                        {
+                            pros::delay(5);
+                        }
+                        set_intake(0);
+                        resume_arm();
+                        set_arm_pid(1300);
+                        set_intake_speed(8500);
+                    }
+                    break;
+                case 2: //second tower height
+                    if (tray_counter == 0)
+                    {
+                        resume_arm();
+                        set_arm_pid(1650);
+                        set_intake_speed(9300);
+                    }
+                    arm_counter = -1;
+                    break; 
                 }
-                break;
-            case 2: //second tower height
-                if (tray_counter == 0)
-                {
-                    resume_arm();
-                    set_arm_pid(1650);
-                    set_intake_speed(9300);
-                }
-                arm_counter = -1;
-                break; 
             }
         }
         else if (master.get_digital(DIGITAL_R1))
