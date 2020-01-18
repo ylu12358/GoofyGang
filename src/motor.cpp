@@ -249,6 +249,19 @@ int get_line(){
     return cube_in.get_value();
 }
 
+void intake_rpm(int rpm){
+    l_intake.move_velocity(rpm);
+    r_intake.move_velocity(rpm);
+}
+
+void drive_rpm(int rpm){
+    lb_drive.move_velocity(rpm);
+    lf_drive.move_velocity(rpm);
+    rb_drive.move_velocity(rpm);
+    rf_drive.move_velocity(rpm);
+}
+
+
 //Auto
 void auto_selector()
 {
@@ -308,9 +321,35 @@ void set_tray_pid(int input)
 
 void tray_pid(void *)
 {
+    float power;
+    float proportion;
+    //.5
+    float kp = 0.8;
+    float integral;
+    float ki = 0;
+    float error;
+    float errorT;
+    float integralActiveZone = 20;
+    float kd = 0;
+    float derivative;
+    float last_error;
     while (true)
     {
-        set_tray((t_target - get_tray_pos()) * 0.5);
+        error = t_target - get_tray_pos();
+        proportion = error * kp;
+        if(error < integralActiveZone && error!=0){
+            errorT++;
+        } else{
+            errorT = 0;
+        }
+        if(errorT > 50){
+            errorT = 50;
+        }
+        integral = errorT * ki;
+        derivative = (error-last_error)*kd;
+        last_error = error;
+        power = integral + proportion + derivative;
+        set_tray(power);
         pros::delay(20);
     }
 }
@@ -355,41 +394,41 @@ void arm_pid(void *)
     }
 }
 
-// void drivepid(int distance)
-// {
-//     float power;
-//     float proportion;
-//     float kp = 0.003;
-//     float integral;
-//     float ki = 0.000;
-//     float error;
-//     float errorT;
-//     float integralActiveZone = 20;
-//     float kd = 0;
-//     float derivative;
-//     float last_error;
-//     reset_drive_encoder();
+void drivepid(int distance)
+{
+    float power;
+    float proportion;
+    float kp = 0;
+    float integral;
+    float ki = 0;
+    float error;
+    float errorT;
+    float integralActiveZone = 20;
+    float kd = 0;
+    float derivative;
+    float last_error;
+//    reset_drive_encoder();
 
-//     while (true)
-//     {
-//         error = distance - get_left_drive_pos();
-//         proportion = error * kp;
-//         if(error < integralActiveZone && error!=0){
-//             errorT++;
-//         } else{
-//             errorT = 0;
-//         }
-//         if(errorT > 50){
-//             errorT = 50;
-//         }
-//         integral = errorT * ki;
-//         derivative = (error-last_error)*kd;
-//         last_error = error;
-//         power = integral + proportion + derivative;
-//         set_tank(power,power);
-//         pros::delay(20);
-//     }
-// }
+    while (true)
+    {
+        error = distance - get_left_drive_pos();
+        proportion = error * kp;
+        if(error < integralActiveZone && error!=0){
+            errorT++;
+        } else{
+            errorT = 0;
+        }
+        if(errorT > 50){
+            errorT = 50;
+        }
+        integral = errorT * ki;
+        derivative = (error-last_error)*kd;
+        last_error = error;
+        power = integral + proportion + derivative;
+        set_tank(power,power);
+        pros::delay(20);
+    }
+}
 
 void drive_straight(int speed, int dis)
 {

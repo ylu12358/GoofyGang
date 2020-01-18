@@ -5,10 +5,9 @@ void init_pr();
 void init_pb();
 void init_upr();
 void init_upb();
+void init_skill();
 
-//tests/
-
-void chassis_straight();
-void chassis_turn();
+void init_sr();
+void init_sb();
 
 #endif

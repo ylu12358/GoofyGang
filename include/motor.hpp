@@ -56,11 +56,16 @@ void suspend_arm();
 void resume_arm();
 
 void drivepid(int distance);
+void intake_rpm(int rpm);
+void drive_rpm(int rpm);
+
 #define TRAY_OUT 2640
 #define PROTECTED 1330
 #define TRAY_IN 800
-
-#define LOCK_SAFE 850
+//850
+#define LOCK_SAFE 1000
 //#define CUBE_IN
+#define LOW_TOWER 1300
+#define HIGH_TOWER 1650
 
 #endif

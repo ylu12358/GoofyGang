@@ -5,6 +5,8 @@ void unproRed();
 void unproBlue();
 void proRed();
 void proBlue();
+void shortUnRed();
+void shortUnBlue();
 
 void skills();
 

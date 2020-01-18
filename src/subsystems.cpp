@@ -143,7 +143,7 @@ void arm_control(void *)
                         }
                         set_intake(0);
                         resume_arm();
-                        set_arm_pid(1300);
+                        set_arm_pid(LOW_TOWER);
                         set_intake_speed(8500);
                     }
                     break;
@@ -151,7 +151,7 @@ void arm_control(void *)
                     if (tray_counter == 0)
                     {
                         resume_arm();
-                        set_arm_pid(1650);
+                        set_arm_pid(HIGH_TOWER);
                         set_intake_speed(9300);
                     }
                     arm_counter = -1;

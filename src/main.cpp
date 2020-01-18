@@ -28,10 +28,10 @@ void initialize()
 		init_upr();
 	if (selector == 2)
 		init_upb();
-	// if (selector == 3)
-	// 	init_pr();
-	// if (selector == 4)
-	// 	init_pb();
+	if (selector == 3)
+		init_pr();
+	if (selector == 4)
+		init_pb();
 	if (selector == 5)
 		tank = false;
 }
@@ -46,7 +46,6 @@ void autonomous()
 	reset_tray_encoder();
 	reset_arm_encoder();
 	reset_intake_encoder();
-
 
 //deploy is just outtaking rollers
 
