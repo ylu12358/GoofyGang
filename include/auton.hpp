@@ -16,4 +16,5 @@ void test();
 
 void preauton();
 void endAuton();
+void outtakeBit();
 #endif
