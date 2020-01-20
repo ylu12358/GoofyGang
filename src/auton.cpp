@@ -42,6 +42,21 @@ void preauton(){
     set_arm(-10);
 }
 
+void endAuton(){
+    //resets everything
+    set_tank(-80,-80);
+    pros::delay(500);
+    set_tray_pid(TRAY_IN);
+    set_tank(0, 0);
+    set_intake(0);
+    chassisController.stop();
+    profileController.removePath("A");
+    profileController.flipDisable();
+    set_intake_speed(12000);
+    normal_chassis();
+
+}
+
 void oneCube()
 {
     //forward (score)
@@ -112,19 +127,9 @@ void unproRed()
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
     profileController.removePath("B");
     profileController.removePath("C");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void unproBlue()
@@ -184,19 +189,9 @@ void unproBlue()
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
     profileController.removePath("B");
     profileController.removePath("C");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void shortUnRed(){
@@ -240,17 +235,7 @@ void shortUnRed(){
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void shortUnBlue(){
@@ -294,17 +279,7 @@ void shortUnBlue(){
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void proRed()
@@ -359,18 +334,8 @@ void proRed()
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
     profileController.removePath("B");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void proBlue()
@@ -425,18 +390,8 @@ void proBlue()
     tray_outtake();
 
     //resets everything
-    intake_rpm(200);
-    drive_rpm(200);
-    pros::delay(500);
-    set_tray_pid(TRAY_IN);
-    set_tank(0, 0);
-    set_intake(0);
-    chassisController.stop();
-    profileController.removePath("A");
     profileController.removePath("B");
-    profileController.flipDisable();
-    set_intake_speed(12000);
-    normal_chassis();
+    endAuton();
 }
 
 void skills()

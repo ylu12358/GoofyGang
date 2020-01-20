@@ -14,4 +14,5 @@ void oneCube();
 void test();
 
 void preauton();
+void endAuton();
 #endif

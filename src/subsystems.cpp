@@ -48,7 +48,7 @@ void drive_control(void *)
         if(master.get_digital(DIGITAL_DOWN)) //switch
         {
             while (master.get_digital(DIGITAL_DOWN))
-                pros::delay(10);
+                pros::delay(10); //blocking - only executes once
             tank = !tank;
         }
         pros::delay(20);
