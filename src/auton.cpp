@@ -39,6 +39,7 @@ void preauton(){
     set_intake(-127);
     set_tray_pid(TRAY_IN);
     pros::delay(100);
+    reset_arm_encoder();
     set_arm(-10);
 }
 
@@ -118,9 +119,7 @@ void unproRed()
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -180,9 +179,7 @@ void unproBlue()
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -226,9 +223,7 @@ void shortUnRed(){
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -270,9 +265,7 @@ void shortUnBlue(){
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -325,9 +318,7 @@ void proRed()
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -381,9 +372,7 @@ void proBlue()
     reset_intake_encoder();
     set_intake(-127);
     while (get_left_intake_pos() > -515)
-    {
         pros::delay(5);
-    }
     set_intake(0);
 
     //score
@@ -394,57 +383,57 @@ void proBlue()
     endAuton();
 }
 
-void skills()
+void skills1()
 {      
     //preauton
     preauton();
 
     //maybe drive forward
     
-        // set_tank(40,40);
-        // pros::delay(100);
-        // set_tank(-40,-40);
-        // pros::delay(100);
+    // set_tank(40,40);
+    // pros::delay(100);
+    // set_tank(-40,-40);
+    // pros::delay(100);
         
-        // chassisController.moveDistance(12_in);
-        // chassisController.waitUntilSettled();
-        // chassisController.moveDistance(-12_in);
-        // chassisController.waitUntilSettled();
+    // chassisController.moveDistance(12_in);
+    // chassisController.waitUntilSettled();
+    // chassisController.moveDistance(-12_in);
+    // chassisController.waitUntilSettled();
     // set_tank(100,100);
     // pros::delay(100);
     // set_tank(-100,-100);
-
 
     //1 cube in tower
     set_intake(127);
     chassisController.moveDistance(43_in);
     chassisController.waitUntilSettled();
-        //outtake a bit, so cube is in intake, not tray
-            reset_intake_encoder();
-            set_intake(-127);
-            while (get_left_intake_pos() > -515)
-            {
-                pros::delay(5);
-            }
-            set_intake(0);
-        //arm
-            set_arm_pid(LOW_TOWER);
+    //outtake a bit, so cube is in intake, not tray
+    reset_intake_encoder();
+    set_intake(-127);
+    while (get_left_intake_pos() > -515)
+        pros::delay(5);
+    set_intake(0);
+    //arm
+    set_arm_pid(LOW_TOWER);
     set_intake(-90);
     pros::delay(100);
 
     //come back and wall align
     set_tray_pid(LOCK_SAFE);
-    set_tank(-60,-60);
+    set_tank(-60, -60);
     set_intake(127);
-        //arm
-            set_arm_pid(0);
+    //arm
+    set_arm_pid(0);
+}
 
+void skills2()
+{
     //8 cubes straight
     chassisController.moveDistanceAsync(120_in);
-        //disable arm
-        suspend_arm();
-        set_arm(-30);
-        reset_arm_encoder();
+    //disable arm
+    suspend_arm();
+    set_arm(-30);
+    reset_arm_encoder();
     chassisController.waitUntilSettled();
 
     //turn and score
@@ -461,55 +450,51 @@ void skills()
     resume_tray();
     set_tray_pid(LOCK_SAFE);
     chassisController.waitUntilSettled();
-    
+
     //turn (backward) and wall align with row of cube
     chassisController.turnAngleAsync(225_deg);
     set_intake(127);
     chassisController.waitUntilSettled();
-    set_tank(-60,-60);
+    set_tank(-60, -60);
     pros::delay(100);
 
     //3 cubes straight
     chassisController.moveDistanceAsync(22_in);
     set_tray_pid(TRAY_IN);
     chassisController.waitUntilSettled();
-        //outtake a bit, so cube is in intake, not tray
-            reset_intake_encoder();
-            set_intake(-127);
-            while (get_left_intake_pos() > -515)
-            {
-                pros::delay(5);
-            }
-            set_intake(0);
+    //outtake a bit, so cube is in intake, not tray
+    reset_intake_encoder();
+    set_intake(-127);
+    while (get_left_intake_pos() > -515)
+        pros::delay(5);
+    set_intake(0);
 
     //turn and tower on center
     chassisController.turnAngleAsync(45_deg);
-        //arm
-            set_arm_pid(HIGH_TOWER);
+    //arm
+    set_arm_pid(HIGH_TOWER);
     chassisController.waitUntilSettled();
-        //longer distance = greater voltage
-        set_intake(-127);
-        pros::delay(100);
+    //longer distance = greater voltage
+    set_intake(-127);
+    pros::delay(100);
 
     //turn
     chassisController.turnAngleAsync(59_deg);
     set_intake(0);
-        //arm
-        set_arm_pid(0);
+    //arm
+    set_arm_pid(0);
     chassisController.waitUntilSettled();
 
     //tower in side tower
     chassisController.moveDistanceAsync(49.5_in);
-        //outtake a bit, so cube is in intake, not tray
-            reset_intake_encoder();
-            set_intake(-127);
-            while (get_left_intake_pos() > -515)
-            {
-                pros::delay(5);
-            }
-            set_intake(0);
-        //arm
-            set_arm_pid(LOW_TOWER);
+    //outtake a bit, so cube is in intake, not tray
+    reset_intake_encoder();
+    set_intake(-127);
+    while (get_left_intake_pos() > -515)
+        pros::delay(5);
+    set_intake(0);
+    //arm
+    set_arm_pid(LOW_TOWER);
     chassisController.waitUntilSettled();
     set_intake(-90);
     pros::delay(100);
@@ -517,34 +502,26 @@ void skills()
     //come back with opposite angle (symmetric, lined up with last tower)
     chassisController.turnAngleAsync(-59_deg);
     set_intake(0);
-        //arm
-        set_arm_pid(0);
+    //arm
+    set_arm_pid(0);
     chassisController.waitUntilSettled();
     chassisController.moveDistanceAsync(-49.5_in);
-        //outtake a bit, so cube is in intake, not tray
-            reset_intake_encoder();
-            set_intake(-127);
-            while (get_left_intake_pos() > -515)
-            {
-                pros::delay(5);
-            }
-            set_intake(0);
-        //arm
-        set_arm_pid(LOW_TOWER);
+    //outtake a bit, so cube is in intake, not tray
+    reset_intake_encoder();
+    set_intake(-127);
+    while (get_left_intake_pos() > -515)
+        pros::delay(5);
+    set_intake(0);
+    //arm
+    set_arm_pid(LOW_TOWER);
     chassisController.waitUntilSettled();
 
     //turn and tower
     chassisController.turnAngle(14_deg);
-        //longer distance = greater voltage
-        set_intake(-127);
-        pros::delay(100);
+    //longer distance = greater voltage
+    set_intake(-127);
+    pros::delay(100);
 }
-
-
-
-
-
-
 
 
 void test(){
