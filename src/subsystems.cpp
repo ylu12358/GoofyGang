@@ -138,9 +138,7 @@ void arm_control(void *)
                         set_arm(127);
                         set_intake(-127);
                         while (get_left_intake_pos() > -515)
-                        {
                             pros::delay(5);
-                        }
                         set_intake(0);
                         resume_arm();
                         set_arm_pid(LOW_TOWER);

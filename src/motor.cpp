@@ -249,19 +249,6 @@ int get_line(){
     return cube_in.get_value();
 }
 
-void intake_rpm(int rpm){
-    l_intake.move_velocity(rpm);
-    r_intake.move_velocity(rpm);
-}
-
-void drive_rpm(int rpm){
-    lb_drive.move_velocity(rpm);
-    lf_drive.move_velocity(rpm);
-    rb_drive.move_velocity(rpm);
-    rf_drive.move_velocity(rpm);
-}
-
-
 //Auto
 void auto_selector()
 {

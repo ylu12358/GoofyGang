@@ -56,8 +56,6 @@ void suspend_arm();
 void resume_arm();
 
 void drivepid(int distance);
-void intake_rpm(int rpm);
-void drive_rpm(int rpm);
 
 #define TRAY_OUT 2640
 #define PROTECTED 1330

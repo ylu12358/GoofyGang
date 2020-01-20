@@ -8,7 +8,8 @@ void proBlue();
 void shortUnRed();
 void shortUnBlue();
 
-void skills();
+void skills1();
+void skills2();
 
 void oneCube();
 void test();

@@ -47,8 +47,6 @@ void autonomous()
 	reset_arm_encoder();
 	reset_intake_encoder();
 
-//deploy is just outtaking rollers
-
 	if (selector == 1)
 		unproRed();
 	if (selector == 2)
@@ -58,8 +56,10 @@ void autonomous()
 	if (selector == 4)
 		proBlue();
 	if (selector == 5)
-		skills();		
-
+	{
+		skills1();
+		skills2();		
+	}
 	if (selector == 6) //TESTING SLOT
 //		oneCube();
 		test();
@@ -70,6 +70,9 @@ void opcontrol()
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
 	
+	if (selector == 5)
+		skills1();
+
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
 	pros::Task arm_control_t(arm_control, nullptr, "name");
