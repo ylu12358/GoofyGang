@@ -59,6 +59,7 @@ void drivepid(int distance);
 
 #define TRAY_OUT 2640
 #define PROTECTED 1330
+//800
 #define TRAY_IN 800
 //850
 #define LOCK_SAFE 1000

@@ -37,7 +37,7 @@ pros::Motor lf_drive(12, MOTOR_GEARSET_18, true);
 pros::Motor rf_drive(9, MOTOR_GEARSET_18);
 pros::Motor rb_drive(10, MOTOR_GEARSET_18);
 pros::Motor l_intake(19, MOTOR_GEARSET_18);
-pros::Motor r_intake(16, MOTOR_GEARSET_18, true);
+pros::Motor r_intake(17, MOTOR_GEARSET_18, true);
 pros::Motor tray(8, MOTOR_GEARSET_18);
 pros::Motor arm(15, MOTOR_GEARSET_18, true);
 //port 19 ded
@@ -120,8 +120,8 @@ void drive_coast()
 
 void set_intake(int input)
 {
-    l_intake.move(input);
     r_intake.move(input);
+    l_intake.move(input);
 }
 
 void intake_relative(int pos, int vel)

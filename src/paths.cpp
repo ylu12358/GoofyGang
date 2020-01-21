@@ -33,7 +33,9 @@ void init_skill()
 }
 
 void init_sr(){
-    // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{51_in, 0_in, 0_deg}}, "A");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{10_in, 0_in, 0_deg}}, "B");
+
 }
 
 void init_sb(){
