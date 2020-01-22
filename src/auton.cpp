@@ -59,10 +59,11 @@ void endAuton(){
 
 void outtakeBit(){
     reset_intake_encoder();
-    set_intake(-127);
-    while (get_left_intake_pos() > -515)
+    set_intake(-80);
+    while (get_left_intake_pos() > -130)
         pros::delay(5);
     set_intake(0);
+    intake_hold();
 
 }
 
@@ -197,35 +198,53 @@ void shortUnRed(){
     //intake row
     set_intake(127);
     set_arm(-30);
-    slow_chassis(9000);
+    slow_chassis(4800);
     pros::delay(100);
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{51_in, 0_in, 0_deg}}, "A");
     set_intake(127);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
 
-    //turn to score
-    chassisController.turnAngleAsync(13.25_deg);
-    set_intake(25);
-    set_tray_pid(PROTECTED);
+    chassisController.turnAngleAsync(-12_deg);
     chassisController.waitUntilSettled();
 
+    profileController.setTarget("B");
+    profileController.waitUntilSettled();
+
+
+    //turn to score
+    chassisController.turnAngleAsync(100.25_deg);
+    chassisController.waitUntilSettled();
+    set_intake(25);
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+    
+
     //drive forward
-    normal_chassis();
+    slow_chassis(5100);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
     set_tank(30,30);
     pros::delay(150);
     set_tank(0,0);
 
-    //outtake a bit
-    outtakeBit();
-
     //score
     tray_outtake();
 
     //resets everything
-    endAuton();
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while(get_tray_pos() > PROTECTED)
+        pros::delay(5);
+    normal_chassis();
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(200);
+    drive_hold();
+    pros::delay(20);
+    set_tank(0, 0);
+    set_intake(0);
+
+    //endAuton(); maybe put this back just to reset voltages?
 }
 
 void shortUnBlue(){

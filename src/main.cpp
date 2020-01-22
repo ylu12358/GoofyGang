@@ -25,7 +25,8 @@ void initialize()
 	auto_selector();
 	pros::delay(100);
 	if (selector == 1)
-		init_upr();
+		init_sr();
+//		init_upr();
 	if (selector == 2)
 		init_upb();
 	if (selector == 3)
@@ -48,7 +49,9 @@ void autonomous()
 	reset_intake_encoder();
 
 	if (selector == 1)
-		unproRed();
+		shortUnRed();
+		//too fast and not enough turn
+//		unproRed();
 	if (selector == 2)
 		unproBlue();
 	if (selector == 3)

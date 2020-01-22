@@ -45,9 +45,9 @@ void drive_control(void *)
             set_tank((master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)), (-master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)));
         else if(tank) //tank
             set_tank(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_Y));
-        if(master.get_digital(DIGITAL_DOWN)) //switch
+        if(master.get_digital(DIGITAL_Y)) //switch
         {
-            while (master.get_digital(DIGITAL_DOWN))
+            while (master.get_digital(DIGITAL_Y))
                 pros::delay(10); //blocking - only executes once
             tank = !tank;
         }
@@ -125,6 +125,7 @@ void arm_control(void *)
                 case 0: //arm down
                     if (tray_counter == 0)
                     {
+                        set_tray_pid(TRAY_IN);
                         //cube = true;
                         set_arm_pid(0);
                         set_intake_speed(12000);
@@ -133,11 +134,12 @@ void arm_control(void *)
                 case 1: //first tower height
                     if (tray_counter == 0)
                     {
+                        set_tray_pid(TRAY_IN+150);
                         intake_hold();
-                        reset_intake_encoder();
                         set_arm(127);
+                        reset_intake_encoder();
                         set_intake(-127);
-                        while (get_left_intake_pos() > -515)
+                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
                             pros::delay(5);
                         set_intake(0);
                         resume_arm();
@@ -167,6 +169,7 @@ void arm_control(void *)
             set_arm(-12);
             reset_arm_encoder();
             set_intake_speed(12000);
+            intake_coast();
             set_intake(10);
         }
         else
