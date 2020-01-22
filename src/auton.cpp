@@ -32,18 +32,23 @@ void turn(int target)
     pros::delay(250);
 }
 
-void preauton(){
+void preauton()
+{
     normal_chassis();
     suspend_arm();
     set_arm(-50);
     set_intake(-127);
+    set_tank(-80, -80);
     set_tray_pid(TRAY_IN);
-    pros::delay(100);
+    pros::delay(300);
     reset_arm_encoder();
     set_arm(-10);
+    set_intake(0);
+    set_tank(0, 0);
 }
 
-void endAuton(){
+void endAuton()
+{
     //resets everything
     set_tank(-80,-80);
     pros::delay(500);
@@ -57,14 +62,30 @@ void endAuton(){
     normal_chassis();
 }
 
-void outtakeBit(){
+void outtakeBit()
+{
     reset_intake_encoder();
     set_intake(-80);
     while (get_left_intake_pos() > -130)
         pros::delay(5);
     set_intake(0);
     intake_hold();
+}
 
+void sixCubeOut()
+{
+    while (get_tray_pos() < 2100)
+        set_tray(127);
+    intake_coast();
+
+    while (get_tray_pos() < TRAY_OUT - 450)
+    {
+        set_intake(-13);
+        set_tray(40);
+    }
+
+    set_tray(0);
+    set_intake(0);
 }
 
 void oneCube()
@@ -199,8 +220,6 @@ void shortUnRed(){
     set_intake(127);
     set_arm(-30);
     slow_chassis(4800);
-    pros::delay(100);
-    set_intake(127);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
 
@@ -226,14 +245,15 @@ void shortUnRed(){
     set_tank(30,30);
     pros::delay(150);
     set_tank(0,0);
+    pros::delay(200);
 
     //score
-    tray_outtake();
+    sixCubeOut();
 
     //resets everything
     resume_tray();
     set_tray_pid(TRAY_IN);
-    while(get_tray_pos() > PROTECTED)
+    while(get_tray_pos() > PROTECTED + 580)
         pros::delay(5);
     normal_chassis();
     set_tank(-127, -127);
@@ -524,20 +544,29 @@ void skills2()
 void test(){
     normal_chassis();
     set_intake(127);
-    suspend_arm();
-    set_arm(-50);
-    set_tank(50, 50);
-    pros::delay(600);
+    pros::delay(1000);
+    set_intake(25);
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+    pros::delay(1000);
+    sixCubeOut();
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while (get_tray_pos() > PROTECTED + 580)
+        pros::delay(5);
+    normal_chassis();
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(200);
+    drive_hold();
+    pros::delay(20);
     set_tank(0, 0);
-    resume_arm();
-    set_arm_pid(300);
-    pros::delay(2000);
-    set_tank(20, 20);
+    set_intake(0);
 
-//    //straight
-//     drivepid(5500);
-//     chassisController.moveDistance(54_in);
-//     chassisController.waitUntilSettled();
+    //    //straight
+    //     drivepid(5500);
+    //     chassisController.moveDistance(54_in);
+    //     chassisController.waitUntilSettled();
 
     // //turn
     // slow_chassis(5000);
