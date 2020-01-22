@@ -389,13 +389,11 @@ void skills1()
     //1 cube in tower
     set_intake(127);
     chassisController.moveDistance(43_in);
-    chassisController.waitUntilSettled();
-    
-    //outtake a bit, so cube is in intake, not tray
+    pros::delay(100);
     outtakeBit();
-    
-    //arm
     set_arm_pid(LOW_TOWER);
+    chassisController.waitUntilSettled();
+
     set_intake(-90);
     pros::delay(100);
 
@@ -506,6 +504,17 @@ void skills2()
 
 void test(){
     normal_chassis();
+    set_intake(127);
+    suspend_arm();
+    set_arm(-50);
+    set_tank(50, 50);
+    pros::delay(600);
+    set_tank(0, 0);
+    resume_arm();
+    set_arm_pid(300);
+    pros::delay(2000);
+    set_tank(20, 20);
+
 //    //straight
 //     drivepid(5500);
 //     chassisController.moveDistance(54_in);
