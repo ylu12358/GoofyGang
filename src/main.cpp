@@ -36,6 +36,7 @@ void initialize()
 		init_pb();
 	if (selector == 5)
 		tank = false;
+		init_skill();
 }
 
 void disabled() {}
@@ -74,7 +75,7 @@ void opcontrol()
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
 	
-	if (selector == 5)
+//	if (selector == 5)
 		//skills1();
 
 	pros::Task drive_control_t(drive_control, nullptr, "name");

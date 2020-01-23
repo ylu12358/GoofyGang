@@ -59,7 +59,9 @@ void tray_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     tray_coast();
+    last_tray = TRAY_IN;
     pros::delay(100); // allow potentiometer to settle
+    last_tray = TRAY_IN;
     while (true)
     {
         if(master.get_digital(DIGITAL_RIGHT)){

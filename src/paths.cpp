@@ -30,17 +30,20 @@ void init_upb()
 
 void init_skill()
 {
+        profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{16_in, 0_in, 0_deg}}, "B");
+
 }
 
 void init_sr(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{10_in, 0_in, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{16_in, 0_in, 0_deg}}, "B");
 
 }
 
 void init_sb(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{10_in, 0_in, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{16_in, 0_in, 0_deg}}, "B");
 }
 
 

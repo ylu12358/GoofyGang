@@ -71,7 +71,7 @@ void outtakeBit()
 
 void sixCubeOut()
 {
-    while (get_tray_pos() < 2100)
+    while (get_tray_pos() < 2200)
         set_tray(127);
     intake_coast();
 
@@ -246,13 +246,13 @@ void shortUnRed()
     slow_chassis(4800);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-
-    chassisController.turnAngleAsync(-12_deg);
+    
+    chassisController.turnAngleAsync(-20_deg);
     chassisController.waitUntilSettled();
-
+    slow_chassis(2400);
     profileController.setTarget("B");
     profileController.waitUntilSettled();
-
+    slow_chassis(4800);
 
     //turn to score
     chassisController.turnAngleAsync(100.25_deg);
@@ -303,12 +303,13 @@ void shortUnBlue()
     slow_chassis(4800);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-
-    chassisController.turnAngleAsync(12_deg);
+    
+    chassisController.turnAngleAsync(20_deg);
     chassisController.waitUntilSettled();
-
+    slow_chassis(2400);
     profileController.setTarget("B");
     profileController.waitUntilSettled();
+    slow_chassis(4800);
 
 
     //turn to score
@@ -399,6 +400,10 @@ void proBlue()
     endAuton();
 }
 
+void proRed(){
+
+}
+
 void skills1()
 {      
     //preauton
@@ -411,63 +416,66 @@ void skills1()
     profileController.setTarget("A");
     profileController.waitUntilSettled();
 
-    chassisController.turnAngleAsync(-12_deg);
+    
+    chassisController.turnAngleAsync(-20_deg);
     chassisController.waitUntilSettled();
+    slow_chassis(2400);
 
     profileController.setTarget("B");
     profileController.waitUntilSettled();
+    slow_chassis(4800);
 
-    profileController.setTarget("C");
+    profileController.setTarget("B", true);
     profileController.waitUntilSettled();
 
     lowTower();
 
-    chassisController.turnAngleAsync(12_deg);
+    chassisController.turnAngleAsync(20_deg);
     chassisController.waitUntilSettled();
 
-    profileController.setTarget("D");
-    profileController.waitUntilSettled();
+    // profileController.setTarget("C");
+    // profileController.waitUntilSettled();
 
-    chassisController.turnAngleAsync(40_deg);
-    chassisController.waitUntilSettled();
+    // chassisController.turnAngleAsync(40_deg);
+    // chassisController.waitUntilSettled();
 
-    lowTower();
+    // lowTower();
 
-    chassisController.turnAngleAsync(-30_deg);
-    chassisController.waitUntilSettled();
+    // chassisController.turnAngleAsync(-30_deg);
+    // chassisController.waitUntilSettled();
 
-    set_intake(25);
-    outtakeBit();
-    set_tray_pid(PROTECTED);
+    // set_intake(25);
+    // outtakeBit();
+    // set_tray_pid(PROTECTED);
     
-    //drive forward
-    slow_chassis(5100);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    set_tank(30,30);
-    pros::delay(150);
-    set_tank(0,0);
-    pros::delay(200);
+    // //drive forward
+    // slow_chassis(5100);
+    // profileController.setTarget("A");
+    // profileController.waitUntilSettled();
+    // set_tank(30,30);
+    // pros::delay(150);
+    // set_tank(0,0);
+    // pros::delay(200);
 
-    //score
-    sixCubeOut();
+    // //score
+    // sixCubeOut();
 
-    //places stack and resets everything
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    while(get_tray_pos() > PROTECTED + 580)
-        pros::delay(5);
-    normal_chassis();
-    set_tank(-127, -127);
-    set_intake(-127);
-    pros::delay(200);
-    drive_hold();
-    pros::delay(20);
-    set_tank(0, 0);
-    set_intake(0);
-    profileController.removePath("A");
-    profileController.removePath("B");
-    endAuton();    
+    // //places stack and resets everything
+    // resume_tray();
+    // set_tray_pid(TRAY_IN);
+    // while(get_tray_pos() > PROTECTED + 580)
+    //     pros::delay(5);
+    // normal_chassis();
+    // set_tank(-127, -127);
+    // set_intake(-127);
+    // pros::delay(200);
+    // drive_hold();
+    // pros::delay(20);
+    // set_tank(0, 0);
+    // set_intake(0);
+    // profileController.removePath("A");
+    // profileController.removePath("B");
+    // endAuton();    
 }
 
 void skills2()
