@@ -28,7 +28,8 @@ void initialize()
 		init_sr();
 //		init_upr();
 	if (selector == 2)
-		init_upb();
+		init_sb();
+//		init_upb();
 	if (selector == 3)
 		init_pr();
 	if (selector == 4)
@@ -61,7 +62,7 @@ void autonomous()
 	if (selector == 5)
 	{
 		skills1();
-		skills2();		
+		//skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
 //		oneCube();
@@ -74,7 +75,7 @@ void opcontrol()
 	master.set_text(0, 0, "#ThankYou448X");
 	
 	if (selector == 5)
-		skills1();
+		//skills1();
 
 	pros::Task drive_control_t(drive_control, nullptr, "name");
 	pros::Task tray_control_t(tray_control, nullptr, "name");
