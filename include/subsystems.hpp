@@ -4,6 +4,7 @@
 extern bool tank;
 
 void tray_outtake();
+void sixCubeOut();
 void drive_control(void *);
 void tray_control(void *);
 void arm_control(void *);

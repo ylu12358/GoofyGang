@@ -34,6 +34,22 @@ void tray_outtake()
     set_intake(0);
 }
 
+void sixCubeOut()
+{
+    while (get_tray_pos() < 2200)
+        set_tray(127);
+    intake_coast();
+
+    while (get_tray_pos() < TRAY_OUT - 250)
+    {
+        set_intake(-13);
+        set_tray(40);
+    }
+
+    set_tray(0);
+    set_intake(0);
+}
+
 void drive_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
@@ -45,9 +61,9 @@ void drive_control(void *)
             set_tank((master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)), (-master.get_analog(ANALOG_LEFT_X) + master.get_analog(ANALOG_RIGHT_Y)));
         else if(tank) //tank
             set_tank(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_Y));
-        if(master.get_digital(DIGITAL_Y)) //switch
+        if(master.get_digital(DIGITAL_A)) //switch
         {
-            while (master.get_digital(DIGITAL_Y))
+            while (master.get_digital(DIGITAL_A))
                 pros::delay(10); //blocking - only executes once
             tank = !tank;
         }
@@ -87,7 +103,10 @@ void tray_control(void *)
                         break;
                     case 2: //score
                         suspend_tray();
-                        tray_outtake();
+                        if(master.get_digital(DIGITAL_Y))
+                            sixCubeOut();
+                        else
+                            tray_outtake();
                         tray_counter = -1;
                         intake_hold();
 //                        last_tray = TRAY_IN;

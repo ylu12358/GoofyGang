@@ -7,7 +7,6 @@ void init_upr();
 void init_upb();
 void init_skill();
 
-void init_sr();
-void init_sb();
+void init_short_un();
 
 #endif

@@ -5,8 +5,7 @@ void unproRed();
 void unproBlue();
 void proRed();
 void proBlue();
-void shortUnRed();
-void shortUnBlue();
+void shortUn(int color);
 
 void skills1();
 void skills2();
@@ -17,4 +16,8 @@ void test();
 void preauton();
 void endAuton();
 void outtakeBit();
+
+#define RED 1
+#define BLUE -1
+
 #endif
