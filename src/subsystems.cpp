@@ -77,7 +77,6 @@ void tray_control(void *)
     tray_coast();
     last_tray = TRAY_IN;
     pros::delay(100); // allow potentiometer to settle
-    last_tray = TRAY_IN;
     while (true)
     {
         if(master.get_digital(DIGITAL_RIGHT)){
@@ -155,14 +154,18 @@ void arm_control(void *)
                 case 1: //first tower height
                     if (tray_counter == 0)
                     {
+                        //increase height of tray - no friction from rubberband
                         set_tray_pid(TRAY_IN+150);
                         intake_hold();
+                        //lift arm - fast, clear as quickly as possible
                         set_arm(127);
                         reset_intake_encoder();
+                        //get cubes to the right pos on the intake
                         set_intake(-127);
                         while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
                             pros::delay(5);
                         set_intake(0);
+                        //set arm to the right pos
                         resume_arm();
                         set_arm_pid(LOW_TOWER);
                         set_intake_speed(8500);
@@ -184,8 +187,9 @@ void arm_control(void *)
             set_intake(127);
         else if (master.get_digital(DIGITAL_R2))
             set_intake(-127);
-        else if (get_arm_pos() < 20 && arm_counter == 0)
+        else if (get_arm_pos() < 50 && arm_counter == 0)
         {
+            //pid isn't strong enough to cause the arm to stay down
             suspend_arm();
             set_arm(-12);
             reset_arm_encoder();

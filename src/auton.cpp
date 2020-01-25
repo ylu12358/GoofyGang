@@ -259,7 +259,7 @@ void shortUn(int color)
     //score
     sixCubeOut();
 
-    //places stack and resets everything
+    //back away
     resume_tray();
     set_tray_pid(TRAY_IN);
     while(get_tray_pos() > PROTECTED + 580)
@@ -267,7 +267,9 @@ void shortUn(int color)
     normal_chassis();
     set_tank(-127, -127);
     set_intake(-127);
-    pros::delay(200);
+    pros::delay(300);
+
+    //reset All
     drive_hold();
     pros::delay(20);
     set_tank(0, 0);
@@ -322,15 +324,17 @@ void proBlue()
     //score
     sixCubeOut();
 
-    //places stack and resets everything
+    //back away
     resume_tray();
     set_tray_pid(TRAY_IN);
-    while (get_tray_pos() > PROTECTED + 580)
+    while(get_tray_pos() > PROTECTED + 580)
         pros::delay(5);
     normal_chassis();
     set_tank(-127, -127);
     set_intake(-127);
     pros::delay(200);
+
+    //reset All
     drive_hold();
     pros::delay(20);
     set_tank(0, 0);
@@ -357,20 +361,24 @@ void skills1()
     profileController.setTarget("A");
     profileController.waitUntilSettled();
 
-    
+    //turn towards tower
     chassisController.turnAngleAsync(-20_deg);
     chassisController.waitUntilSettled();
     slow_chassis(2400);
 
+    //intake last cube
     profileController.setTarget("B");
     profileController.waitUntilSettled();
     slow_chassis(4800);
 
+    //move away from tower
     profileController.setTarget("B", true);
     profileController.waitUntilSettled();
 
+    //score low tower
     lowTower();
 
+    //turns toward straight line of cubes
     chassisController.turnAngleAsync(20_deg);
     chassisController.waitUntilSettled();
 
@@ -516,6 +524,7 @@ void skills2()
 
 
 void test(){
+    //reset stack
     normal_chassis();
     set_intake(127);
     pros::delay(1000);
@@ -567,12 +576,12 @@ void test(){
     // profileController.removePath("C");   
 }
     //test whether long distance screws pid
-            //screw this - trial and error
+            //Don't worry - trial and error
     //test whether cube amount screws pid (less friction from wheel... different weight distribution)
     //test whether initial chassis voltage is 10,000 or not (so distance is accurate with which voltage setting)
-            //screw this - trial and error
+            //Don't worry - trial and error
     //test to see whether pid and voltage limitation is removed during driver op
     //test if angle is affected by voltage limiting
-            //screw this - trial and error
+            //Don't worry - trial and error
     //test inertia sensor? (velocity * time to determine distance -> pid)
             //not yet

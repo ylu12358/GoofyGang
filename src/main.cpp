@@ -52,7 +52,6 @@ void autonomous()
 
 	if (selector == 1)
 		shortUn(RED);
-		//too fast and not enough turn
 //		unproRed();
 	if (selector == 2)
 		shortUn(BLUE);
@@ -67,14 +66,22 @@ void autonomous()
 		//skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
-//		oneCube();
-		test();
+		oneCube();
+//		test();
 }
 
 void opcontrol()
 {
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
+	endAuton();
+
+	suspend_arm();
+    set_arm(-12);
+    reset_arm_encoder();
+    set_intake_speed(12000);
+    intake_coast();
+    set_intake(10);
 	
 //	if (selector == 5)
 		//skills1();
