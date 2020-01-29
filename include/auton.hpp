@@ -5,17 +5,16 @@ void unproRed();
 void unproBlue();
 void proRed();
 void proBlue();
-void shortUn(int color);
+void u_6cube(int color);
 
 void skills1();
 void skills2();
 
-void oneCube();
+void one_cube();
 void test();
 
 void preauton();
-void endAuton();
-void outtakeBit();
+void start_driver();
 
 #define RED 1
 #define BLUE -1

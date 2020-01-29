@@ -25,7 +25,7 @@ ChassisControllerPID chassisController = ChassisControllerFactory::create(
 
 AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
     1.41,                // Maximum linear velocity in m/s
-    4.0,               // Maximum linear acceleration in m/s/s //4
+    6.0,               // Maximum linear acceleration in m/s/s //4
     6.0,               // Maximum linear jerk in m/s/s/s //6
     chassisController); // Chassis Controller
 
@@ -45,8 +45,6 @@ pros::Motor arm(15, MOTOR_GEARSET_18, true);
 //Sensors
 pros::ADIPotentiometer tray_pot(1);
 pros::ADIPotentiometer auton_selector(2);
-//add port
-pros::ADILineSensor cube_in(3);
 
 //Math
 int sgn(int input)
@@ -245,10 +243,6 @@ int get_auton_select()
     return auton_selector.get_value();
 }
 
-int get_line(){
-    return cube_in.get_value();
-}
-
 //Auto
 void auto_selector()
 {
@@ -300,7 +294,7 @@ void auto_selector()
 }
 
 //PID
-int t_target;
+int t_target = TRAY_IN;
 void set_tray_pid(int input)
 {
     t_target = input;
@@ -460,4 +454,12 @@ void suspend_arm()
 void resume_arm()
 {
     arm_pid_t.resume();
+}
+
+void reset_all_encoders()
+{
+    reset_drive_encoder();
+	reset_tray_encoder();
+	reset_arm_encoder();
+	reset_intake_encoder();
 }

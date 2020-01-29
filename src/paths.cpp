@@ -4,6 +4,9 @@
 
 void init_pr()
 {
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{20_in,-21_in,-12_deg}},"A");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{20_in, 0_in, 0_deg}}, "B");
+    
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{24_in, 0_in, 0_deg}}, "A");
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{51_in, 0_in, 0_deg}}, "B");
 }
@@ -11,7 +14,7 @@ void init_pr()
 void init_pb()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{20_in, 0_in, 0_deg}}, "A");
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{20_in, 0_in, 0_deg}}, "B");
+    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{55_in, 0_in, 0_deg}}, "B");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "C");
 }
 
@@ -29,14 +32,13 @@ void init_upb()
     // profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{51_in, 0_in, 0_deg}}, "C");
 }
 
-void init_skill()
+void init_skills()
 {
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{16_in, 0_in, 0_deg}}, "B");
-
 }
 
-void init_short_un(){
+void init_6cube(){
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{80_in, 0_in, 0_deg}}, "A");
     profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{13_in, 0_in, 0_deg}}, "B");
 }

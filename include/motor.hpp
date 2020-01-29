@@ -54,16 +54,16 @@ void suspend_tray();
 void resume_tray();
 void suspend_arm();
 void resume_arm();
+void reset_all_encoders();
 
 void drivepid(int distance);
 
+extern int a_target;
+
 #define TRAY_OUT 2640
 #define PROTECTED 1330
-//800
 #define TRAY_IN 800
-//850
 #define LOCK_SAFE 1000
-//#define CUBE_IN
 #define LOW_TOWER 1300
 #define HIGH_TOWER 1650
 

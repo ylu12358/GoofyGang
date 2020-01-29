@@ -4,9 +4,10 @@
 extern bool tank;
 
 void tray_outtake();
-void sixCubeOut();
+void fast_outtake();
 void drive_control(void *);
 void tray_control(void *);
 void arm_control(void *);
+void stacking_state();
 
 #endif

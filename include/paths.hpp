@@ -5,8 +5,8 @@ void init_pr();
 void init_pb();
 void init_upr();
 void init_upb();
-void init_skill();
+void init_skills();
 
-void init_short_un();
+void init_6cube();
 
 #endif

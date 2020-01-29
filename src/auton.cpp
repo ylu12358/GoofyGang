@@ -47,16 +47,17 @@ void preauton()
     set_tank(0, 0);
 }
 
-void endAuton()
+void start_driver()
 {
     //resets everything
     set_tray_pid(TRAY_IN);
     set_tank(0, 0);
-    set_intake(0);
+    set_intake(12);
     chassisController.stop();
     profileController.flipDisable();
     set_intake_speed(12000);
     normal_chassis();
+    set_arm_pid(0);
 }
 
 void outtakeBit()
@@ -66,7 +67,6 @@ void outtakeBit()
     while (get_left_intake_pos() > -130)
         pros::delay(5);
     set_intake(0);
-    intake_hold();
 }
 
 void lowTower()
@@ -95,7 +95,7 @@ void lowTower()
     set_intake(127);
 }
 
-void oneCube()
+void one_cube()
 {
     //forward (score)
     set_tank(70, 70);
@@ -160,7 +160,6 @@ void unproRed()
     //resets everything
     profileController.removePath("B");
     profileController.removePath("C");
-    endAuton();
 }
 
 void unproBlue()
@@ -216,10 +215,9 @@ void unproBlue()
     //resets everything
     profileController.removePath("B");
     profileController.removePath("C");
-    endAuton();
 }
 
-void shortUn(int color)
+void u_6cube(int color)
 {
     //preauton
     preauton();
@@ -257,7 +255,7 @@ void shortUn(int color)
     pros::delay(200);
 
     //score
-    sixCubeOut();
+    fast_outtake();
 
     //back away
     resume_tray();
@@ -276,7 +274,6 @@ void shortUn(int color)
     set_intake(0);
     profileController.removePath("A");
     profileController.removePath("B");
-    endAuton();
 }
 
 void proBlue()
@@ -289,40 +286,49 @@ void proBlue()
     slow_chassis(4700);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-
-    chassisController.turnAngleAsync(40_deg);
+//    resume_arm();
+//    set_arm_pid(LOW_TOWER);
+    chassisController.turnAngleAsync(-20_deg);
     chassisController.waitUntilSettled();
 
     set_intake(-127);
-    pros::delay(500);
-    set_intake(127);
+    pros::delay(1000);
 
-    chassisController.turnAngleAsync(-40_deg);
+    chassisController.turnAngleAsync(20.65_deg);
     chassisController.waitUntilSettled();
-
-    normal_chassis();
+    set_tank(-100,-100);
+    pros::delay(500);
+    set_tank(-30,-30);
+    pros::delay(1200);
+    set_tank(0,0);
+    pros::delay(600);
+    set_intake(127);
+//    set_arm_pid(0);
+//    suspend_arm();
+//    set_arm(-22);
+    slow_chassis(12000);
     profileController.setTarget("B");
     profileController.waitUntilSettled();
-
+pros::delay(1000000);
     slow_chassis(4700);
-    chassisController.turnAngleAsync(70_deg);
+    chassisController.turnAngleAsync(-80_deg);
     chassisController.waitUntilSettled();
 
-    set_intake(25);
-    outtakeBit();
-    set_tray_pid(PROTECTED);
 
     //drive forward
     slow_chassis(5100);
     profileController.setTarget("C");
     profileController.waitUntilSettled();
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+
     set_tank(30, 30);
     pros::delay(150);
     set_tank(0, 0);
-    pros::delay(200);
+    pros::delay(1000);
 
     //score
-    sixCubeOut();
+    fast_outtake();
 
     //back away
     resume_tray();
@@ -341,12 +347,21 @@ void proBlue()
     set_intake(0);
     profileController.removePath("A");
     profileController.removePath("B");
-    endAuton();
 }
 
 void proRed()
 {
-
+    //preauton
+    preauton();
+    set_intake(-100);
+    set_arm(-30);
+    slow_chassis(4700);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    slow_chassis(12000);
+    set_intake(127);
+    profileController.setTarget("B");
+    profileController.waitUntilSettled();
 }
 
 void skills1()
@@ -407,7 +422,7 @@ void skills1()
     // pros::delay(200);
 
     // //score
-    // sixCubeOut();
+    // fast_outtake();
 
     // //places stack and resets everything
     // resume_tray();
@@ -532,7 +547,7 @@ void test(){
     outtakeBit();
     set_tray_pid(PROTECTED);
     pros::delay(1000);
-    sixCubeOut();
+    fast_outtake();
     resume_tray();
     set_tray_pid(TRAY_IN);
     while (get_tray_pos() > PROTECTED + 580)
