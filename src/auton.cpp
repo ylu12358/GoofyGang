@@ -1,83 +1,4 @@
 #include "main.h"
-
-void swing_turns(){
-    //preauton
-    preauton();
-    set_intake(-100);
-    set_arm(-30);
-    slow_chassis(4700);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
-    slow_chassis(12000);
-    set_intake(127);
-    profileController.setTarget("C");
-    profileController.waitUntilSettled();
-}
-
-void new_route(){
-    preauton();
-    set_arm(-30);
-    normal_chassis();
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    chassisController.turnAngle(-90_deg);
-    chassisController.waitUntilSettled();
-    set_intake(127);
-    //////////////////////////////////////////////////// choose this if rng
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    resume_tray();
-    //////////////////////////////////////////////////// end
-    //
-    //
-    //////////////////////////////////////////////////// start of trying to intake 4 stack
-    // slow_chassis(4500);
-    // profileController.setTarget("B");
-    // profileController.waitUntilSettled();
-    // reset_drive_encoder();
-    // set_ldrive(100,50);
-    // set_rdrive(-100,50);
-    // while(get_left_drive_pos()<90&&get_right_drive_pos()>-90){
-    //     pros::delay(5);
-    // }
-    // profileController.setTarget("B", true);
-    // profileController.waitUntilSettled();
-    // profileController.setTarget("C");
-    // profileController.waitUntilSettled();
-    //////////////////////////////////////////////////////// end
-    outtakeBit();
-    set_tray_pid(PROTECTED);
-
-    set_tank(30, 30);
-    pros::delay(1500);
-    set_tank(0, 0);
-    pros::delay(1000);
-
-    //score
-    fast_outtake();
-
-    //back away
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    while(get_tray_pos() > PROTECTED + 580)
-        pros::delay(5);
-    normal_chassis();
-    suspend_tray();
-    set_tank(-127, -127);
-    set_intake(-127);
-    pros::delay(200);
-
-    //reset All
-    drive_hold();
-    pros::delay(20);
-    set_tank(0, 0);
-    set_intake(0);
-    
-}
-
-
 void turn(int target)
 {
     //Set parameters
@@ -176,6 +97,156 @@ void lowTower()
     set_tray_pid(TRAY_IN);
     set_intake(127);
     suspend_tray();
+}
+
+void Actual_Route(){
+    preauton();
+    set_intake(100);
+    set_arm(-20);
+    slow_chassis(4800);
+
+    //purple cube next to tower
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    
+    //turn to face purple cube next to 3 stack
+    chassisController.turnAngle(10_deg);
+    chassisController.waitUntilSettled();
+
+    //intake purple cube next to 3 stack
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+
+    //back up a bit
+    profileController.setTarget("C", true);
+    profileController.waitUntilSettled();
+
+    //turn to face orange cube in outer protected
+    chassisController.turnAngle(-70_deg);
+    chassisController.waitUntilSettled();
+
+    //intake orange cube in outer protected
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    
+    //face second orange cube in protected
+    chassisController.turnAngle(30_deg);
+    chassisController.waitUntilSettled();
+
+    //intake second orange cube in protected
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+
+    //face towards scoring zone
+    resume_tray();
+    chassisController.turnAngle(-70);
+    chassisController.waitUntilSettled();
+
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+
+    //align with scoring zone
+    set_tank(30, 30);
+    pros::delay(1500);
+    set_tank(0, 0);
+    pros::delay(1000);
+
+    //score
+    fast_outtake();
+
+    //back away
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while(get_tray_pos() > PROTECTED + 580)
+        pros::delay(5);
+    normal_chassis();
+    suspend_tray();
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(200);
+
+    //reset All
+    drive_hold();
+    pros::delay(20);
+    set_tank(0, 0);
+    set_intake(0);
+}
+
+void swing_turns(){
+    //preauton
+    preauton();
+    set_intake(-100);
+    set_arm(-30);
+    slow_chassis(4700);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    profileController.setTarget("B");
+    profileController.waitUntilSettled();
+    slow_chassis(12000);
+    set_intake(127);
+    profileController.setTarget("C");
+    profileController.waitUntilSettled();
+}
+
+void new_route(){
+    preauton();
+    set_arm(-30);
+    normal_chassis();
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    chassisController.turnAngle(-90_deg);
+    chassisController.waitUntilSettled();
+    set_intake(127);
+    //////////////////////////////////////////////////// choose this if rng
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    resume_tray();
+    //////////////////////////////////////////////////// end
+    //
+    //
+    //////////////////////////////////////////////////// start of trying to intake 4 stack
+    // slow_chassis(4500);
+    // profileController.setTarget("B");
+    // profileController.waitUntilSettled();
+    // reset_drive_encoder();
+    // set_ldrive(100,50);
+    // set_rdrive(-100,50);
+    // while(get_left_drive_pos()<90&&get_right_drive_pos()>-90){
+    //     pros::delay(5);
+    // }
+    // profileController.setTarget("B", true);
+    // profileController.waitUntilSettled();
+    // profileController.setTarget("C");
+    // profileController.waitUntilSettled();
+    //////////////////////////////////////////////////////// end
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+
+    set_tank(30, 30);
+    pros::delay(1500);
+    set_tank(0, 0);
+    pros::delay(1000);
+
+    //score
+    fast_outtake();
+
+    //back away
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while(get_tray_pos() > PROTECTED + 580)
+        pros::delay(5);
+    normal_chassis();
+    suspend_tray();
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(200);
+
+    //reset All
+    drive_hold();
+    pros::delay(20);
+    set_tank(0, 0);
+    set_intake(0);
+    
 }
 
 void one_cube()

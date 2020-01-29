@@ -19,10 +19,9 @@ void initialize()
 
 	intake_hold();
 	
-	swing_turns_init();
-	turn_function_init();
-	move_relative_init();
-	new_route_init();
+//	swing_turns_init();
+//	new_route_init();
+	Actual_Route_init();
 
 	auto_selector();
 	pros::delay(100);
@@ -50,11 +49,9 @@ void competition_initialize() {}
 void autonomous()
 {
 
-	swing_turns();
-	turn_function();
-	move_relative();
-	new_route();
-
+//	swing_turns();
+//	new_route();
+	Actual_Route();
 
 	if (selector == 1)
 		u_6cube(RED);

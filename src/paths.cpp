@@ -1,6 +1,12 @@
 #include "main.h"
 
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
+void Actual_Route_init(){
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{13_in,0_in,0_deg}},"A");
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{80_in,0_in,0_deg}},"B");
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{6_in,0_in,0_deg}},"C");
+}
+
 void swing_turns_init(){
     profileController.generatePath({Point{0_in,0_in,0_deg}, Point{10_in,-10_in,-90_deg}},"A");
     profileController.generatePath({Point{10_in,-10_in,-90_deg}, Point{20_in,-21_in,0_deg}},"B");
