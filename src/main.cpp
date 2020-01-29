@@ -12,13 +12,18 @@ void on_center_button()
 
 void initialize()
 {
-		reset_all_encoders();
+	reset_all_encoders();
 
 	pros::lcd::initialize();
 	pros::lcd::register_btn1_cb(on_center_button);
 
 	intake_hold();
 	
+	swing_turns_init();
+	turn_function_init();
+	move_relative_init();
+	new_route_init();
+
 	auto_selector();
 	pros::delay(100);
 	if (selector == 1)
@@ -44,6 +49,13 @@ void competition_initialize() {}
 
 void autonomous()
 {
+
+	swing_turns();
+	turn_function();
+	move_relative();
+	new_route();
+
+
 	if (selector == 1)
 		u_6cube(RED);
 	if (selector == 2)

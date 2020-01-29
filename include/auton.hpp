@@ -16,6 +16,9 @@ void test();
 void preauton();
 void start_driver();
 
+void swing_turns();
+void new_route();
+
 #define RED 1
 #define BLUE -1
 

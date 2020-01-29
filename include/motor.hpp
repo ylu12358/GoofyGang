@@ -54,7 +54,14 @@ void suspend_tray();
 void resume_tray();
 void suspend_arm();
 void resume_arm();
+
+
 void reset_all_encoders();
+
+void set_lintake(double pos, double vel);
+void set_rintake(double pos, double vel);
+void set_ldrive(double pos, double vel);
+void set_rdrive(double pos, double vel);
 
 void drivepid(int distance);
 

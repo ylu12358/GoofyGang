@@ -7,6 +7,9 @@ void init_upr();
 void init_upb();
 void init_skills();
 
+void swing_turns_init();
+void new_route_init();
+
 void init_6cube();
 
 #endif

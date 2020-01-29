@@ -463,3 +463,21 @@ void reset_all_encoders()
 	reset_arm_encoder();
 	reset_intake_encoder();
 }
+
+void set_lintake(double pos, double vel){
+    l_intake.move_relative(pos, vel);
+}
+
+void set_rintake(double pos, double vel){
+    r_intake.move_relative(pos, vel);
+}
+
+void set_ldrive(double pos, double vel){
+    lf_drive.move_relative(pos, vel);
+    lb_drive.move_relative(pos, vel);
+}
+
+void set_rdrive(double pos, double vel){
+    rf_drive.move_relative(pos, vel);
+    rb_drive.move_relative(pos, vel);
+}

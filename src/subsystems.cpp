@@ -97,10 +97,12 @@ void tray_control(void *)
                     case 0: //intake
                         resume_tray();
                         set_tray_pid(TRAY_IN);
-                        intake_coast();
+                        suspend_tray();
+                        intake_hold();
                         last_tray = TRAY_IN;
                         break;
                     case 1: //protected
+                        resume_tray();
                         set_tray_pid(PROTECTED);
                         last_tray = PROTECTED;
                         break;
@@ -149,7 +151,9 @@ void arm_control(void *)
                 case 0: //arm down
                     if (tray_counter == 0)
                     {
+                        resume_tray();
                         set_tray_pid(TRAY_IN);
+                        suspend_tray();
                         //cube = true;
                         set_arm_pid(0);
                         set_intake_speed(12000);
@@ -159,6 +163,7 @@ void arm_control(void *)
                     if (tray_counter == 0)
                     {
                         intake = false;
+                        resume_tray();
                         while(intake_time>70){
                             set_intake(0);
                             intake_time--;
