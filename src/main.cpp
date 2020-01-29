@@ -19,9 +19,7 @@ void initialize()
 
 	intake_hold();
 	
-//	swing_turns_init();
-//	new_route_init();
-	Actual_Route_init();
+//	Actual_Route_init();
 
 	auto_selector();
 	pros::delay(100);
@@ -40,6 +38,9 @@ void initialize()
 		tank = false;
 		init_skills();
 	}
+	if(selector == 6){
+		Actual_Route_init();
+	}
 }
 
 void disabled() {}
@@ -49,9 +50,7 @@ void competition_initialize() {}
 void autonomous()
 {
 
-//	swing_turns();
-//	new_route();
-	Actual_Route();
+//	Actual_Route();
 
 	if (selector == 1)
 		u_6cube(RED);
@@ -67,7 +66,8 @@ void autonomous()
 		//skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
-		one_cube();
+		Actual_Route();
+	//	one_cube();
 //		test();
 }
 

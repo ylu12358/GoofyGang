@@ -10,17 +10,17 @@ bool intake = true;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1600)
+    while (get_tray_pos() < 1480)
         set_tray(127);
     intake_coast();
     
-    while (get_tray_pos() < 2150)
+    while (get_tray_pos() < 2030)
     {
-        set_tray(70);
+        set_tray(60);
         set_intake(13);
     }
     
-    while (get_tray_pos() < 2600)
+    while (get_tray_pos() < 2480)
     {
         set_tray(40);
         set_intake(13);
@@ -31,14 +31,14 @@ void tray_outtake()
         set_intake(-13);
         set_tray(30);
     }
-    
+    tray_hold();
     set_tray(0);
     set_intake(0);
 }
 
 void fast_outtake()
 {
-    while (get_tray_pos() < 2200)
+    while (get_tray_pos() < 2080)
         set_tray(127);
     intake_coast();
 
@@ -97,7 +97,11 @@ void tray_control(void *)
                     case 0: //intake
                         resume_tray();
                         set_tray_pid(TRAY_IN);
+                        while(get_tray_pos() > TRAY_IN + 20)
+                            pros::delay(5);
                         suspend_tray();
+                        set_tray(0);
+                        tray_coast();
                         intake_hold();
                         last_tray = TRAY_IN;
                         break;
@@ -122,7 +126,11 @@ void tray_control(void *)
         else if (safe) 
         {
             set_tray_pid(last_tray);
+            while(get_tray_pos() > last_tray + 20)
+                pros::delay(5);
             safe = false;
+            suspend_tray();
+            set_tray(0);
         } 
         pros::delay(20);
     }
@@ -154,6 +162,7 @@ void arm_control(void *)
                         resume_tray();
                         set_tray_pid(TRAY_IN);
                         suspend_tray();
+                        set_tray(0);
                         //cube = true;
                         set_arm_pid(0);
                         set_intake_speed(12000);
@@ -176,7 +185,8 @@ void arm_control(void *)
                         reset_intake_encoder();
                         //get cubes to the right pos on the intake
                         set_intake(-127);
-                        while (get_left_intake_pos() > -505 && get_right_intake_pos() > -505)
+                        //510
+                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
                             pros::delay(5);
                         set_intake(0);
                         //set arm to the right pos

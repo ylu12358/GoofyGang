@@ -67,9 +67,9 @@ void drivepid(int distance);
 
 extern int a_target;
 
-#define TRAY_OUT 2640
-#define PROTECTED 1330
-#define TRAY_IN 800
+#define TRAY_OUT 2520
+#define PROTECTED 1210
+#define TRAY_IN 700
 #define LOCK_SAFE 1000
 #define LOW_TOWER 1300
 #define HIGH_TOWER 1650

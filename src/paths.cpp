@@ -3,8 +3,9 @@
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
 void Actual_Route_init(){
     profileController.generatePath({Point{0_in,0_in,0_deg}, Point{13_in,0_in,0_deg}},"A");
-    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{80_in,0_in,0_deg}},"B");
-    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{6_in,0_in,0_deg}},"C");
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{26_in,0_in,0_deg}},"B");
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{19_in,0_in,0_deg}},"C");
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{31_in,0_in,0_deg}},"D");
 }
 
 void swing_turns_init(){
