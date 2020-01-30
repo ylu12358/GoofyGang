@@ -40,7 +40,9 @@ void preauton()
     set_tank(-80, -80);
     set_tray_pid(TRAY_IN);
     pros::delay(300);
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast();
+    set_tray(0);
     reset_arm_encoder();
     set_arm(-10);
     set_intake(0);
@@ -55,8 +57,9 @@ void start_driver()
     set_tank(0, 0);
     set_intake(12);
     chassisController.stop();
-    suspend_tray(); tray_coast(); set_tray(0);
-    
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
     profileController.flipDisable();
     set_intake_speed(12000);
     normal_chassis();
@@ -97,7 +100,9 @@ void lowTower()
     set_arm(-30);
     set_tray_pid(TRAY_IN);
     set_intake(127);
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
 }
 
 void less_sketch(){
@@ -105,25 +110,32 @@ void less_sketch(){
     set_intake(127);
     set_arm(-20);
     slow_chassis(12000);
-//first cube
+
+    //first cube
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-//turn towards tower cube
+
+    //turn towards tower cube
     chassisController.turnAngle(50_deg);
     chassisController.waitUntilSettled();
-//tower cube
+
+    //tower cube
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-//return
+    
+    //return
     profileController.setTarget("A", true);
     profileController.waitUntilSettled();
-//turn the other way
+    
+    //turn the other way
     chassisController.turnAngle(100_deg);
     chassisController.waitUntilSettled();
-//grab other cube
+    
+    //grab other cube
     profileController.setTarget("A");
     profileController.waitUntilSettled();
-//turn to face goal
+    
+    //turn to face goal
     resume_tray();
     chassisController.turnAngle(-70);
     chassisController.waitUntilSettled();
@@ -163,32 +175,43 @@ void Actual_Route(){
     set_arm(-20);
     slow_chassis(4800);
 
-
+    //turn to purple cube
     chassisController.turnAngle(18.5_deg);
     chassisController.waitUntilSettled();
+
+    //grab cube
     set_tank(30,30);
     pros::delay(1000); //1000
+
+    //wall-align
     set_tank(-30,-30);
     pros::delay(2600); //3000
+
+    //turn to orange cube
     chassisController.turnAngle(-17_deg);
     chassisController.waitUntilSettled();
+
+    //grab cube
     set_tank(30,30);
     pros::delay(1000); //1000
+
+    //wall-align
     set_tank(-30,-30);
     pros::delay(1700); //2000
-    //purple cube next to tower
+
+    //forward a bit
     profileController.setTarget("A");
     profileController.waitUntilSettled();
     
     //turn to face purple cube next to 3 stack
-   chassisController.turnAngle(23_deg);
-   chassisController.waitUntilSettled();
+    chassisController.turnAngle(23_deg);
+    chassisController.waitUntilSettled();
 
     //intake purple cube next to 3 stack
     profileController.setTarget("B");
     profileController.waitUntilSettled();
 
-    //A backward
+    //backward
     profileController.setTarget("C", true);
     profileController.waitUntilSettled();
     //turn
@@ -200,16 +223,6 @@ void Actual_Route(){
     // profileController.waitUntilSettled();
     chassisController.turnAngle(-72_deg);
     chassisController.waitUntilSettled();
-
-    //turn to face orange cube in outer protected
-    // chassisController.turnAngle(-70_deg);
-    // chassisController.waitUntilSettled();
-
-    //intake orange cube in outer protected
-    
-    //face second orange cube in protected
-    // chassisController.turnAngle(30_deg);
-    // chassisController.waitUntilSettled();
 
     //intake second orange cube in protected
     profileController.setTarget("D");
@@ -237,7 +250,9 @@ void Actual_Route(){
     while(get_tray_pos() > PROTECTED + 580)
         pros::delay(5);
     normal_chassis();
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
     set_tank(-127, -127);
     set_intake(-127);
     pros::delay(200);
@@ -313,7 +328,9 @@ void new_route(){
     while(get_tray_pos() > PROTECTED + 580)
         pros::delay(5);
     normal_chassis();
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
     set_tank(-127, -127);
     set_intake(-127);
     pros::delay(200);
@@ -500,7 +517,9 @@ void u_6cube(int color)
     set_tank(-127, -127);
     set_intake(-127);
     pros::delay(300);
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
 
     //reset All
     drive_hold();
@@ -573,7 +592,9 @@ void proBlue()
     set_tank(-127, -127);
     set_intake(-127);
     pros::delay(200);
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
 
     //reset All
     drive_hold();
@@ -694,7 +715,9 @@ void skills2()
     chassisController.moveDistance(20_in);
     chassisController.waitUntilSettled();
     set_intake(0);
-    suspend_tray(); tray_coast(); set_tray(0);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
     tray_outtake();
 
     //come back
