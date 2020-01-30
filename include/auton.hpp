@@ -20,6 +20,7 @@ void swing_turns();
 void new_route();
 
 void Actual_Route();
+void less_sketch();
 
 #define RED 1
 #define BLUE -1

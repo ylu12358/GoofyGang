@@ -39,7 +39,8 @@ void initialize()
 		init_skills();
 	}
 	if(selector == 6){
-		Actual_Route_init();
+//		Actual_Route_init();
+less_sketch_int();
 	}
 }
 
@@ -66,7 +67,8 @@ void autonomous()
 		//skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
-		Actual_Route();
+//		Actual_Route();
+		less_sketch();
 	//	one_cube();
 //		test();
 }

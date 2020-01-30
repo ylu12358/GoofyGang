@@ -100,6 +100,63 @@ void lowTower()
     suspend_tray(); tray_coast(); set_tray(0);
 }
 
+void less_sketch(){
+    preauton();
+    set_intake(127);
+    set_arm(-20);
+    slow_chassis(12000);
+//first cube
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+//turn towards tower cube
+    chassisController.turnAngle(50_deg);
+    chassisController.waitUntilSettled();
+//tower cube
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+//return
+    profileController.setTarget("A", true);
+    profileController.waitUntilSettled();
+//turn the other way
+    chassisController.turnAngle(100_deg);
+    chassisController.waitUntilSettled();
+//grab other cube
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+//turn to face goal
+    resume_tray();
+    chassisController.turnAngle(-70);
+    chassisController.waitUntilSettled();
+    outtakeBit();
+    set_tray_pid(PROTECTED);
+
+    //align with scoring zone
+    set_tank(30, 30);
+    pros::delay(1500);
+    set_tank(0, 0);
+    pros::delay(1000);
+
+    //score
+    fast_outtake();
+
+    //back away
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while(get_tray_pos() > PROTECTED + 580)
+        pros::delay(5);
+    normal_chassis();
+    suspend_tray(); tray_coast(); set_tray(0);
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(200);
+
+    //reset All
+    drive_hold();
+    pros::delay(20);
+    set_tank(0, 0);
+    set_intake(0);
+}
+
 void Actual_Route(){
     preauton();
     set_intake(127);

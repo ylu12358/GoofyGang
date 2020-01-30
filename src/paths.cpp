@@ -1,6 +1,10 @@
 #include "main.h"
 
 //ASYNC DOESNT BLOCK, REGULAR BLOCK..... for CHASSISCONTROLLER
+void less_sketch_int(){
+    profileController.generatePath({Point{0_in,0_in,0_deg}, Point{6_in,0_in,0_deg}},"A");
+}
+
 void Actual_Route_init(){
     profileController.generatePath({Point{0_in,0_in,0_deg}, Point{13_in,0_in,0_deg}},"A");
     profileController.generatePath({Point{0_in,0_in,0_deg}, Point{26_in,0_in,0_deg}},"B");

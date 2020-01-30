@@ -11,6 +11,7 @@ void swing_turns_init();
 void new_route_init();
 
 void Actual_Route_init();
+void less_sketch_int();
 
 void init_6cube();
 
