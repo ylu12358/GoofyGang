@@ -1,10 +1,14 @@
 #include "main.h"
 
+//switch case
 int arm_counter = 0;
 int tray_counter = 0;
+//arcade
 bool tank = true;
+//antitip
 bool safe = false;
 int last_tray = TRAY_IN;
+//cube lock
 int intake_time = 0;
 bool intake = true;
 
@@ -31,7 +35,7 @@ void tray_outtake()
         set_intake(-13);
         set_tray(30);
     }
-    tray_hold();
+    tray_hold(); //tray doesnt flip forward and knock stack
     set_tray(0);
     set_intake(0);
 }
@@ -47,7 +51,7 @@ void fast_outtake()
         set_intake(-13);
         set_tray(40);
     }
-
+    tray_hold(); //tray doesnt flip forward and knock stack
     set_tray(0);
     set_intake(0);
 }
@@ -55,8 +59,8 @@ void fast_outtake()
 void drive_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    drive_coast();
-    normal_chassis();
+    drive_coast(); //motor isnt running
+    slow_chassis(12000); //reset drive speed
     while (true)
     {
         if(!tank) //arcade
@@ -76,13 +80,13 @@ void drive_control(void *)
 void tray_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
-    tray_coast();
+    tray_coast(); // motor isnt running
     last_tray = TRAY_IN;
     pros::delay(100); // allow potentiometer to settle
     while (true)
     {
         if (master.get_digital(DIGITAL_RIGHT)){
-
+            //antitip safe
             resume_tray();
             set_tray_pid(LOCK_SAFE);
             safe = true;
@@ -97,17 +101,21 @@ void tray_control(void *)
                     case 0: //intake
                         resume_tray();
                         set_tray_pid(TRAY_IN);
+                        //wait for tray pos to reach
                         while(get_tray_pos() > TRAY_IN + 20)
                             pros::delay(5);
+                        //disable pid
                         suspend_tray();
                         set_tray(0);
                         tray_coast();
                         intake_hold();
+                        //pos to return if antitip
                         last_tray = TRAY_IN;
                         break;
                     case 1: //protected
                         resume_tray();
                         set_tray_pid(PROTECTED);
+                        //pos to return if antitip
                         last_tray = PROTECTED;
                         break;
                     case 2: //score
@@ -126,9 +134,11 @@ void tray_control(void *)
         else if (safe) 
         {
             set_tray_pid(last_tray);
+            //wait for tray to get to pos
             while(get_tray_pos() > last_tray + 20)
                 pros::delay(5);
             safe = false;
+            //disable tray - no break
             suspend_tray();
             set_tray(0);
         } 
@@ -138,6 +148,7 @@ void tray_control(void *)
 
 void arm_control(void *)
 {
+    //reset
     pros::Controller master(CONTROLLER_MASTER);
     set_arm(-100);
     pros::delay(100);
@@ -171,8 +182,10 @@ void arm_control(void *)
                 case 1: //first tower height
                     if (tray_counter == 0)
                     {
+                        //stop intake
                         intake = false;
                         resume_tray();
+                        //wait for cubes to settle
                         while(intake_time>70){
                             set_intake(0);
                             intake_time--;
@@ -185,8 +198,7 @@ void arm_control(void *)
                         reset_intake_encoder();
                         //get cubes to the right pos on the intake
                         set_intake(-127);
-                        //510
-                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
+                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515) //510
                             pros::delay(5);
                         set_intake(0);
                         //set arm to the right pos
@@ -211,11 +223,13 @@ void arm_control(void *)
         else if (master.get_digital(DIGITAL_R1)&&intake)
         {
             set_intake(127);
+            //reset countdown
             intake_time = 100;
         }
     else if (master.get_digital(DIGITAL_R2)&&intake)
         {
             set_intake(-127);
+            //reset countdown
             intake_time = 100;
         }
         else if (get_arm_pos()< 200 && arm_counter == 0)
@@ -234,6 +248,7 @@ void arm_control(void *)
 
 void stacking_state()
 {
+    //reset - ready to stack
     suspend_arm();
     set_arm(-12);
     reset_arm_encoder();
