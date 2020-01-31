@@ -68,8 +68,8 @@ void autonomous()
 	}
 	if (selector == 6) //TESTING SLOT
 //		Actual_Route();
-		less_sketch();
-	//	one_cube();
+		//less_sketch();
+		one_cube();
 //		test();
 }
 
