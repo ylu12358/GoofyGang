@@ -85,7 +85,7 @@ void outtakeBit()
     //outtake to correct position
     reset_intake_encoder();
     set_intake(-80);
-    while (get_left_intake_pos() > -130)
+    while (get_left_intake_pos() > -140)
         pros::delay(5);
     set_intake(0);
 }
@@ -125,43 +125,40 @@ void lowTower()
     set_tray(0);
 }
 
-void protected_auton(){
+void protected_auton(int color){
     //deploy and prep
     preauton();
     set_intake(127);
     set_arm(-20);
-    slow_chassis(12000);
+    normal_chassis();
+    pros::delay(1000);
 
     //first cube
     profileController.setTarget("A");
     profileController.waitUntilSettled();
+    slow_chassis(4400);
 
     //turn towards tower cube
-    chassisController.turnAngle(50_deg);
+    chassisController.turnAngleAsync(color * 49_deg);
     chassisController.waitUntilSettled();
+    normal_chassis();
 
     //tower cube
-    profileController.setTarget("A");
+    profileController.setTarget("B");
     profileController.waitUntilSettled();
-    
+
     //return
-    profileController.setTarget("A", true);
+    profileController.setTarget("B", true);
     profileController.waitUntilSettled();
-    
-    //turn the other way
-    chassisController.turnAngle(100_deg);
-    chassisController.waitUntilSettled();
-    
-    //grab other cube
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    
+    slow_chassis(4400);
+        
     //turn to face goal
     resume_tray();
-    chassisController.turnAngle(-70);
+    chassisController.turnAngleAsync(color * 105_deg);
     chassisController.waitUntilSettled();
+    reset_intake_encoder();
+    set_intake(-80);
     outtakeBit();
-    set_tray_pid(PROTECTED);
 
     //align with scoring zone
     set_tank(30, 30);
@@ -202,7 +199,7 @@ void one_cube()
     pros::delay(700);
     set_tank(0, 0);
     //deploy
-    preauton();
+    //preauton();
 }
 
 void u_6cube(int color)
@@ -360,4 +357,39 @@ void test(){
     profileController.setTarget("C", true);
     profileController.waitUntilSettled();
     profileController.removePath("C");   
+}
+
+void pickup()
+{
+   //preauton
+   preauton();
+ 
+   //intake row
+   set_intake(127);
+   set_arm(-30);
+   slow_chassis(9000);
+   pros::delay(100);
+   profileController.setTarget("A");
+   profileController.waitUntilSettled();
+ 
+   //s-curve to 2nd row
+   normal_chassis();
+   resume_tray();
+   profileController.setTarget("B", true);
+   set_tray_pid(LOCK_SAFE);
+   set_intake(25);
+   profileController.waitUntilSettled();
+ 
+   //intake row
+   slow_chassis(9000);
+   set_intake(127);
+   profileController.setTarget("C");
+   set_tray_pid(TRAY_IN);
+   profileController.waitUntilSettled();
+
+    //reset
+    set_intake(12);
+    set_tank(0,0);
+    suspend_tray();
+    set_tray(0);
 }

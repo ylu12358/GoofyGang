@@ -94,10 +94,10 @@ void slow_chassis(int volt)
 
 void normal_chassis()
 {
-    lb_drive.set_voltage_limit(10000);
-    lf_drive.set_voltage_limit(10000);
-    rf_drive.set_voltage_limit(10000);
-    rb_drive.set_voltage_limit(10000);
+    lb_drive.set_voltage_limit(12000);
+    lf_drive.set_voltage_limit(12000);
+    rf_drive.set_voltage_limit(12000);
+    rb_drive.set_voltage_limit(12000);
 }
 
 void drive_hold()

@@ -7,4 +7,6 @@ void init_protected();
 
 void init_6cube();
 
+void init_pickup();
+
 #endif

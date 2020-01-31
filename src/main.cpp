@@ -27,14 +27,16 @@ void initialize()
 	if (selector == 2)
 		init_6cube();
 	if (selector == 3)
+		init_protected();
 	if (selector == 4)
+		init_protected();
 	if (selector == 5)
 	{
 		tank = false;
 		init_skills();
 	}
 	if(selector == 6){
-		init_protected();
+		init_pickup();
 	}
 }
 
@@ -49,7 +51,9 @@ void autonomous()
 	if (selector == 2)
 		u_6cube(BLUE);
 	if (selector == 3)
+		protected_auton(RED);
 	if (selector == 4)
+		protected_auton(BLUE);
 	if (selector == 5)
 	{
 		skills1();
@@ -57,7 +61,8 @@ void autonomous()
 	}
 	if (selector == 6) //TESTING SLOT
 		//protected_auton();
-		one_cube();
+		pickup();
+//		one_cube();
 }
 
 void opcontrol()

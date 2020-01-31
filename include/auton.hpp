@@ -12,7 +12,8 @@ void test();
 void preauton();
 void start_driver();
 
-void protected_auton();
+void protected_auton(int color);
+void pickup();
 
 #define RED 1
 #define BLUE -1
