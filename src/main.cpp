@@ -19,28 +19,22 @@ void initialize()
 
 	intake_hold();
 	
-//	Actual_Route_init();
 
 	auto_selector();
 	pros::delay(100);
 	if (selector == 1)
 		init_6cube();
-//		init_upr();
 	if (selector == 2)
 		init_6cube();
-//		init_upb();
 	if (selector == 3)
-		init_pr();
 	if (selector == 4)
-		init_pb();
 	if (selector == 5)
 	{
 		tank = false;
 		init_skills();
 	}
 	if(selector == 6){
-//		Actual_Route_init();
-less_sketch_int();
+		init_protected();
 	}
 }
 
@@ -50,27 +44,20 @@ void competition_initialize() {}
 
 void autonomous()
 {
-
-//	Actual_Route();
-
 	if (selector == 1)
 		u_6cube(RED);
 	if (selector == 2)
 		u_6cube(BLUE);
 	if (selector == 3)
-		proRed();
 	if (selector == 4)
-		proBlue();
 	if (selector == 5)
 	{
 		skills1();
 		//skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
-//		Actual_Route();
-		//less_sketch();
+		//protected_auton();
 		one_cube();
-//		test();
 }
 
 void opcontrol()
