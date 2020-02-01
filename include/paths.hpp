@@ -8,5 +8,6 @@ void init_protected();
 void init_6cube();
 
 void init_pickup();
+void new_route_init();
 
 #endif

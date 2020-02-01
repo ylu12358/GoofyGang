@@ -42,7 +42,7 @@ void tray_outtake()
 
 void fast_outtake()
 {
-    while (get_tray_pos() < 2080)
+    while (get_tray_pos() < 1980)
         set_tray(127);
     intake_coast();
 
@@ -198,7 +198,7 @@ void arm_control(void *)
                         reset_intake_encoder();
                         //get cubes to the right pos on the intake
                         set_intake(-127);
-                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515) //510
+                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
                             pros::delay(5);
                         set_intake(0);
                         //set arm to the right pos

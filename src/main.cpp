@@ -36,7 +36,7 @@ void initialize()
 		init_skills();
 	}
 	if(selector == 6){
-		init_pickup();
+//		init_pickup();
 	}
 }
 
@@ -57,12 +57,12 @@ void autonomous()
 	if (selector == 5)
 	{
 		skills1();
-		//skills2();		
+//		skills2();		
 	}
 	if (selector == 6) //TESTING SLOT
 		//protected_auton();
-		pickup();
-//		one_cube();
+//		pickup();
+		one_cube();
 }
 
 void opcontrol()

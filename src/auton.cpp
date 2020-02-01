@@ -85,7 +85,7 @@ void outtakeBit()
     //outtake to correct position
     reset_intake_encoder();
     set_intake(-80);
-    while (get_left_intake_pos() > -140)
+    while (get_left_intake_pos() > -330) //530
         pros::delay(5);
     set_intake(0);
 }
@@ -105,10 +105,13 @@ void lowTower()
     while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
         pros::delay(5);
     set_intake(0);
+    pros::delay(200);
     //correct arm pos
     resume_arm();
     set_arm_pid(LOW_TOWER);
     //outtake
+    profileController.setTarget("D");
+    profileController.waitUntilSettled();
     set_intake(-127);
     pros::delay(1000);
     //disable pid
@@ -139,54 +142,69 @@ void protected_auton(int color){
     slow_chassis(4400);
 
     //turn towards tower cube
-    chassisController.turnAngleAsync(color * 49_deg);
-    chassisController.waitUntilSettled();
-    normal_chassis();
+    //chassisController.turnAngleAsync(color * 56_deg);
+    //chassisController.waitUntilSettled();
 
     //tower cube
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
+    //profileController.setTarget("B");
+    //profileController.waitUntilSettled();
+    //pros::delay(500);
+
+    //slight turn
+    //chassisController.turnAngleAsync(color * 4_deg);
+    //chassisController.waitUntilSettled();
 
     //return
-    profileController.setTarget("B", true);
-    profileController.waitUntilSettled();
-    slow_chassis(4400);
-        
+    //normal_chassis();
+    //resume_tray();
+    // chassisController.stop();
+    //set_tray_pid(LOCK_SAFE);
+    //set_tank(-127,-127);
+    //pros::delay(900);
+
+    //forward tiny bit
+    // profileController.setTarget("C");
+    // profileController.waitUntilSettled();    
+    // set_tank(40,40);
+    // pros::delay(200);
+
     //turn to face goal
-    resume_tray();
-    chassisController.turnAngleAsync(color * 105_deg);
+    slow_chassis(4400);
+    pros::delay(20);
+    chassisController.turnAngleAsync(color * -87_deg); 
     chassisController.waitUntilSettled();
-    reset_intake_encoder();
-    set_intake(-80);
-    outtakeBit();
 
     //align with scoring zone
+    normal_chassis();
     set_tank(30, 30);
-    pros::delay(1500);
+    pros::delay(400);
     set_tank(0, 0);
-    pros::delay(1000);
+    intake_coast();
+    //outtakeBit();
 
     //score
-    fast_outtake();
+    //fast_outtake();
 
     //back away - resume all
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    while(get_tray_pos() > PROTECTED + 580)
-        pros::delay(5);
-    normal_chassis();
-    suspend_tray(); 
+    //resume_tray();
+    //set_tray_pid(TRAY_IN);
+    //while(get_tray_pos() > PROTECTED + 580)
+    //    pros::delay(5);
+    //normal_chassis();
+    //suspend_tray(); 
     tray_coast(); 
     set_tray(0);
-    set_tank(-127, -127);
+    //set_tank(-127, -127);
     set_intake(-127);
-    pros::delay(200);
+    //pros::delay(200);
 
     //reset All
     drive_hold();
-    pros::delay(20);
+    pros::delay(3000);
+    set_tank(-30, -30);
+    pros::delay(1000);
     set_tank(0, 0);
-    set_intake(0);
+    //set_intake(0);
 }
 
 void one_cube()
@@ -219,6 +237,7 @@ void u_6cube(int color)
     slow_chassis(2400);
     profileController.setTarget("B");
     profileController.waitUntilSettled();
+    pros::delay(500);
     slow_chassis(4800);
 
 
@@ -227,7 +246,6 @@ void u_6cube(int color)
     chassisController.turnAngleAsync(color * 105.35_deg);
     chassisController.waitUntilSettled();
     set_intake(25);
-    outtakeBit();
     set_tray_pid(PROTECTED);
     
 
@@ -235,10 +253,12 @@ void u_6cube(int color)
     slow_chassis(5300);
     profileController.setTarget("A");
     profileController.waitUntilSettled();
+    normal_chassis();
     set_tank(30,30);
     pros::delay(150);
+    intake_coast();
     set_tank(0,0);
-    pros::delay(200);
+    outtakeBit();
 
     //score
     fast_outtake();
@@ -288,45 +308,80 @@ void skills1()
     slow_chassis(4800);
 
     //move away from tower
-    profileController.setTarget("B", true);
+    profileController.setTarget("D", true);
     profileController.waitUntilSettled();
 
     //score low tower
     lowTower();
 
     //turns toward straight line of cubes
-    chassisController.turnAngleAsync(20_deg);
+    // chassisController.turnAngleAsync(16_deg);
+    // chassisController.waitUntilSettled();
+
+        //turn to score
+    profileController.setTarget("D", true);
+    resume_tray();
+    chassisController.turnAngleAsync(105.35_deg);
     chassisController.waitUntilSettled();
+    set_intake(25);
+    set_tray_pid(PROTECTED);
+    
+
+    //drive forward
+    slow_chassis(5300);
+    profileController.setTarget("A");
+    profileController.waitUntilSettled();
+    set_tank(30,30);
+    pros::delay(150);
+    intake_coast();
+    set_tank(0,0);
+    outtakeBit();
+
+    //score
+    fast_outtake();
+
+    //back away
+    resume_tray();
+    set_tray_pid(TRAY_IN);
+    while(get_tray_pos() > PROTECTED + 580)
+        pros::delay(5);
+    normal_chassis();
+    set_tank(-127, -127);
+    set_intake(-127);
+    pros::delay(300);
+    suspend_tray(); 
+    tray_coast(); 
+    set_tray(0);
+
 }
 
 void skills2()
 {
     //8 cubes straight
-    chassisController.moveDistanceAsync(120_in);
-
+    profileController.setTarget("C");
     //disable arm
     suspend_arm();
     set_arm(-30);
     reset_arm_encoder();
-    chassisController.waitUntilSettled();
-
-    //turn and score
-    chassisController.turnAngle(-45_deg);
-    chassisController.waitUntilSettled();
-    chassisController.moveDistance(20_in);
-    chassisController.waitUntilSettled();
-    set_intake(0);
     suspend_tray(); 
     tray_coast(); 
     set_tray(0);
+    profileController.waitUntilSettled();
+
+    //turn and score
+    chassisController.turnAngle(45_deg);
+    chassisController.waitUntilSettled();
+    set_tank(40,40);
+    pros::delay(700);
+    set_intake(0);
     tray_outtake();
 
     //come back
     resume_tray();
-    chassisController.moveDistanceAsync(-20_in);
+    set_tank(-100,-100);
     resume_tray();
     set_tray_pid(LOCK_SAFE);
-    chassisController.waitUntilSettled();
+    pros::delay(700);
 }
 
 void test(){
@@ -393,3 +448,4 @@ void pickup()
     suspend_tray();
     set_tray(0);
 }
+

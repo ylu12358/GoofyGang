@@ -14,6 +14,7 @@ void start_driver();
 
 void protected_auton(int color);
 void pickup();
+void new_route();
 
 #define RED 1
 #define BLUE -1
