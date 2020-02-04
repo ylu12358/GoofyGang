@@ -14,7 +14,11 @@
     //too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
 
 
-std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder().withMotors({11,12},{10,9}).withGains({0.1,0.001,0.0},{0.1,0.08,0.002}).withDimensions(AbstractMotor::gearset::green,{{4_in,10_in},imev5GreenTPR}).build();
+std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
+    .withMotors({11, 12}, {10, 9})
+    .withGains({0.1, 0.001, 0.0}, {0.1, 0.08, 0.002})
+    .withDimensions(AbstractMotor::gearset::green, {{4_in, 10_in}, imev5GreenTPR})
+    .build();
     // {11, 12}, {10, 9},
     // IterativePosPIDController::Gains{0.1, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
     // //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
@@ -23,7 +27,10 @@ std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder(
     // AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
     // {5.3_in, 15_in});
 
-std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder().withLimits({1.41, 6.0, 6.0}).withOutput(chassisController).buildMotionProfileController();
+std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
+    .withLimits({1.41, 6.0, 6.0}).
+    withOutput(chassisController).
+    buildMotionProfileController();
 
 
     // time_t(), 
