@@ -4,8 +4,8 @@
 #include "okapi/api.hpp"
 using namespace okapi;
 
-extern ChassisControllerPID chassisController;
-extern AsyncMotionProfileController profileController;
+extern std::shared_ptr<ChassisController> chassisController;
+extern std::shared_ptr<AsyncMotionProfileController> profileController;
 
 extern int selector;
 

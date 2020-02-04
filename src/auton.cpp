@@ -66,13 +66,13 @@ void start_driver()
     //reset intake
     set_intake(12);
     //suspend drive pid
-    chassisController.stop();
+    chassisController -> stop();
     //suspend tray pid
     suspend_tray(); 
     tray_coast(); 
     set_tray(0);
     //suspend drive pid
-    profileController.flipDisable();
+    profileController -> flipDisable();
     //reset speed limit
     set_intake_speed(12000);
     normal_chassis();
@@ -110,8 +110,8 @@ void lowTower()
     resume_arm();
     set_arm_pid(LOW_TOWER);
     //outtake
-    profileController.setTarget("D");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
     set_intake(-127);
     pros::delay(1000);
     //disable pid
@@ -137,42 +137,42 @@ void protected_auton(int color){
     pros::delay(1000);
 
     //first cube
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
     slow_chassis(4400);
 
     //turn towards tower cube
-    //chassisController.turnAngleAsync(color * 56_deg);
-    //chassisController.waitUntilSettled();
+    //chassisController -> turnAngleAsync(color * 56_deg);
+    //chassisController -> waitUntilSettled();
 
     //tower cube
-    //profileController.setTarget("B");
-    //profileController.waitUntilSettled();
+    //profileController -> setTarget("B");
+    //profileController -> waitUntilSettled();
     //pros::delay(500);
 
     //slight turn
-    //chassisController.turnAngleAsync(color * 4_deg);
-    //chassisController.waitUntilSettled();
+    //chassisController -> turnAngleAsync(color * 4_deg);
+    //chassisController -> waitUntilSettled();
 
     //return
     //normal_chassis();
     //resume_tray();
-    // chassisController.stop();
+    // chassisController -> stop();
     //set_tray_pid(LOCK_SAFE);
     //set_tank(-127,-127);
     //pros::delay(900);
 
     //forward tiny bit
-    // profileController.setTarget("C");
-    // profileController.waitUntilSettled();    
+    // profileController -> setTarget("C");
+    // profileController -> waitUntilSettled();    
     // set_tank(40,40);
     // pros::delay(200);
 
     //turn to face goal
     slow_chassis(4400);
     pros::delay(20);
-    chassisController.turnAngleAsync(color * -87_deg); 
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngleAsync(color * -87_deg); 
+    chassisController -> waitUntilSettled();
 
     //align with scoring zone
     normal_chassis();
@@ -229,30 +229,30 @@ void u_6cube(int color)
     set_intake(127);
     set_arm(-30);
     slow_chassis(4400);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
     
-    chassisController.turnAngleAsync(color * -20_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngleAsync(color * -20_deg);
+    chassisController -> waitUntilSettled();
     slow_chassis(2400);
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("B");
+    profileController -> waitUntilSettled();
     pros::delay(500);
     slow_chassis(4800);
 
 
     //turn to score
     resume_tray();
-    chassisController.turnAngleAsync(color * 105.35_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngleAsync(color * 105.35_deg);
+    chassisController -> waitUntilSettled();
     set_intake(25);
     set_tray_pid(PROTECTED);
     
 
     //drive forward
     slow_chassis(5300);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
     normal_chassis();
     set_tank(30,30);
     pros::delay(150);
@@ -281,8 +281,8 @@ void u_6cube(int color)
     pros::delay(20);
     set_tank(0, 0);
     set_intake(0);
-    profileController.removePath("A");
-    profileController.removePath("B");
+    profileController -> removePath("A");
+    profileController -> removePath("B");
 }
 
 void skills1()
@@ -294,43 +294,43 @@ void skills1()
     set_intake(127);
     set_arm(-30);
     slow_chassis(4800);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
 
     //turn towards tower
-    chassisController.turnAngleAsync(-20_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngleAsync(-20_deg);
+    chassisController -> waitUntilSettled();
     slow_chassis(2400);
 
     //intake last cube
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("B");
+    profileController -> waitUntilSettled();
     slow_chassis(4800);
 
     //move away from tower
-    profileController.setTarget("D", true);
-    profileController.waitUntilSettled();
+    profileController -> setTarget("D", true);
+    profileController -> waitUntilSettled();
 
     //score low tower
     lowTower();
 
     //turns toward straight line of cubes
-    // chassisController.turnAngleAsync(16_deg);
-    // chassisController.waitUntilSettled();
+    // chassisController -> turnAngleAsync(16_deg);
+    // chassisController -> waitUntilSettled();
 
         //turn to score
-    profileController.setTarget("D", true);
+    profileController -> setTarget("D", true);
     resume_tray();
-    chassisController.turnAngleAsync(105.35_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngleAsync(105.35_deg);
+    chassisController -> waitUntilSettled();
     set_intake(25);
     set_tray_pid(PROTECTED);
     
 
     //drive forward
     slow_chassis(5300);
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
     set_tank(30,30);
     pros::delay(150);
     intake_coast();
@@ -358,7 +358,7 @@ void skills1()
 void skills2()
 {
     //8 cubes straight
-    profileController.setTarget("C");
+    profileController -> setTarget("C");
     //disable arm
     suspend_arm();
     set_arm(-30);
@@ -366,11 +366,11 @@ void skills2()
     suspend_tray(); 
     tray_coast(); 
     set_tray(0);
-    profileController.waitUntilSettled();
+    profileController -> waitUntilSettled();
 
     //turn and score
-    chassisController.turnAngle(45_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngle(45_deg);
+    chassisController -> waitUntilSettled();
     set_tank(40,40);
     pros::delay(700);
     set_intake(0);
@@ -387,31 +387,31 @@ void skills2()
 void test(){
     //straight
     drivepid(5500);
-    chassisController.moveDistance(54_in);
-    chassisController.waitUntilSettled();
+    chassisController -> moveDistance(54_in);
+    chassisController -> waitUntilSettled();
 
     //turn
     slow_chassis(5000);
-    chassisController.turnAngle(90_deg);
-    chassisController.waitUntilSettled();
+    chassisController -> turnAngle(90_deg);
+    chassisController -> waitUntilSettled();
     
     //straight
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{48_in, 0_ft, 0_deg}}, "A");
-    profileController.setTarget("A");
-    profileController.waitUntilSettled();
-    profileController.removePath("A");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
+    profileController -> removePath("A");
     
     //turn
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{0_ft, 0_ft, 90_deg}}, "B");
-    profileController.setTarget("B");
-    profileController.waitUntilSettled();
-    profileController.removePath("B");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");
+    profileController -> setTarget("B");
+    profileController -> waitUntilSettled();
+    profileController -> removePath("B");
     
     //s curve
-    profileController.generatePath({Point{0_ft, 0_ft, 0_deg}, Point{52_in, -28_in, 0_deg}}, "C");
-    profileController.setTarget("C", true);
-    profileController.waitUntilSettled();
-    profileController.removePath("C");   
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
+    profileController -> setTarget("C", true);
+    profileController -> waitUntilSettled();
+    profileController -> removePath("C");   
 }
 
 void pickup()
@@ -424,23 +424,23 @@ void pickup()
    set_arm(-30);
    slow_chassis(9000);
    pros::delay(100);
-   profileController.setTarget("A");
-   profileController.waitUntilSettled();
+   profileController -> setTarget("A");
+   profileController -> waitUntilSettled();
  
    //s-curve to 2nd row
    normal_chassis();
    resume_tray();
-   profileController.setTarget("B", true);
+   profileController -> setTarget("B", true);
    set_tray_pid(LOCK_SAFE);
    set_intake(25);
-   profileController.waitUntilSettled();
+   profileController -> waitUntilSettled();
  
    //intake row
    slow_chassis(9000);
    set_intake(127);
-   profileController.setTarget("C");
+   profileController -> setTarget("C");
    set_tray_pid(TRAY_IN);
-   profileController.waitUntilSettled();
+   profileController -> waitUntilSettled();
 
     //reset
     set_intake(12);

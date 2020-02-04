@@ -14,20 +14,24 @@
     //too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
 
 
-ChassisControllerPID chassisController = ChassisControllerFactory::create(
-    {11, 12}, {10, 9},
-    IterativePosPIDController::Gains{0.1, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
-    //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
-    IterativePosPIDController::Gains{0.00, 0.00, 0},
-    IterativePosPIDController::Gains{0.1, 0.08, 0.002}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
-    AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
-    {5.3_in, 15_in});
+std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder().withMotors({11,12},{10,9}).withGains({0.1,0.001,0.0},{0.1,0.08,0.002}).withDimensions(AbstractMotor::gearset::green,{{4_in,10_in},imev5GreenTPR}).build();
+    // {11, 12}, {10, 9},
+    // IterativePosPIDController::Gains{0.1, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
+    // //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
+    // IterativePosPIDController::Gains{0.00, 0.00, 0},
+    // IterativePosPIDController::Gains{0.1, 0.08, 0.002}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
+    // AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
+    // {5.3_in, 15_in});
 
-AsyncMotionProfileController profileController = AsyncControllerFactory::motionProfile(
-    1.41,                // Maximum linear velocity in m/s
-    6.0,               // Maximum linear acceleration in m/s/s //4
-    6.0,               // Maximum linear jerk in m/s/s/s //6
-    chassisController); // Chassis Controller
+std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder().withLimits({1.41, 6.0, 6.0}).withOutput(chassisController).buildMotionProfileController();
+
+
+    // time_t(), 
+    // 1.41,                // Maximum linear velocity in m/s
+    // 6.0,               // Maximum linear acceleration in m/s/s //4
+    // 6.0,               // Maximum linear jerk in m/s/s/s //6
+    // SkidSteerModel(),
+    // chassisController); // Chassis Controller
 
 int selector = 0;
 
