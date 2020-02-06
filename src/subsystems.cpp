@@ -14,19 +14,19 @@ bool intake = true;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1480)
+    while (get_tray_pos() < 1700)
         set_tray(127);
     intake_coast();
     
-    while (get_tray_pos() < 2030)
+    while (get_tray_pos() < 2000)
     {
-        set_tray(60);
+        set_tray(50);
         set_intake(13);
     }
     
     while (get_tray_pos() < 2480)
     {
-        set_tray(40);
+        set_tray(30);
         set_intake(13);
     }
 
@@ -42,7 +42,7 @@ void tray_outtake()
 
 void fast_outtake()
 {
-    while (get_tray_pos() < 1980)
+    while (get_tray_pos() < 1850)
         set_tray(127);
     intake_coast();
 
@@ -60,7 +60,7 @@ void drive_control(void *)
 {
     pros::Controller master(CONTROLLER_MASTER);
     drive_coast(); //motor isnt running
-    slow_chassis(12000); //reset drive speed
+    normal_chassis(); //reset drive speed
     while (true)
     {
         if(!tank) //arcade

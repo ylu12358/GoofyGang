@@ -18,7 +18,6 @@ void initialize()
 	pros::lcd::register_btn1_cb(on_center_button);
 
 	intake_hold();
-	
 
 	auto_selector();
 	pros::delay(100);

@@ -71,7 +71,7 @@ extern int a_target;
 #define PROTECTED 1210
 #define TRAY_IN 700
 #define LOCK_SAFE 1000
-#define LOW_TOWER 1300
+#define LOW_TOWER 1220 //1120 for descore
 #define HIGH_TOWER 1650
 
 #endif

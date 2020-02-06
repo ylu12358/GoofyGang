@@ -390,28 +390,28 @@ void test(){
     chassisController -> moveDistance(54_in);
     chassisController -> waitUntilSettled();
 
-    //turn
-    slow_chassis(5000);
-    chassisController -> turnAngle(90_deg);
-    chassisController -> waitUntilSettled();
+    // //turn
+    // slow_chassis(5000);
+    // chassisController -> turnAngle(90_deg);
+    // chassisController -> waitUntilSettled();
     
-    //straight
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
-    profileController -> setTarget("A");
-    profileController -> waitUntilSettled();
-    profileController -> removePath("A");
+    // //straight
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
+    // profileController -> setTarget("A");
+    // profileController -> waitUntilSettled();
+    // profileController -> removePath("A");
     
-    //turn
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");
-    profileController -> setTarget("B");
-    profileController -> waitUntilSettled();
-    profileController -> removePath("B");
+    // //turn
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");
+    // profileController -> setTarget("B");
+    // profileController -> waitUntilSettled();
+    // profileController -> removePath("B");
     
-    //s curve
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
-    profileController -> setTarget("C", true);
-    profileController -> waitUntilSettled();
-    profileController -> removePath("C");   
+    // //s curve
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
+    // profileController -> setTarget("C", true);
+    // profileController -> waitUntilSettled();
+    // profileController -> removePath("C");   
 }
 
 void pickup()

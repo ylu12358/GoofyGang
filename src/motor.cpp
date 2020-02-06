@@ -13,32 +13,16 @@
 //twitching like crazy might mean 
     //too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
 
-
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
     .withMotors({11, 12}, {10, 9})
     .withGains({0.1, 0.001, 0.0}, {0.1, 0.08, 0.002})
     .withDimensions(AbstractMotor::gearset::green, {{4_in, 10_in}, imev5GreenTPR})
     .build();
-    // {11, 12}, {10, 9},
-    // IterativePosPIDController::Gains{0.1, 0.001, 0.000}, //{0.001, 0, 0.0001}}//.0006
-    // //TUNE THIS TO STOP GETTING CROOKED DRIVING (SLANTED)
-    // IterativePosPIDController::Gains{0.00, 0.00, 0},
-    // IterativePosPIDController::Gains{0.1, 0.08, 0.002}, //0.01, 0.000325, 0.01425, 0.0004 //.00006
-    // AbstractMotor::gearset::blue,                            //0.0175, 0.01, 0.000375
-    // {5.3_in, 15_in});
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
-    .withLimits({1.41, 6.0, 6.0}).
-    withOutput(chassisController).
-    buildMotionProfileController();
-
-
-    // time_t(), 
-    // 1.41,                // Maximum linear velocity in m/s
-    // 6.0,               // Maximum linear acceleration in m/s/s //4
-    // 6.0,               // Maximum linear jerk in m/s/s/s //6
-    // SkidSteerModel(),
-    // chassisController); // Chassis Controller
+    .withLimits({1.41, 6.0, 6.0})
+    .withOutput(chassisController)
+    .buildMotionProfileController();
 
 int selector = 0;
 
@@ -316,7 +300,7 @@ void tray_pid(void *)
     float power;
     float proportion;
     //.5
-    float kp = 0.8;
+    float kp = 1.1;
     float integral;
     float ki = 0;
     float error;
@@ -356,9 +340,9 @@ void arm_pid(void *)
 {
     float power;
     float proportion;
-    float kp = 0.8;
+    float kp = 1.2; //1
     float integral;
-    float ki = 0.001;
+    float ki = 0.002; //.001
     float error;
     float errorT;
     float integralActiveZone = 20;
