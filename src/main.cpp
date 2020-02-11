@@ -1,5 +1,4 @@
 #include "main.h"
-
 void on_center_button()
 {
 	static bool pressed = false;
@@ -83,6 +82,8 @@ void opcontrol()
 		pros::lcd::set_text(1, "Selector Value: " + std::to_string(selector));
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
+
+		printf("tray sensor: %d", get_tray_pos());
 
 		pros::delay(20);
 	}
