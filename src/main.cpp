@@ -61,7 +61,8 @@ void autonomous()
 	if (selector == 6) //TESTING SLOT
 		//protected_auton();
 //		pickup();
-		one_cube();
+//		one_cube();
+		test();
 }
 
 void opcontrol()

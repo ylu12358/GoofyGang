@@ -386,20 +386,28 @@ void skills2()
 
 void test(){
     //straight
-    drivepid(5500);
-    chassisController -> moveDistance(54_in);
-    chassisController -> waitUntilSettled();
+    	pros::Controller master(CONTROLLER_MASTER);
+	master.set_text(0, 0, "ONE");
+
+    // chassisController -> moveDistance(54_in);
+
+    // chassisController -> waitUntilSettled();
 
     // //turn
     // slow_chassis(5000);
     // chassisController -> turnAngle(90_deg);
     // chassisController -> waitUntilSettled();
     
-    // //straight
-    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
-    // profileController -> setTarget("A");
-    // profileController -> waitUntilSettled();
-    // profileController -> removePath("A");
+    //straight
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
+    master.set_text(0, 0, "TWO");
+
+    profileController -> setTarget("A");
+    master.set_text(0, 0, "THREE");
+
+    profileController -> waitUntilSettled();
+    profileController -> removePath("A");
+master.set_text(0, 0, "FOUR");
     
     // //turn
     // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");

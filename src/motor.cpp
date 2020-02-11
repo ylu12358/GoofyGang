@@ -15,8 +15,8 @@
 
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
     .withMotors({11, 12}, {10, 9})
-    .withGains({0.1, 0.001, 0.0}, {0.1, 0.08, 0.002})
-    .withDimensions(AbstractMotor::gearset::green, {{4_in, 10_in}, imev5GreenTPR})
+    .withGains({0.3, 0.001, 0.0}, {0.1, 0.08, 0.002})
+    .withDimensions(AbstractMotor::gearset::green, {{4.125_in, 10_in}, imev5GreenTPR})
     .build();
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()

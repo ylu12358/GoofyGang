@@ -203,7 +203,11 @@ void arm_control(void *)
                         set_intake(0);
                         //set arm to the right pos
                         resume_arm();
-                        set_arm_pid(LOW_TOWER);
+                        if (master.get_digital(DIGITAL_Y)){
+                            set_arm_pid(LOW_DESCORE);
+                        } else {
+                            set_arm_pid(LOW_TOWER);
+                        }
                         set_intake_speed(8500);
                         intake = true;
                     }
