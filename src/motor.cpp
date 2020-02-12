@@ -1,5 +1,32 @@
 #include "main.h"
 
+//tune strat
+	//tune angle "Adjust p until you get a lil osccilation then add d very slowly until it stops"
+
+	//p decrease rise time
+
+	//i decrease settle time
+	//i increase overshoot, but gets to target
+	//i decrease oscillation
+
+	//d decrease overshoot
+	//d is sensitive to noise
+	//d is also sensitive to disturbance (cube pressing arm up)
+
+	//twitching like crazy might mean 
+	//too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
+
+std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
+    .withMotors({11, 12}, {10, 9})
+    .withGains({0.30000000, 0.001000000, 0.0000000}, {0.1000000, 0.08000000, 0.00200000})
+    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in}, imev5BlueTPR * (3/7) }) //external ratio
+    .build();
+
+std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
+    .withLimits({1.41, 6.0, 6.5})
+    .withOutput(chassisController)
+    .buildMotionProfileController();
+
 int selector = 0;
 
 //Motors
