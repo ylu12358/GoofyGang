@@ -17,13 +17,13 @@
 	//too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
 
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
-    .withMotors({11, 12}, {10, 9})
-    .withGains({0.30000000, 0.001000000, 0.0000000}, {0.1000000, 0.08000000, 0.00200000})
-    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in}, imev5BlueTPR * (3/7) }) //external ratio
+    .withMotors(11, 9)
+    .withGains({0.01600000, 0.000000000, 0.001080000}, {0.0000000, 0.00000000, 0.00000000})
+    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in},  (3*900/7) }) //external ratio
     .build();
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
-    .withLimits({1.41, 6.0, 6.5})
+    .withLimits({2.41, 6.0, 10})
     .withOutput(chassisController)
     .buildMotionProfileController();
 

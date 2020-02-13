@@ -74,7 +74,7 @@ void autonomous()
 		//protected_auton();
 //		pickup();
 //		one_cube();
-		test();
+		{test();}
 }
 
 void opcontrol()
@@ -96,7 +96,7 @@ void opcontrol()
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
 
-		printf("tray sensor: %d", get_tray_pos()); //testing printf
+//		printf("tray sensor: %d", get_tray_pos()); //testing printf
 		std::cout<<get_arm_pos()<<std::endl; //testing cout 
 
 		pros::delay(20);

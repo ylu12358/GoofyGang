@@ -72,7 +72,7 @@ extern int a_target;
 #define TRAY_IN 700
 #define LOCK_SAFE 1000
 #define LOW_TOWER 1220 //1120 for descore
-#define LOW_DESCORE 1120
+#define LOW_DESCORE 1020
 #define HIGH_TOWER 1650
 
 #endif
