@@ -57,6 +57,8 @@ void competition_initialize() {}
 
 void autonomous()
 {
+	pros::Task output(sensors, nullptr, "name");
+
 	if (selector == 1)
 		u_6cube(RED);
 	if (selector == 2)

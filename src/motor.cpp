@@ -17,8 +17,8 @@
 	//too HIGH of d (noise) or too LOW of i (doesnt reach target - oscillates)
 
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
-    .withMotors(11, 9)
-    .withGains({0.01600000, 0.000000000, 0.001080000}, {0.0000000, 0.00000000, 0.00000000})
+    .withMotors({11,12}, {10,9})
+    .withGains({0.0200, 0.0000000000, 0.000000}, {0.0000000, 0.00000000, 0.00000000}) //.016, 0, .001    //.0012
     .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in},  (3*900/7) }) //external ratio
     .build();
 
@@ -303,7 +303,7 @@ void tray_pid(void *)
     float power;
     float proportion;
     //.5
-    float kp = 1.1;
+    float kp = 0; //1.1
     float integral;
     float ki = 0;
     float error;
@@ -429,6 +429,15 @@ void drive_straight(int speed, int dis)
         pros::delay(2);
     }
     set_tank(0, 0);
+}
+
+void sensors(void* param){
+    while(true){
+        std::cout << "left:  "<<chassisController->getModel()->getSensorVals()[0] << std::endl;
+        std::cout << "right: "<<chassisController->getModel()->getSensorVals()[1] << std::endl;
+
+        pros::delay(10);
+    }
 }
 
 pros::Task tray_pid_t(tray_pid, nullptr, "name");

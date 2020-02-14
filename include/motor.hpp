@@ -7,6 +7,7 @@ using namespace okapi;
 extern std::shared_ptr<ChassisController> chassisController;
 extern std::shared_ptr<AsyncMotionProfileController> profileController;
 
+
 extern int selector;
 
 int sgn(int input);
@@ -49,6 +50,7 @@ void set_tray_pid(int input);
 void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
+void sensors(void *);
 void drive_straight(int speed, int dis);
 void suspend_tray();
 void resume_tray();
