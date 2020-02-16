@@ -65,8 +65,13 @@ void set_rintake(double pos, double vel);
 void set_ldrive(double pos, double vel);
 void set_rdrive(double pos, double vel);
 
-void drivepid(int distance);
+void blockpid(float distance);
+void suspend_drive();
+void resume_drive();
+void drive_pid(void *);
+void set_drive_pid(float input);
 
+extern float d_target;
 extern int a_target;
 
 #define TRAY_OUT 2520

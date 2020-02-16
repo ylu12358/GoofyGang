@@ -19,7 +19,7 @@
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
     .withMotors({11,12}, {10,9})
     .withGains({0.0200, 0.0000000000, 0.000000}, {0.0000000, 0.00000000, 0.00000000}) //.016, 0, .001    //.0012
-    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in},  (3*900/7) }) //external ratio
+    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in},  (3*300/7) }) //external ratio
     .build();
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
@@ -303,7 +303,7 @@ void tray_pid(void *)
     float power;
     float proportion;
     //.5
-    float kp = 0; //1.1
+    float kp = 0.8; //1.1
     float integral;
     float ki = 0;
     float error;
@@ -373,8 +373,19 @@ void arm_pid(void *)
     }
 }
 
-void drivepid(int distance)
+pros::Task drive_pid_t(drive_pid, nullptr, "name");
+
+void suspend_drive()
 {
+    drive_pid_t.suspend();
+}
+
+void resume_drive()
+{
+    drive_pid_t.resume();
+}
+
+void drive_pid(void *){
     float power;
     float proportion;
     float kp = 0;
@@ -386,11 +397,12 @@ void drivepid(int distance)
     float kd = 0;
     float derivative;
     float last_error;
-//    reset_drive_encoder();
+    float threshold = 1000;
+    reset_drive_encoder();
 
     while (true)
     {
-        error = distance - get_left_drive_pos();
+        error = d_target - (get_right_drive_pos()+get_left_drive_pos())/2;
         proportion = error * kp;
         if(error < integralActiveZone && error!=0){
             errorT++;
@@ -404,9 +416,65 @@ void drivepid(int distance)
         derivative = (error-last_error)*kd;
         last_error = error;
         power = integral + proportion + derivative;
+        if(power > 127){
+            power = 127;
+        }
+        if(power<-127){
+            power = -127;
+        }
         set_tank(power,power);
         pros::delay(20);
-    }
+    } set_tank(0,0);
+
+}
+
+float d_target;
+    
+void set_drive_pid(float input){
+    d_target = input;
+}
+
+void blockpid(float distance)
+{
+    float power;
+    float proportion;
+    float kp = 0;
+    float integral;
+    float ki = 0;
+    float error;
+    float errorT;
+    float integralActiveZone = 20;
+    float kd = 0;
+    float derivative;
+    float last_error;
+    float threshold = 1000;
+    reset_drive_encoder();
+
+    while (abs(distance - (get_right_drive_pos()+get_left_drive_pos())/2)>threshold)
+    {
+        error = distance - (get_right_drive_pos()+get_left_drive_pos())/2;
+        proportion = error * kp;
+        if(error < integralActiveZone && error!=0){
+            errorT++;
+        } else{
+            errorT = 0;
+        }
+        if(errorT > 50){
+            errorT = 50;
+        }
+        integral = errorT * ki;
+        derivative = (error-last_error)*kd;
+        last_error = error;
+        power = integral + proportion + derivative;
+        if(power > 127){
+            power = 127;
+        }
+        if(power<-127){
+            power = -127;
+        }
+        set_tank(power,power);
+        pros::delay(20);
+    } set_tank(0,0);
 }
 
 void drive_straight(int speed, int dis)

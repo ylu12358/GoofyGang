@@ -11,7 +11,7 @@ void turn(int target)
     int r_first = get_right_drive_pos();
 
     //Ints
-    int l_error = target - (get_left_drive_pos() - l_first);
+    int l_error = target - (get_left_drive_pos() - l_first); //idk why its subtract l_fist
     int r_error = -target - (get_right_drive_pos() - r_first);
 
     while (abs(l_error) > thresh && abs(r_error) > thresh)
@@ -387,28 +387,29 @@ void skills2()
 void test(){
     //straight
     	pros::Controller master(CONTROLLER_MASTER);
-	master.set_text(0, 0, "ONE");
+        suspend_drive();
+	// master.set_text(0, 0, "ONE");
 
-    chassisController -> moveDistance(48_in);
+    // chassisController -> moveDistance(48_in);
 
-    chassisController -> waitUntilSettled();
-	std::cout<<chassisController->getModel()->getSensorVals()[0]<<std::endl; //left sensor
-    master.set_text(0, 0, "TWO");
+    // chassisController -> waitUntilSettled();
+	// std::cout<<chassisController->getModel()->getSensorVals()[0]<<std::endl; //left sensor
+    // master.set_text(0, 0, "TWO");
     // //turn
     // slow_chassis(5000);
     // chassisController -> turnAngle(90_deg);
     // chassisController -> waitUntilSettled();
     
     //straight
-//     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
-//     master.set_text(0, 0, "TWO");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
+    master.set_text(0, 0, "TWO");
 
-//     profileController -> setTarget("A");
-//     master.set_text(0, 0, "THREE");
+    profileController -> setTarget("A");
+    master.set_text(0, 0, "THREE");
 
-//     profileController -> waitUntilSettled();
-//     profileController -> removePath("A");
-// master.set_text(0, 0, "FOUR");
+    profileController -> waitUntilSettled();
+    profileController -> removePath("A");
+master.set_text(0, 0, "FOUR");
     
     // //turn
     // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");
@@ -416,11 +417,20 @@ void test(){
     // profileController -> waitUntilSettled();
     // profileController -> removePath("B");
     
-    // //s curve
-    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
-    // profileController -> setTarget("C", true);
-    // profileController -> waitUntilSettled();
-    // profileController -> removePath("C");   
+    //s curve
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
+    profileController -> setTarget("C", true);
+    profileController -> waitUntilSettled();
+    profileController -> removePath("C");   
+
+    //self pid
+    resume_drive();
+    set_drive_pid(10000);
+    suspend_drive();
+    master.set_text(0, 0, "finish one");
+    blockpid(10000);
+    master.set_text(0,0,"finish two");
+    turn(100);
 }
 
 void pickup()
