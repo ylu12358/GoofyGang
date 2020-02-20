@@ -226,22 +226,22 @@ void arm_control(void *)
         }
         else if (master.get_digital(DIGITAL_R1)&&intake)
         {
-            if(arm_counter == 0){
-                if(get_arm_pos()<200){
-                    stacking_state();
-                }
-            }
+            // if(arm_counter == 0){
+            //     if(get_arm_pos()<200){
+            //         stacking_state();
+            //     }
+            // }
             set_intake(127);
             //reset countdown
             intake_time = 100;
         }
         else if (master.get_digital(DIGITAL_R2)&&intake)
         {
-            if(arm_counter == 0){
-                if(get_arm_pos()<200){
-                    stacking_state();
-                }
-            }
+            // if(arm_counter == 0){
+            //     if(get_arm_pos()<200){
+            //         stacking_state();
+            //     }
+            // }
             set_intake(-127);
             //reset countdown
             intake_time = 100;
@@ -249,8 +249,8 @@ void arm_control(void *)
         else if (get_arm_pos()< 200 && arm_counter == 0)
         {
             stacking_state();
-            set_arm(0);
-            arm_hold();
+            // set_arm(0);
+            // arm_hold();
             intake_time--;
         }   
         else
@@ -266,7 +266,9 @@ void stacking_state()
 {
     //reset - ready to stack
     suspend_arm();
-    set_arm(-20);
+    set_arm(-12);
     reset_arm_encoder();
+    set_intake_speed(12000);
     intake_hold();
+    set_intake(10);
 }
