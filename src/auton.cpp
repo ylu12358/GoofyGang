@@ -468,3 +468,98 @@ void pickup()
     set_tray(0);
 }
 
+void new_skills(){
+    //move forward - first row
+    preauton();
+    set_intake(127);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"A");
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
+    
+    //score tower
+    turn(45);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {22_in,0_in,0_deg}},"B");
+    profileController -> setTarget("B");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //move back and score in tower
+    turn(180);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"C");
+    profileController -> setTarget("C");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //turn and score in tower
+    turn(-120);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"D");
+    profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //second row
+        turn(-90);
+        //wall align
+        set_tank(-127,-127);
+        pros::delay(100);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {80_in,0_in,0_deg}},"E");
+    profileController -> setTarget("E");
+    profileController -> waitUntilSettled();
+
+    //tower in high
+    turn(-100);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {20_in,0_in,0_deg}},"F");
+    profileController -> setTarget("F");
+    profileController -> waitUntilSettled();
+
+    //tower
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"G");
+    profileController -> setTarget("G", true);
+    profileController -> waitUntilSettled();
+    turn(100);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"H");
+    profileController -> setTarget("H");
+    profileController -> waitUntilSettled();
+    turn(90);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {20_in,0_in,0_deg}},"I");
+    profileController -> setTarget("I");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //score stack
+    turn(-100);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"J");
+    profileController -> setTarget("J");
+    profileController -> waitUntilSettled();
+    outtakeBit();
+    fast_outtake();
+
+    //third row
+    profileController -> generatePath({{0_in,0_in,0_deg}, {10_in,0_in,0_deg}},"L");
+    profileController -> setTarget("L", true);
+    profileController -> waitUntilSettled();
+    turn(-100);
+    set_intake(127);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"M");
+    profileController -> setTarget("M");
+    profileController -> waitUntilSettled();
+    
+    //tower
+    turn(-45);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {20_in,0_in,0_deg}},"N");
+    profileController -> setTarget("N");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //tower again
+    turn(180);
+    profileController -> generatePath({{0_in,0_in,0_deg}, {40_in,0_in,0_deg}},"O");
+    profileController -> setTarget("O");
+    profileController -> waitUntilSettled();
+    lowTower();
+
+    //rush to last tower
+
+
+    //score whatever
+}

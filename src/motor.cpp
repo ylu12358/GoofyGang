@@ -424,7 +424,7 @@ void drive_pid(void *){
         }
         set_tank(power,power);
         pros::delay(20);
-    } set_tank(0,0);
+    }
 
 }
 

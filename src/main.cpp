@@ -84,6 +84,7 @@ void opcontrol()
 	
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
+	suspend_drive();
 	start_driver();
 
 	stacking_state();

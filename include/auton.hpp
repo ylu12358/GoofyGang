@@ -16,6 +16,8 @@ void protected_auton(int color);
 void pickup();
 void new_route();
 
+void new_skills();
+
 #define RED 1
 #define BLUE -1
 
