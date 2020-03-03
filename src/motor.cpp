@@ -23,7 +23,7 @@ std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder(
     .build();
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
-    .withLimits({2.41, 6.0, 10})
+    .withLimits({2.41, 6.0, 10}) //2.4`
     .withOutput(chassisController)
     .buildMotionProfileController();
 
@@ -511,11 +511,11 @@ void sensors(void* param){
 pros::Task tray_pid_t(tray_pid, nullptr, "name");
 pros::Task arm_pid_t(arm_pid, nullptr, "name");
 
-void turnAng(float ang){
-    lb_drive.move_relative(ang*5, 30);
-    lf_drive.move_relative(ang*5, 30);
-    rb_drive.move_relative(-ang*5, 30);
-    rf_drive.move_relative(-ang*5, 30);
+void turnAng(float ang, float vel){
+    lb_drive.move_relative(ang*5, vel);
+    lf_drive.move_relative(ang*5, vel);
+    rb_drive.move_relative(-ang*5, vel);
+    rf_drive.move_relative(-ang*5, vel);
 }
 
 

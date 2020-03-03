@@ -85,7 +85,7 @@ void outtakeBit()
     //outtake to correct position
     reset_intake_encoder();
     set_intake(-80);
-    while (get_left_intake_pos() > -330) //530
+    while (get_left_intake_pos() > -200) //530
         pros::delay(5);
     set_intake(0);
 }
@@ -411,49 +411,53 @@ void test(){
     // slow_chassis(5000);
     // chassisController -> turnAngle(90_deg);
     // chassisController -> waitUntilSettled();
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {16_in, 0_ft, 0_deg}}, "A");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {7_in, 0_ft, 0_deg}}, "D");
-
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {2_in, 0_ft, 0_deg}}, "B");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {4_in, 0_ft, 0_deg}}, "C");
-    set_intake(127);
-    profileController -> setTarget("D");
-    profileController -> waitUntilSettled();
-
-    float left = (get_left_drive_pos());
-    float right = (get_right_drive_pos());
 
 
-    turnAng(45);
-    while(get_left_drive_pos()-left<((45*5)-2) && right-get_right_drive_pos()<((45*5)-2)){
-        pros::delay(20);
-    }
-    set_intake(-127);
-    left = get_left_drive_pos();
-    right = get_right_drive_pos();
-    pros::delay(500);
-    turnAng(-45);
-    while(left-get_left_drive_pos()<((45*5)-2) && get_right_drive_pos()-right<((45*5)-2)){
-        pros::delay(20);
-    }
-
-    set_intake(127);
 
 
-    set_arm_pid(HIGH_TOWER);
-    profileController -> setTarget("A");
-    profileController -> waitUntilSettled();
-    suspend_arm();
-    while(get_arm_pos()> 100){
-        set_arm(-80);
-    }
-    profileController -> setTarget("B", true);
-    set_arm(-20);
-    profileController -> waitUntilSettled();
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {16_in, 0_ft, 0_deg}}, "A");
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {7_in, 0_ft, 0_deg}}, "D");
 
-    pros::delay(1000);
-    profileController -> setTarget("C");
-    profileController -> waitUntilSettled();
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {2_in, 0_ft, 0_deg}}, "B");
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {4_in, 0_ft, 0_deg}}, "C");
+    // set_intake(127);
+    // profileController -> setTarget("D");
+    // profileController -> waitUntilSettled();
+
+    // float left = (get_left_drive_pos());
+    // float right = (get_right_drive_pos());
+
+
+    // turnAng(45);
+    // while(get_left_drive_pos()-left<((45*5)-2) && right-get_right_drive_pos()<((45*5)-2)){
+    //     pros::delay(20);
+    // }
+    // set_intake(-127);
+    // left = get_left_drive_pos();
+    // right = get_right_drive_pos();
+    // pros::delay(500);
+    // turnAng(-45);
+    // while(left-get_left_drive_pos()<((45*5)-2) && get_right_drive_pos()-right<((45*5)-2)){
+    //     pros::delay(20);
+    // }
+
+    // set_intake(127);
+
+
+    // set_arm_pid(HIGH_TOWER);
+    // profileController -> setTarget("A");
+    // profileController -> waitUntilSettled();
+    // suspend_arm();
+    // while(get_arm_pos()> 100){
+    //     set_arm(-80);
+    // }
+    // profileController -> setTarget("B", true);
+    // set_arm(-20);
+    // profileController -> waitUntilSettled();
+
+    // pros::delay(1000);
+    // profileController -> setTarget("C");
+    // profileController -> waitUntilSettled();
 
 
 
@@ -476,11 +480,59 @@ void test(){
     // profileController -> waitUntilSettled();
     // profileController -> removePath("B");
     
-    // //s curve
-    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
-    // profileController -> setTarget("C", true);
-    // profileController -> waitUntilSettled();
-    // profileController -> removePath("C");   
+//     //s curve
+//     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {18_in, 0_in, -30_deg}}, "C");
+//     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "A");
+//     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 60_deg}}, "B");    
+
+
+//     profileController -> setTarget("C");
+//     profileController -> waitUntilSettled();
+//     pros::delay(2000);
+//     profileController -> setTarget("A");
+//     profileController -> waitUntilSettled();
+//     pros::delay(2000);
+//     profileController -> setTarget("B", true);
+//     profileController -> waitUntilSettled();
+// pros::delay(2000);
+
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {10_in, 0_in, 0_deg}}, "A");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "B");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {20_in, 0_in, 0_deg}}, "D");
+
+
+    set_intake(127);
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
+    turnAng(-13,30);
+    pros::delay(450);
+    profileController -> setTarget("B");
+    profileController -> waitUntilSettled();
+    set_tank(60,60);
+    pros::delay(350);
+    profileController -> setTarget("B", true);
+    profileController -> waitUntilSettled();
+    turnAng(-69,30);
+    pros::delay(800);
+    profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
+    set_tank(60,60);
+    pros::delay(350);
+    profileController -> setTarget("B", true);
+    profileController -> waitUntilSettled();
+    turnAng(-130,60);
+    outtakeBit();
+    pros::delay(1200);
+    set_tank(40,40);
+    pros::delay(400);
+    fast_outtake();
+    set_intake(-100);
+    set_tank(-100,-100);
+    pros::delay(300);
+    set_tank(0,0);
+    set_intake(0);
+
+//negative is blue, positive is red
 
     // //self pid
     // resume_drive();

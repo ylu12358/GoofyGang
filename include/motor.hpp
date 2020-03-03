@@ -71,12 +71,12 @@ void resume_drive();
 void drive_pid(void *);
 void set_drive_pid(float input);
 
-void turnAng(float ang);
+void turnAng(float ang, float vel);
 
 extern float d_target;
 extern int a_target;
 
-#define TRAY_OUT 2450 //2520
+#define TRAY_OUT 2350 //2520
 #define PROTECTED 1210
 #define TRAY_IN 700
 #define LOCK_SAFE 1000
