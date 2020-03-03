@@ -18,15 +18,15 @@ void tray_outtake()
         set_tray(127);
     intake_coast();
     
-    while (get_tray_pos() < 2000)
+    while (get_tray_pos() < 1900)
     {
-        set_tray(50);
+        set_tray(55);
         set_intake(13);
     }
     
     while (get_tray_pos() < 2480)
     {
-        set_tray(30);
+        set_tray(40);
         set_intake(13);
     }
 
@@ -226,7 +226,7 @@ void arm_control(void *)
         }
         else if (master.get_digital(DIGITAL_R1)&&intake)
         {
-            // if(arm_counter == 0){
+            // if(arm_counter == -1){
             //     if(get_arm_pos()<200){
             //         stacking_state();
             //     }
@@ -237,7 +237,7 @@ void arm_control(void *)
         }
         else if (master.get_digital(DIGITAL_R2)&&intake)
         {
-            // if(arm_counter == 0){
+            // if(arm_counter == -1){
             //     if(get_arm_pos()<200){
             //         stacking_state();
             //     }

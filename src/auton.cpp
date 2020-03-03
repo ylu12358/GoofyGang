@@ -129,17 +129,29 @@ void lowTower()
 }
 
 void protected_auton(int color){
-    //deploy and prep
-    preauton();
-    set_intake(127);
-    set_arm(-20);
-    normal_chassis();
-    pros::delay(1000);
 
-    //first cube
-    profileController -> setTarget("A");
+    suspend_drive();
+    set_intake(127);
+    set_arm_pid(HIGH_TOWER);
+    set_arm_pid(0);
+    
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {36_in, 0_ft, 0_deg}}, "A");
+    profileController -> setTarget("A", true);
     profileController -> waitUntilSettled();
-    slow_chassis(4400);
+
+
+
+    //deploy and prep
+    // preauton();
+    // set_intake(127);
+    // set_arm(-20);
+    // normal_chassis();
+    // pros::delay(1000);
+
+    // //first cube
+    // profileController -> setTarget("A");
+    // profileController -> waitUntilSettled();
+    // slow_chassis(4400);
 
     //turn towards tower cube
     //chassisController -> turnAngleAsync(color * 56_deg);
@@ -169,41 +181,41 @@ void protected_auton(int color){
     // pros::delay(200);
 
     //turn to face goal
-    slow_chassis(4400);
-    pros::delay(20);
-    chassisController -> turnAngleAsync(color * -87_deg); 
-    chassisController -> waitUntilSettled();
+    // slow_chassis(4400);
+    // pros::delay(20);
+    // chassisController -> turnAngleAsync(color * -87_deg); 
+    // chassisController -> waitUntilSettled();
 
-    //align with scoring zone
-    normal_chassis();
-    set_tank(30, 30);
-    pros::delay(400);
-    set_tank(0, 0);
-    intake_coast();
-    //outtakeBit();
+    // //align with scoring zone
+    // normal_chassis();
+    // set_tank(30, 30);
+    // pros::delay(400);
+    // set_tank(0, 0);
+    // intake_coast();
+    // //outtakeBit();
 
-    //score
-    //fast_outtake();
+    // //score
+    // //fast_outtake();
 
-    //back away - resume all
-    //resume_tray();
-    //set_tray_pid(TRAY_IN);
-    //while(get_tray_pos() > PROTECTED + 580)
-    //    pros::delay(5);
-    //normal_chassis();
-    //suspend_tray(); 
-    tray_coast(); 
-    set_tray(0);
-    //set_tank(-127, -127);
-    set_intake(-127);
-    //pros::delay(200);
+    // //back away - resume all
+    // //resume_tray();
+    // //set_tray_pid(TRAY_IN);
+    // //while(get_tray_pos() > PROTECTED + 580)
+    // //    pros::delay(5);
+    // //normal_chassis();
+    // //suspend_tray(); 
+    // tray_coast(); 
+    // set_tray(0);
+    // //set_tank(-127, -127);
+    // set_intake(-127);
+    // //pros::delay(200);
 
-    //reset All
-    drive_hold();
-    pros::delay(3000);
-    set_tank(-30, -30);
-    pros::delay(1000);
-    set_tank(0, 0);
+    // //reset All
+    // drive_hold();
+    // pros::delay(3000);
+    // set_tank(-30, -30);
+    // pros::delay(1000);
+    // set_tank(0, 0);
     //set_intake(0);
 }
 
@@ -399,17 +411,64 @@ void test(){
     // slow_chassis(5000);
     // chassisController -> turnAngle(90_deg);
     // chassisController -> waitUntilSettled();
-    
-    //straight
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {48_in, 0_ft, 0_deg}}, "A");
-    master.set_text(0, 0, "TWO");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {16_in, 0_ft, 0_deg}}, "A");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {7_in, 0_ft, 0_deg}}, "D");
 
-    profileController -> setTarget("A");
-    master.set_text(0, 0, "THREE");
-
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {2_in, 0_ft, 0_deg}}, "B");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {4_in, 0_ft, 0_deg}}, "C");
+    set_intake(127);
+    profileController -> setTarget("D");
     profileController -> waitUntilSettled();
-    profileController -> removePath("A");
-master.set_text(0, 0, "FOUR");
+
+    float left = (get_left_drive_pos());
+    float right = (get_right_drive_pos());
+
+
+    turnAng(45);
+    while(get_left_drive_pos()-left<((45*5)-2) && right-get_right_drive_pos()<((45*5)-2)){
+        pros::delay(20);
+    }
+    set_intake(-127);
+    left = get_left_drive_pos();
+    right = get_right_drive_pos();
+    pros::delay(500);
+    turnAng(-45);
+    while(left-get_left_drive_pos()<((45*5)-2) && get_right_drive_pos()-right<((45*5)-2)){
+        pros::delay(20);
+    }
+
+    set_intake(127);
+
+
+    set_arm_pid(HIGH_TOWER);
+    profileController -> setTarget("A");
+    profileController -> waitUntilSettled();
+    suspend_arm();
+    while(get_arm_pos()> 100){
+        set_arm(-80);
+    }
+    profileController -> setTarget("B", true);
+    set_arm(-20);
+    profileController -> waitUntilSettled();
+
+    pros::delay(1000);
+    profileController -> setTarget("C");
+    profileController -> waitUntilSettled();
+
+
+
+
+
+    // //straight
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {36_in, 0_ft, 0_deg}}, "A");
+    // master.set_text(0, 0, "TWO");
+
+    // profileController -> setTarget("A");
+    // master.set_text(0, 0, "THREE");
+
+    // profileController -> waitUntilSettled();
+    // profileController -> removePath("A");
+    // master.set_text(0, 0, "FOUR");
     
     // //turn
     // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {0_ft, 0_ft, 90_deg}}, "B");
@@ -417,20 +476,20 @@ master.set_text(0, 0, "FOUR");
     // profileController -> waitUntilSettled();
     // profileController -> removePath("B");
     
-    //s curve
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
-    profileController -> setTarget("C", true);
-    profileController -> waitUntilSettled();
-    profileController -> removePath("C");   
+    // //s curve
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {52_in, -28_in, 0_deg}}, "C");
+    // profileController -> setTarget("C", true);
+    // profileController -> waitUntilSettled();
+    // profileController -> removePath("C");   
 
-    //self pid
-    resume_drive();
-    set_drive_pid(10000);
-    suspend_drive();
-    master.set_text(0, 0, "finish one");
-    blockpid(10000);
-    master.set_text(0,0,"finish two");
-    turn(100);
+    // //self pid
+    // resume_drive();
+    // set_drive_pid(10000);
+    // suspend_drive();
+    // master.set_text(0, 0, "finish one");
+    // blockpid(10000);
+    // master.set_text(0,0,"finish two");
+    // turn(100);
 }
 
 void pickup()

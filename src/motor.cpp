@@ -19,7 +19,7 @@
 std::shared_ptr<ChassisController> chassisController = ChassisControllerBuilder()
     .withMotors({11,12}, {10,9})
     .withGains({0.0200, 0.0000000000, 0.000000}, {0.0000000, 0.00000000, 0.00000000}) //.016, 0, .001    //.0012
-    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 12.28125_in},  (3*300/7) }) //external ratio
+    .withDimensions(AbstractMotor::gearset::blue, {{4.12500000_in, 10_in},  (3*300/7) }) //external ratio
     .build();
 
 std::shared_ptr<AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
@@ -510,6 +510,14 @@ void sensors(void* param){
 
 pros::Task tray_pid_t(tray_pid, nullptr, "name");
 pros::Task arm_pid_t(arm_pid, nullptr, "name");
+
+void turnAng(float ang){
+    lb_drive.move_relative(ang*5, 30);
+    lf_drive.move_relative(ang*5, 30);
+    rb_drive.move_relative(-ang*5, 30);
+    rf_drive.move_relative(-ang*5, 30);
+}
+
 
 void suspend_tray()
 {
