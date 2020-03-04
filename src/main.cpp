@@ -76,7 +76,9 @@ void autonomous()
 		//protected_auton();
 //		pickup();
 //		one_cube();
-		{test();}
+	{
+		test();
+	}
 }
 
 void opcontrol()

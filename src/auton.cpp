@@ -674,3 +674,38 @@ void new_skills(){
 
     //score whatever
 }
+
+void protected_blue(){
+    // calculate different paths needed - included in autonomous for easy reference
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {10_in, 0_in, 0_deg}}, "A");
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "B");
+    // profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {20_in, 0_in, 0_deg}}, "C");
+
+    preauton();                                 //deploy tray
+
+    set_intake(127);                            //start intaking
+
+    profileController -> setTarget("A");        //picks up the first red cube
+    profileController -> waitUntilSettled();    //waits until action is completed
+    turnAng(-13,30);                            //turn to face tower in the middle of the field
+    profileController -> setTarget("B");        //picks up tower cube
+    profileController -> waitUntilSettled();
+    profileController -> setTarget("B", true);  //backs up
+    profileController -> waitUntilSettled();
+    turnAng(-69,30);                            //turn to face tower on our side of the field
+    profileController -> setTarget("C");        //picks up both cubes
+    profileController -> waitUntilSettled();
+    profileController -> setTarget("B", true);  //backs up
+    profileController -> waitUntilSettled();
+    turnAng(-130,60);                           //turn to face goal
+    outtakeBit();                               //outtake a bit - cube is not in the arm when scoring
+    set_tank(40,40);                            //drives forward a bit - align
+    pros::delay(400);
+    fast_outtake();                             //fast score for stacks with less than 8 cubes
+    set_intake(-100);                           //moves the stack out from rollers
+    set_tank(-100,-100);                        //moves back from stack
+    pros::delay(300);
+    //stops all movement
+    set_tank(0,0);
+    set_intake(0);
+}

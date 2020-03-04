@@ -18,6 +18,8 @@ void new_route();
 
 void new_skills();
 
+void protected_blue();
+
 #define RED 1
 #define BLUE -1
 
