@@ -72,6 +72,9 @@ void drive_pid(void *);
 void set_drive_pid(float input);
 
 void turnAng(float ang, float vel);
+void swingTurn(float lAng, float rAng, float lVel, float yVel);
+
+void left_hold();
 
 extern float d_target;
 extern int a_target;
@@ -83,5 +86,7 @@ extern int a_target;
 #define LOW_TOWER 1220 //1120 for descore
 #define LOW_DESCORE 1020
 #define HIGH_TOWER 1650
+
+#define AUTON_LIFT 1100
 
 #endif

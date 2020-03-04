@@ -518,6 +518,12 @@ void turnAng(float ang, float vel){
     rf_drive.move_relative(-ang*5, vel);
 }
 
+void swingTurn(float lAng, float rAng, float lVel, float rVel){
+    lb_drive.move_relative(lAng*5, lVel);
+    lf_drive.move_relative(lAng*5, lVel);
+    rb_drive.move_relative(rAng*5, rVel);
+    rf_drive.move_relative(rAng*5, rVel);
+}
 
 void suspend_tray()
 {
@@ -563,4 +569,10 @@ void set_ldrive(double pos, double vel){
 void set_rdrive(double pos, double vel){
     rf_drive.move_relative(pos, vel);
     rb_drive.move_relative(pos, vel);
+}
+
+
+void left_hold(){
+    lf_drive.set_brake_mode(MOTOR_BRAKE_HOLD);
+    lb_drive.set_brake_mode(MOTOR_BRAKE_HOLD);
 }
