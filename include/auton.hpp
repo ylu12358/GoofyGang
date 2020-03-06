@@ -20,6 +20,8 @@ void new_skills();
 
 void protected_blue();
 
+void skill();
+
 #define RED 1
 #define BLUE -1
 

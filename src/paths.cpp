@@ -9,10 +9,10 @@ void init_protected(){
 
 void init_skills()
 {
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {80_in, 0_in, 0_deg}},"A");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {81_in, 0_in, 0_deg}},"A");
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {16_in, 0_in, 0_deg}},"B");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {140_in, 0_in, 0_deg}},"C");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {10_in, 0_in, 0_deg}},"D");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {20_in, 0_in, 0_deg}},"C");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {30_in, 0_in, 0_deg}},"D");
 }
 
 void init_6cube(){

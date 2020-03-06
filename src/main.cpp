@@ -43,8 +43,8 @@ void initialize()
 		init_protected();
 	if (selector == 5)
 	{
-		tank = false;
-		init_skills();
+		// tank = false;
+		// init_skills();
 	}
 	if(selector == 6){
 //		init_pickup();
@@ -69,8 +69,9 @@ void autonomous()
 		protected_auton(BLUE);
 	if (selector == 5)
 	{
-		skills1();
+//		skills1();
 //		skills2();		
+		protected_blue();
 	}
 	if (selector == 6) //TESTING SLOT
 		//protected_auton();

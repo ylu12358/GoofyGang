@@ -496,18 +496,53 @@ void test(){
 //     profileController -> waitUntilSettled();
 // pros::delay(2000);
     
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "D");
 
+
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {26_in, 0_in, 0_deg}}, "D");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {130_in, 0_in, 0_deg}}, "E");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {90_in, 0_in, 0_deg}}, "F");
+
+    set_intake(-127);
+    set_tank(-30,-30);
+    pros::delay(300);
     set_intake(127);
-    swingTurn(300,430,60,120);
-    set_tray_pid(AUTON_LIFT);
-    pros::delay(1500);
-    swingTurn(0,260,0,50);
-    pros::delay(1000);
-    set_tray_pid(TRAY_IN);
-    //swingTurn(30,70,40,80);
-    pros::delay(1000);
     profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
+    turnAng(33, 60);
+    set_tray_pid(AUTON_LIFT);
+    pros::delay(400);
+    profileController -> setTarget("D", true);
+    profileController -> waitUntilSettled();
+    turnAng(-33,60);
+    pros::delay(400);
+    set_tank(-60,-60);
+    pros::delay(300);
+    set_tray_pid(TRAY_IN);
+    slow_chassis(6000);
+    profileController -> setTarget("E");
+    profileController -> waitUntilSettled();
+    profileController -> setTarget("F", true);
+    profileController -> waitUntilSettled();
+
+    turnAng(-90,60);
+    pros::delay(2000);
+    set_tank(40,40);
+    pros::delay(400);
+    outtakeBit();
+    fast_outtake();
+
+
+
+    // set_tray_pid(AUTON_LIFT);
+    // swingTurn(400,0,150,0);
+    // pros::delay(2000);
+    // set_tray_pid(TRAY_IN);
+    // //swingTurn(30,70,40,80);
+    // //pros::delay(1000);
+    // profileController -> setTarget("D");
+    // profileController -> waitUntilSettled();
+
+
 
 
     // profileController -> setMaxVelocity(1.4);
@@ -680,19 +715,23 @@ void new_skills(){
 }
 
 void protected_blue(){
+    suspend_drive();
     // calculate different paths needed - included in autonomous for easy reference
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {10_in, 0_in, 0_deg}}, "A");
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "B");
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {20_in, 0_in, 0_deg}}, "C");
 
+    set_intake(-127);
+    set_tank(-30,-30);
+    pros::delay(400);
 //    preauton();                                 //deploy tray
 
     set_intake(127);                            //start intaking
 
     profileController -> setTarget("A");        //picks up the first red cube
     profileController -> waitUntilSettled();    //waits until action is completed
-    turnAng(-13,30);                            //turn to face tower in the middle of the field
-    pros::delay(450);
+    turnAng(-15,30);                            //turn to face tower in the middle of the field
+    pros::delay(500);
 
     profileController -> setTarget("B");        //picks up tower cube
     profileController -> waitUntilSettled();
@@ -700,9 +739,9 @@ void protected_blue(){
     pros::delay(350);
     profileController -> setTarget("B", true);  //backs up
     profileController -> waitUntilSettled();
-    turnAng(-69,30);                            //turn to face tower on our side of the field
+    turnAng(-67,30);                            //turn to face tower on our side of the field
     pros::delay(800);
-    profileController -> setTarget("D");        //picks up both cubes
+    profileController -> setTarget("C");        //picks up both cubes
     profileController -> waitUntilSettled();
     set_tank(60,60);
     pros::delay(350);
@@ -723,4 +762,45 @@ void protected_blue(){
 
 
 
+}
+
+void skill(){
+
+    preauton();                                 //deploy
+    set_intake(127);                            //intake
+
+    profileController -> setTarget("A");        //first entire row of cubes
+    profileController -> waitUntilSettled();    //wait until action completes
+    
+    turnAng(45,60);                             //turn to face goal
+    pros::delay(600);
+    profileController -> setTarget("B");        //move towards goal
+    profileController -> waitUntilSettled();
+    outtakeBit();                               //outtake - cube doesnt fall
+    fast_outtake();                             //fast score
+    
+    profileController -> setTarget("B", true);  //move out of goal
+    set_intake(-127);                           //move stack out of intake
+    profileController -> waitUntilSettled();
+    
+    turnAng(-120, 70);                          //turn to face tower
+    set_intake(127);                            //intake
+    pros::delay(2000);
+    profileController -> setTarget("C");        //grab tower cube
+    profileController -> waitUntilSettled();
+    lowTower();                                 //tower cube
+    
+    turnAng(90,60);                             //turn to face second row
+    pros::delay(1500);
+    profileController -> setTarget("A");        //intake row
+    profileController -> waitUntilSettled();
+    
+    profileController -> setTarget("B", true);  //back away from wall to turn
+    profileController -> waitUntilSettled();
+    turnAng(-30, 50);                           //turn to face goal
+    pros::delay(1000);
+    profileController -> setTarget("D");        //move towards goal
+    profileController -> waitUntilSettled();
+    outtakeBit();                               //outtake - cube doesnt fall
+    fast_outtake();                             //fast score
 }
