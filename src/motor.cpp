@@ -373,17 +373,17 @@ void arm_pid(void *)
     }
 }
 
-pros::Task drive_pid_t(drive_pid, nullptr, "name");
+// pros::Task drive_pid_t(drive_pid, nullptr, "name");
 
-void suspend_drive()
-{
-    drive_pid_t.suspend();
-}
+// void suspend_drive()
+// {
+//     drive_pid_t.suspend();
+// }
 
-void resume_drive()
-{
-    drive_pid_t.resume();
-}
+// void resume_drive()
+// {
+//     drive_pid_t.resume();
+// }
 
 void drive_pid(void *){
     float power;

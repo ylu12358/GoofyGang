@@ -34,13 +34,13 @@ void initialize()
 	auto_selector();
 	pros::delay(100);
 	if (selector == 1)
-		init_6cube();
+//		init_6cube();
 	if (selector == 2)
-		init_6cube();
+//		init_6cube();
 	if (selector == 3)
-		init_protected();
+//		init_protected();
 	if (selector == 4)
-		init_protected();
+//		init_protected();
 	if (selector == 5)
 	{
 		// tank = false;
@@ -60,18 +60,18 @@ void autonomous()
 	pros::Task output(sensors, nullptr, "name");
 
 	if (selector == 1)
-		u_6cube(RED);
+		unprotect(RED);
 	if (selector == 2)
-		u_6cube(BLUE);
+		unprotect(BLUE);
 	if (selector == 3)
-		protected_auton(RED);
+		protect(RED);
 	if (selector == 4)
-		protected_auton(BLUE);
+		protect(BLUE);
 	if (selector == 5)
 	{
 //		skills1();
 //		skills2();		
-		protected_blue();
+//		protected_blue();
 	}
 	if (selector == 6) //TESTING SLOT
 		//protected_auton();
@@ -87,7 +87,6 @@ void opcontrol()
 	
 	pros::Controller master(CONTROLLER_MASTER);
 	master.set_text(0, 0, "#ThankYou448X");
-	suspend_drive();
 	start_driver();
 
 	stacking_state();

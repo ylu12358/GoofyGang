@@ -18,7 +18,10 @@ void new_route();
 
 void new_skills();
 
-void protected_blue();
+void protect(int color);
+void unprotect(int color);
+
+
 
 void skill();
 
