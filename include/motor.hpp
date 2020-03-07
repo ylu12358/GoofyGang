@@ -79,7 +79,7 @@ void left_hold();
 extern float d_target;
 extern int a_target;
 
-#define TRAY_OUT 2350 //2520
+#define TRAY_OUT 2280 //2520
 #define PROTECTED 1210
 #define TRAY_IN 700
 #define LOCK_SAFE 1000

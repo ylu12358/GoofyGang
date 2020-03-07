@@ -14,27 +14,22 @@ bool intake = true;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1700)
+    while (get_tray_pos() < 1690)
         set_tray(127);
     intake_coast();
     
-    while (get_tray_pos() < 1900)
+    while (get_tray_pos() < 1923)
     {
-        set_tray(55);
-        set_intake(13);
-    }
-    
-    while (get_tray_pos() < 2480)
-    {
-        set_tray(40);
+        set_tray(45);
         set_intake(13);
     }
 
     while (get_tray_pos() < TRAY_OUT)
     {
         set_intake(-13);
-        set_tray(30);
+        set_tray(20);
     }
+
     tray_hold(); //tray doesnt flip forward and knock stack
     set_tray(0);
     set_intake(0);
