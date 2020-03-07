@@ -130,7 +130,7 @@ void lowTower()
 
 void protected_auton(int color){
 
-    suspend_drive();
+     
     set_intake(127);
     set_arm_pid(HIGH_TOWER);
     set_arm_pid(0);
@@ -234,67 +234,39 @@ void one_cube()
 
 void u_6cube(int color)
 {
-    //preauton
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {26_in, 0_in, 0_deg}}, "D");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {130_in, 0_in, 0_deg}}, "E");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {90_in, 0_in, 0_deg}}, "F");
     preauton();
 
-    //intake row
-    set_intake(127);
-    set_arm(-30);
-    slow_chassis(4400);
-    profileController -> setTarget("A");
-    profileController -> waitUntilSettled();
-    
-    chassisController -> turnAngleAsync(color * -20_deg);
-    chassisController -> waitUntilSettled();
-    slow_chassis(2400);
-    profileController -> setTarget("B");
-    profileController -> waitUntilSettled();
-    pros::delay(500);
-    slow_chassis(4800);
-
-
-    //turn to score
-    resume_tray();
-    chassisController -> turnAngleAsync(color * 105.35_deg);
-    chassisController -> waitUntilSettled();
-    set_intake(25);
-    set_tray_pid(PROTECTED);
-    
-
-    //drive forward
-    slow_chassis(5300);
-    profileController -> setTarget("A");
-    profileController -> waitUntilSettled();
-    normal_chassis();
-    set_tank(30,30);
-    pros::delay(150);
-    intake_coast();
-    set_tank(0,0);
-    outtakeBit();
-
-    //score
-    fast_outtake();
-
-    //back away
-    resume_tray();
-    set_tray_pid(TRAY_IN);
-    while(get_tray_pos() > PROTECTED + 580)
-        pros::delay(5);
-    normal_chassis();
-    set_tank(-127, -127);
     set_intake(-127);
+    set_tank(-30,-30);
     pros::delay(300);
-    suspend_tray(); 
-    tray_coast(); 
-    set_tray(0);
+    set_intake(127);
+    profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
+    turnAng(33, 60);
+    set_tray_pid(AUTON_LIFT);
+    pros::delay(400);
+    profileController -> setTarget("D", true);
+    profileController -> waitUntilSettled();
+    turnAng(-33,60);
+    pros::delay(400);
+    set_tank(-60,-60);
+    pros::delay(300);
+    set_tray_pid(TRAY_IN);
+    slow_chassis(6000);
+    profileController -> setTarget("E");
+    profileController -> waitUntilSettled();
+    profileController -> setTarget("F", true);
+    profileController -> waitUntilSettled();
 
-    //reset All
-    drive_hold();
-    pros::delay(20);
-    set_tank(0, 0);
-    set_intake(0);
-    profileController -> removePath("A");
-    profileController -> removePath("B");
+    turnAng(-90,60);
+    pros::delay(2000);
+    set_tank(40,40);
+    pros::delay(400);
+    outtakeBit();
+    fast_outtake();
 }
 
 void skills1()
@@ -398,8 +370,7 @@ void skills2()
 
 void test(){
     //straight
-    	pros::Controller master(CONTROLLER_MASTER);
-        suspend_drive();
+         
 	// master.set_text(0, 0, "ONE");
 
     // chassisController -> moveDistance(48_in);
@@ -499,24 +470,27 @@ void test(){
 
 
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {26_in, 0_in, 0_deg}}, "D");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {130_in, 0_in, 0_deg}}, "E");
-    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {90_in, 0_in, 0_deg}}, "F");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {28_in, 0_in, 0_deg}}, "B");
 
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {135_in, 0_in, 0_deg}}, "E");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {85_in, 0_in, 0_deg}}, "F");
+    
+    preauton();
     set_intake(-127);
     set_tank(-30,-30);
     pros::delay(300);
     set_intake(127);
     profileController -> setTarget("D");
     profileController -> waitUntilSettled();
-    turnAng(33, 60);
+    turnAng(39, 60);
     set_tray_pid(AUTON_LIFT);
     pros::delay(400);
-    profileController -> setTarget("D", true);
+    profileController -> setTarget("B", true);
     profileController -> waitUntilSettled();
-    turnAng(-33,60);
+    turnAng(-39,60);
     pros::delay(400);
-    set_tank(-60,-60);
-    pros::delay(300);
+    set_tank(-70,-70);
+    pros::delay(400);
     set_tray_pid(TRAY_IN);
     slow_chassis(6000);
     profileController -> setTarget("E");
@@ -524,12 +498,17 @@ void test(){
     profileController -> setTarget("F", true);
     profileController -> waitUntilSettled();
 
-    turnAng(-90,60);
+    suspend_tray();
+    turnAng(-92,60);
     pros::delay(2000);
     set_tank(40,40);
     pros::delay(400);
     outtakeBit();
-    fast_outtake();
+    tray_outtake();
+    set_intake(-100);
+    set_tank(-100,-100);
+    pros::delay(300);
+    set_tank(0,0);
 
 
 
@@ -576,7 +555,7 @@ void test(){
     // //self pid
     // resume_drive();
     // set_drive_pid(10000);
-    // suspend_drive();
+    //  
     // master.set_text(0, 0, "finish one");
     // blockpid(10000);
     // master.set_text(0,0,"finish two");
@@ -714,12 +693,64 @@ void new_skills(){
     //score whatever
 }
 
-void protected_blue(){
-    suspend_drive();
+void unprotect(int color){
+
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {26_in, 0_in, 0_deg}}, "D");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {28_in, 0_in, 0_deg}}, "B");
+
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {145_in, 0_in, 0_deg}}, "E");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {90_in, 0_in, 0_deg}}, "F");
+
+    set_intake(-127);
+    set_tank(-30,-30);
+    pros::delay(300);
+    // preauton();
+
+    // resume_tray();
+
+    set_intake(127);
+    profileController -> setTarget("D");
+    profileController -> waitUntilSettled();
+    turnAng(42*-color, 60);
+    set_tray_pid(AUTON_LIFT);
+    pros::delay(410);
+    profileController -> setTarget("B", true);
+    profileController -> waitUntilSettled();
+    turnAng(-38*-color,60);
+    pros::delay(410);
+    set_tank(0,0);
+    pros::delay(150);
+    set_tank(-70,-70);
+    pros::delay(500);
+    set_tray_pid(TRAY_IN);
+    slow_chassis(5500);
+    profileController -> setTarget("E");
+    profileController -> waitUntilSettled();
+    profileController -> setTarget("F", true);
+    profileController -> waitUntilSettled();
+
+    suspend_tray();
+    turnAng(-125*-color,80);
+    pros::delay(1500);
+    set_tank(40,40);
+    pros::delay(400);
+    outtakeBit();
+    fast_outtake();
+    set_intake(-100);
+    set_tank(-100,-100);
+    pros::delay(250);
+    set_tank(0,0);
+    set_intake(0);
+
+}
+
+void protect(int color){
+     
     // calculate different paths needed - included in autonomous for easy reference
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {10_in, 0_in, 0_deg}}, "A");
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {24_in, 0_in, 0_deg}}, "B");
     profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {20_in, 0_in, 0_deg}}, "C");
+    profileController -> generatePath({{0_ft, 0_ft, 0_deg}, {23_in, 0_in, 0_deg}}, "D");
 
     set_intake(-127);
     set_tank(-30,-30);
@@ -730,16 +761,16 @@ void protected_blue(){
 
     profileController -> setTarget("A");        //picks up the first red cube
     profileController -> waitUntilSettled();    //waits until action is completed
-    turnAng(-15,30);                            //turn to face tower in the middle of the field
+    turnAng(15*color,30);                            //turn to face tower in the middle of the field
     pros::delay(500);
 
     profileController -> setTarget("B");        //picks up tower cube
     profileController -> waitUntilSettled();
     set_tank(60,60);
-    pros::delay(350);
-    profileController -> setTarget("B", true);  //backs up
+    pros::delay(300);
+    profileController -> setTarget("D", true);  //backs up
     profileController -> waitUntilSettled();
-    turnAng(-67,30);                            //turn to face tower on our side of the field
+    turnAng(66*color,30);                            //turn to face tower on our side of the field
     pros::delay(800);
     profileController -> setTarget("C");        //picks up both cubes
     profileController -> waitUntilSettled();
@@ -747,7 +778,7 @@ void protected_blue(){
     pros::delay(350);
     profileController -> setTarget("B", true);  //backs up
     profileController -> waitUntilSettled();
-    turnAng(-130,60);                           //turn to face goal
+    turnAng(140*color,60);                           //turn to face goal
     outtakeBit();                               //outtake a bit - cube is not in the arm when scoring
     pros::delay(1200);
     set_tank(40,40);                            //drives forward a bit - align
