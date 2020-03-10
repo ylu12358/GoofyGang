@@ -14,20 +14,26 @@ bool intake = true;
 
 void tray_outtake()
 {
-    while (get_tray_pos() < 1690)
+    while (get_tray_pos() < 1700)
         set_tray(127);
     intake_coast();
     
-    while (get_tray_pos() < 1923)
+    while (get_tray_pos() < 1900)
     {
-        set_tray(45);
+        set_tray(55);
+        set_intake(13);
+    }
+
+    while (get_tray_pos() < 2480)
+    {
+        set_tray(40);
         set_intake(13);
     }
 
     while (get_tray_pos() < TRAY_OUT)
     {
         set_intake(-13);
-        set_tray(20);
+        set_tray(30);
     }
 
     tray_hold(); //tray doesnt flip forward and knock stack
@@ -41,7 +47,7 @@ void fast_outtake()
         set_tray(127);
     intake_coast();
 
-    while (get_tray_pos() < TRAY_OUT - 250)
+    while (get_tray_pos() < TRAY_OUT - 100)
     {
         set_intake(-13);
         set_tray(40);
@@ -128,12 +134,13 @@ void tray_control(void *)
         }
         else if (safe) 
         {
+            resume_tray();
             set_tray_pid(last_tray);
             //wait for tray to get to pos
             while(get_tray_pos() > last_tray + 20)
                 pros::delay(5);
             safe = false;
-            //disable tray - no break
+            //disable tray
             suspend_tray();
             set_tray(0);
         } 
@@ -169,7 +176,6 @@ void arm_control(void *)
                         set_tray_pid(TRAY_IN);
                         suspend_tray();
                         set_tray(0);
-                        //cube = true;
                         set_arm_pid(0);
                         set_intake_speed(12000);
                     }
@@ -177,24 +183,24 @@ void arm_control(void *)
                 case 1: //first tower height
                     if (tray_counter == 0)
                     {
-                        //stop intake
-                        intake = false;
                         resume_tray();
-                        //wait for cubes to settle
-                        while(intake_time>70){
-                            set_intake(0);
-                            intake_time--;
-                            pros::delay(10);
-                        }
+                                        // //stop intake
+                                        // intake = false;
+                                        // //wait for cubes to settle
+                                        // while(intake_time>70){
+                                        //     set_intake(0);
+                                        //     intake_time--;
+                                        //     pros::delay(10);
+                                        // }
                         //increase height of tray - no friction from rubberband
                         set_tray_pid(TRAY_IN+20);
                         //lift arm - fast, clear as quickly as possible
                         set_arm(127);
-                        reset_intake_encoder();
-                        //get cubes to the right pos on the intake
-                        set_intake(-127);
-                        while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
-                            pros::delay(5);
+                                        // reset_intake_encoder();
+                                        // //get cubes to the right pos on the intake
+                                        // set_intake(-127);
+                                        // while (get_left_intake_pos() > -515 && get_right_intake_pos() > -515)
+                                        //     pros::delay(5);
                         set_intake(0);
                         //set arm to the right pos
                         resume_arm();
@@ -220,22 +226,12 @@ void arm_control(void *)
         }
         else if (master.get_digital(DIGITAL_R1)&&intake)
         {
-            // if(arm_counter == -1){
-            //     if(get_arm_pos()<200){
-            //         stacking_state();
-            //     }
-            // }
             set_intake(127);
             //reset countdown
             intake_time = 100;
         }
         else if (master.get_digital(DIGITAL_R2)&&intake)
         {
-            // if(arm_counter == -1){
-            //     if(get_arm_pos()<200){
-            //         stacking_state();
-            //     }
-            // }
             set_intake(-127);
             //reset countdown
             intake_time = 100;
@@ -243,8 +239,6 @@ void arm_control(void *)
         else if (get_arm_pos()< 200 && arm_counter == 0)
         {
             stacking_state();
-            // set_arm(0);
-            // arm_hold();
             intake_time--;
         }   
         else

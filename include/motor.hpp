@@ -51,42 +51,27 @@ void tray_pid(void *);
 void set_arm_pid(int input);
 void arm_pid(void *);
 void sensors(void *);
-void drive_straight(int speed, int dis);
 void suspend_tray();
 void resume_tray();
 void suspend_arm();
 void resume_arm();
 
-
 void reset_all_encoders();
-
-void set_lintake(double pos, double vel);
-void set_rintake(double pos, double vel);
-void set_ldrive(double pos, double vel);
-void set_rdrive(double pos, double vel);
-
-void blockpid(float distance);
-void suspend_drive();
-void resume_drive();
-void drive_pid(void *);
-void set_drive_pid(float input);
 
 void turnAng(float ang, float vel);
 void swingTurn(float lAng, float rAng, float lVel, float yVel);
 
-void left_hold();
-
-extern float d_target;
 extern int a_target;
 
-#define TRAY_OUT 2292 //2520
+#define TRAY_OUT 2360 //2520
 #define PROTECTED 1210
 #define TRAY_IN 700
 #define LOCK_SAFE 1000
+#define AUTON_LIFT 1100
+
 #define LOW_TOWER 1320 //1120 for descore -> 1220
 #define LOW_DESCORE 1130 //1020
 #define HIGH_TOWER 1650
 
-#define AUTON_LIFT 1100
 
 #endif

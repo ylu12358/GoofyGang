@@ -25,29 +25,25 @@ void initialize()
 	reset_all_encoders();
 	pros::delay(200);
 
-	//std::cout<<chassisController->getModel()->getSensorVals()[0]<<std::endl; //left sensor
-	//std::cout<<chassisController->getModel()->getSensorVals()[1]<<std::endl; //right sensor
-	//chassisController getState theta convert(degree) //odometry
-
 	intake_hold();
 
 	auto_selector();
 	pros::delay(100);
 	if (selector == 1)
-//		init_6cube();
+		init_unprotect();
 	if (selector == 2)
-//		init_6cube();
+		init_unprotect();
 	if (selector == 3)
-//		init_protected();
+		init_protect();
 	if (selector == 4)
-//		init_protected();
+		init_protect();
 	if (selector == 5)
 	{
-		// tank = false;
-		// init_skills();
+		tank = false;
+		init_skills();
 	}
 	if(selector == 6){
-//		init_pickup();
+
 	}
 }
 
@@ -68,18 +64,9 @@ void autonomous()
 	if (selector == 4)
 		protect(BLUE);
 	if (selector == 5)
-	{
-//		skills1();
-//		skills2();		
-//		protected_blue();
-	}
+		skill();
 	if (selector == 6) //TESTING SLOT
-		//protected_auton();
-//		pickup();
-//		one_cube();
-	{
-		test();
-	}
+		one_cube();
 }
 
 void opcontrol()
@@ -101,8 +88,8 @@ void opcontrol()
 		pros::lcd::set_text(2, "Tray Sensor:" + std::to_string(get_tray_pos()));
 		pros::lcd::set_text(3, "Arm Sensor:" + std::to_string(get_arm_pos()));
 
-//		printf("tray sensor: %d", get_tray_pos()); //testing printf
-		std::cout<<get_arm_pos()<<std::endl; //testing cout 
+		std::cout<<get_tray_pos()<<std::endl; //print to terminal 
+		std::cout<<get_tray_pos()<<std::endl; 
 
 		pros::delay(20);
 	}

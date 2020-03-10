@@ -2,12 +2,8 @@
 #define PATHS_HPP
 
 void init_skills();
+void init_unprotect();
+void init_protect();
 
-void init_protected();
-
-void init_6cube();
-
-void init_pickup();
-void new_route_init();
 
 #endif

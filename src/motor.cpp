@@ -38,7 +38,7 @@ pros::Motor l_intake(19, MOTOR_GEARSET_18);
 pros::Motor r_intake(17, MOTOR_GEARSET_18, true);
 pros::Motor tray(8, MOTOR_GEARSET_18);
 pros::Motor arm(15, MOTOR_GEARSET_18, true);
-//port 19 ded
+//port  ded
 
 //Sensors
 pros::ADIPotentiometer tray_pot(1);
@@ -373,132 +373,6 @@ void arm_pid(void *)
     }
 }
 
-// pros::Task drive_pid_t(drive_pid, nullptr, "name");
-
-// void suspend_drive()
-// {
-//     drive_pid_t.suspend();
-// }
-
-// void resume_drive()
-// {
-//     drive_pid_t.resume();
-// }
-
-void drive_pid(void *){
-    float power;
-    float proportion;
-    float kp = 0;
-    float integral;
-    float ki = 0;
-    float error;
-    float errorT;
-    float integralActiveZone = 20;
-    float kd = 0;
-    float derivative;
-    float last_error;
-    float threshold = 1000;
-    reset_drive_encoder();
-
-    while (true)
-    {
-        error = d_target - (get_right_drive_pos()+get_left_drive_pos())/2;
-        proportion = error * kp;
-        if(error < integralActiveZone && error!=0){
-            errorT++;
-        } else{
-            errorT = 0;
-        }
-        if(errorT > 50){
-            errorT = 50;
-        }
-        integral = errorT * ki;
-        derivative = (error-last_error)*kd;
-        last_error = error;
-        power = integral + proportion + derivative;
-        if(power > 127){
-            power = 127;
-        }
-        if(power<-127){
-            power = -127;
-        }
-        set_tank(power,power);
-        pros::delay(20);
-    }
-
-}
-
-float d_target;
-    
-void set_drive_pid(float input){
-    d_target = input;
-}
-
-void blockpid(float distance)
-{
-    float power;
-    float proportion;
-    float kp = 0;
-    float integral;
-    float ki = 0;
-    float error;
-    float errorT;
-    float integralActiveZone = 20;
-    float kd = 0;
-    float derivative;
-    float last_error;
-    float threshold = 1000;
-    reset_drive_encoder();
-
-    while (abs(distance - (get_right_drive_pos()+get_left_drive_pos())/2)>threshold)
-    {
-        error = distance - (get_right_drive_pos()+get_left_drive_pos())/2;
-        proportion = error * kp;
-        if(error < integralActiveZone && error!=0){
-            errorT++;
-        } else{
-            errorT = 0;
-        }
-        if(errorT > 50){
-            errorT = 50;
-        }
-        integral = errorT * ki;
-        derivative = (error-last_error)*kd;
-        last_error = error;
-        power = integral + proportion + derivative;
-        if(power > 127){
-            power = 127;
-        }
-        if(power<-127){
-            power = -127;
-        }
-        set_tank(power,power);
-        pros::delay(20);
-    } set_tank(0,0);
-}
-
-void drive_straight(int speed, int dis)
-{
-    reset_drive_encoder();
-    //tank_brake();
-    int l_output, r_output;
-    int speed_output;
-    int error = dis - get_left_drive_pos();
-    float kp = 0.002;
-    while (abs(error) > 10)
-    {
-        error = dis - get_left_drive_pos();
-        speed_output = clipnum(error * kp, speed);
-
-        l_output = speed_output;
-        r_output = speed_output;
-        set_tank(l_output, r_output);
-
-        pros::delay(2);
-    }
-    set_tank(0, 0);
-}
-
 void sensors(void* param){
     while(true){
         std::cout << "left:  "<<chassisController->getModel()->getSensorVals()[0] << std::endl;
@@ -551,28 +425,4 @@ void reset_all_encoders()
 	reset_tray_encoder();
 	reset_arm_encoder();
 	reset_intake_encoder();
-}
-
-void set_lintake(double pos, double vel){
-    l_intake.move_relative(pos, vel);
-}
-
-void set_rintake(double pos, double vel){
-    r_intake.move_relative(pos, vel);
-}
-
-void set_ldrive(double pos, double vel){
-    lf_drive.move_relative(pos, vel);
-    lb_drive.move_relative(pos, vel);
-}
-
-void set_rdrive(double pos, double vel){
-    rf_drive.move_relative(pos, vel);
-    rb_drive.move_relative(pos, vel);
-}
-
-
-void left_hold(){
-    lf_drive.set_brake_mode(MOTOR_BRAKE_HOLD);
-    lb_drive.set_brake_mode(MOTOR_BRAKE_HOLD);
 }
